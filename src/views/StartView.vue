@@ -10,10 +10,16 @@
         <img src="../assets/logo.svg">
       </div>
     </header>
+    <!--<h1>{{ uiLabels["sales-pitch"] }}</h1>
+    <h2>{{ uiLabels.subHeading }}</h2>-->
+    <label>
+      Write poll id: 
+      <input type="text" v-model="newPollId">
+    </label>
+    <router-link v-bind:to="'/lobby/' + newPollId">
+      {{ uiLabels.participatePoll }}
+    </router-link>
     <ResponsiveNav v-bind:hideNav="hideNav">
-      <button v-on:click="switchLanguage">
-        {{ uiLabels.changeLanguage }}
-      </button>
       <router-link to="/create/">
         {{ uiLabels.createPoll }}
       </router-link>
@@ -22,15 +28,9 @@
       </a>
       <a href="">FAQ</a>
     </ResponsiveNav>
-    <h1>{{ uiLabels["sales-pitch"] }}</h1>
-    <h2>{{ uiLabels.subHeading }}</h2>
-    <label>
-      Write poll id: 
-      <input type="text" v-model="newPollId">
-    </label>
-    <router-link v-bind:to="'/lobby/' + newPollId">
-      {{ uiLabels.participatePoll }}
-    </router-link>
+    <button v-on:click="switchLanguage">
+        {{ uiLabels.changeLanguage }}
+      </button>
   </div>
 </template>
 
@@ -84,6 +84,7 @@ export default {
     width: 100%;
     display: grid;
     grid-template-columns: 2em auto;
+    padding-top: 0.2em;
   }
   .logo {
     text-transform: uppercase;
@@ -109,6 +110,16 @@ export default {
     height: 2rem;
     cursor: pointer;
     font-size: 1.5rem;
+  }
+  button {
+    position: fixed;
+    bottom: 10px;;
+    right: 10px;
+    border: none;
+    border-radius: 5em;
+    height: 5em;
+    width: 5em;
+    cursor: pointer;
   }
 
 @media screen and (max-width:50em) {
