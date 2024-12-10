@@ -14,6 +14,12 @@ function sockets(io, socket, data) {
     socket.emit('questionUpdate', data.getQuestion(d.pollId));
   });
 
+  socket.on('generateQuestion', function(d) {
+    data.generateQuestion({pollId:d.pollId,min:d.min,max:d.max, operator:d.operator});
+    console.log("fghj")
+    socket.emit('questionUpdate', data.getQuestion(d.pollId));
+  });
+
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId);
     socket.emit('questionUpdate', data.getQuestion(pollId))

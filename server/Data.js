@@ -7,8 +7,8 @@ function Data() {
   this.polls['test'] = {
     lang: "en",
     questions: [
-      {q: "How old are you?", 
-       a: ["0-13", "14-18", "19-25", "26-35", "36-45","45-"]
+      {q: "1+1", 
+       a: ["1", "2", "3", "4"]
       },
       {q: "How much do you enjoy coding?", 
        a: ["1", "2", "3", "4", "5"]
@@ -122,6 +122,17 @@ Data.prototype.submitAnswer = function(pollId, answer) {
       answers[answer] += 1
     console.log("answers looks like ", answers, typeof answers);
   }
+}
+
+
+
+// NYA FUNKTIONER SOM VI SKAPAT
+Data.prototype.generateQuestion = function(a) {
+
+  let x = (Math.random() * (a.max - a.min) + a.min);
+  let y = (Math.random() * (a.max - a.min) + a.min);
+
+  console.log(a.pollId)
 }
 
 export { Data };

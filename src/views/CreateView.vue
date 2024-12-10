@@ -2,9 +2,11 @@
   <div>
     Poll link: 
     <input type="text" v-model="pollId">
+    <!--
     <button v-on:click="createPoll">
       Create poll
     </button>
+ 
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -22,12 +24,22 @@
       Add question
     </button>
     <input type="number" v-model="questionNumber">
+    -->
+    Min:
+    <input type="text" v-model="min">
+    Max:
+    <input type="text" v-model="max">
+    Operator:
+    <input type="text" v-model="operator">
+
     <button v-on:click="startPoll">
       Start poll
     </button>
+    <!--
     <button v-on:click="runQuestion">
       Run question
     </button>
+    -->
     <router-link v-bind:to="'/result/' + pollId">Check result</router-link>
     Data: {{ pollData }}
   </div>
@@ -46,6 +58,9 @@ export default {
       question: "",
       answers: ["", ""],
       questionNumber: 0,
+      min:"",
+      max:"", 
+      operator: "",
       pollData: {},
       uiLabels: {},
     }
@@ -62,7 +77,9 @@ export default {
       socket.emit("joinPoll", this.pollId);
     },
     startPoll: function () {
-      socket.emit("startPoll", this.pollId)
+      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
+      socket.emit("joinPoll", this.pollId);
+      socket.emit("startPoll", {pollId:this.pollId, min:this.min,max:this.max, operator:this.operator})
     },
     addQuestion: function () {
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers } )
