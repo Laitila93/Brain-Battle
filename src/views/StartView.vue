@@ -14,20 +14,23 @@
     <h2>{{ uiLabels.subHeading }}</h2>-->
     <label>
       Write poll id: 
-      <input type="text" v-model="newPollId">
     </label>
     <router-link v-bind:to="'/lobby/' + newPollId">
       {{ uiLabels.participatePoll }}
     </router-link>
-    <ResponsiveNav v-bind:hideNav="hideNav">
+    <nav>
       <router-link to="/create/">
         {{ uiLabels.createPoll }}
       </router-link>
-      <a href="">
+      <!--<a href="">
         {{ uiLabels.about }}
       </a>
-      <a href="">FAQ</a>
-    </ResponsiveNav>
+      <a href="">
+        FAQ
+      </a>
+    -->
+      <input type="text" v-model="newPollId" placeholder="Lobby ID">
+    </nav>
     <button v-on:click="switchLanguage">
         {{ uiLabels.changeLanguage }}
       </button>
@@ -114,17 +117,41 @@ export default {
     cursor: pointer;
     font-size: 1.5rem;
   }
+  nav {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20em;
+    background-color: lightgray;
+    height: 4em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 10em);
+  }
+  nav a {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: gray;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid gray;
+  }
+  
   button {
     position: fixed;
-    bottom: 10px;;
+    bottom: 10px;
     right: 10px;
     border: none;
     border-radius: 5em;
     height: 5em;
     width: 5em;
     cursor: pointer;
-  }
+  } 
 
+  /*
 @media screen and (max-width:50em) {
   .logo {
     font-size: 5vw;
@@ -142,4 +169,5 @@ export default {
     left:-12em;
   }
 }
+  */
 </style>
