@@ -1,35 +1,37 @@
 <template>
-  <header>
-    <div v-bind:class="['hamburger', {'close': !hideNav}]" 
-         v-on:click="toggleNav">
-    </div>
-    <div class="logo">
-      <img src="/img/logo.png">
-      Polly polling tool 
-      <img src="../assets/logo.svg">
-    </div>
-  </header>
-  <ResponsiveNav v-bind:hideNav="hideNav">
-    <button v-on:click="switchLanguage">
-      {{ uiLabels.changeLanguage }}
-    </button>
-    <router-link to="/create/">
-      {{ uiLabels.createPoll }}
+  <div class="wrapper">
+    <header>
+      <div v-bind:class="['hamburger', {'close': !hideNav}]" 
+          v-on:click="toggleNav">
+      </div>
+      <div class="logo">
+        <img src="/img/logo.png">
+        Brain Battle
+        <img src="../assets/logo.svg">
+      </div>
+    </header>
+    <!--<h1>{{ uiLabels["sales-pitch"] }}</h1>
+    <h2>{{ uiLabels.subHeading }}</h2>-->
+    <label>
+      Write poll id: 
+      <input type="text" v-model="newPollId">
+    </label>
+    <router-link v-bind:to="'/lobby/' + newPollId">
+      {{ uiLabels.participatePoll }}
     </router-link>
-    <a href="">
-      {{ uiLabels.about }}
-    </a>
-    <a href="">FAQ</a>
-  </ResponsiveNav>
-  <h1>{{ uiLabels["sales-pitch"] }}</h1>
-  <h2>{{ uiLabels.subHeading }}</h2>
-  <label>
-    Write poll id: 
-    <input type="text" v-model="newPollId">
-  </label>
-  <router-link v-bind:to="'/lobby/' + newPollId">
-    {{ uiLabels.participatePoll }}
-  </router-link>
+    <ResponsiveNav v-bind:hideNav="hideNav">
+      <router-link to="/create/">
+        {{ uiLabels.createPoll }}
+      </router-link>
+      <a href="">
+        {{ uiLabels.about }}
+      </a>
+      <a href="">FAQ</a>
+    </ResponsiveNav>
+    <button v-on:click="switchLanguage">
+        {{ uiLabels.changeLanguage }}
+      </button>
+  </div>
 </template>
 
 <script>
@@ -75,17 +77,23 @@ export default {
 }
 </script>
 <style scoped>
+  .wrapper{
+    width:100%;
+    height:100vh;
+    background-color: #1e1e2f;
+  }
   header {
-    background-color: gray;
+    background-color:#1e1e2f;
     width: 100%;
     display: grid;
     grid-template-columns: 2em auto;
+    padding-top: 0.2em;
   }
   .logo {
     text-transform: uppercase;
     letter-spacing: 0.25em;
     font-size: 2.5rem;
-    color: white;
+    color: #007bff;
     padding-top:0.2em;
   }
   .logo img {
@@ -105,6 +113,16 @@ export default {
     height: 2rem;
     cursor: pointer;
     font-size: 1.5rem;
+  }
+  button {
+    position: fixed;
+    bottom: 10px;;
+    right: 10px;
+    border: none;
+    border-radius: 5em;
+    height: 5em;
+    width: 5em;
+    cursor: pointer;
   }
 
 @media screen and (max-width:50em) {

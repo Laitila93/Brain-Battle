@@ -16,8 +16,12 @@ export default {
 </script>
 <style scoped>
   nav {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40em;
     background-color: lightgray;
-    width:100%;
     height: 4em;
     display: grid;
     grid-template-columns: repeat(auto-fit, 10em);
@@ -41,6 +45,7 @@ export default {
     height:100vh;
     top: 3em;
     left: 0;
+    transform: none;
     width:12em;
     display: grid;
     grid-template-rows: repeat(auto-fit, 2em);
