@@ -33,14 +33,17 @@
 </template>
 
 <script>
+import testComponent from '../components/testComponent.vue';
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
+import TestComponent from '../components/testComponent.vue';
 const socket = io("localhost:3000");
 
 export default {
   name: 'StartView',
   components: {
-    ResponsiveNav
+    ResponsiveNav,
+    testComponent
   },
   data: function () {
     return {
