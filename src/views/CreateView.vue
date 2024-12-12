@@ -25,10 +25,14 @@
     <button v-on:click="startPoll">
       Start poll
     </button>
+    <br>
     <button v-on:click="runQuestion">
       Run question
     </button>
+    <br>
     <router-link v-bind:to="'/result/' + pollId">Check result</router-link>
+    <br>
+    <br>
     Data: {{ pollData }}
   </div>
 </template>

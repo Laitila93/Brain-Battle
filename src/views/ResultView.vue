@@ -3,7 +3,7 @@
     lang: {{ lang }}
     {{ question.q }}
   </div>
-  <BarsComponent v-bind:labels="question.a" v-bind:data="submittedAnswers"/>
+  <BarsComponent v-bind:labels="question.a.a" v-bind:data="submittedAnswers"/>
 
   <span>{{ submittedAnswers }}</span>
 </template>
