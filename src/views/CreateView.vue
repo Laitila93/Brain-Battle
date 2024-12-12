@@ -2,9 +2,11 @@
   <div>
     Poll link: 
     <input type="text" v-model="pollId">
+
     <button v-on:click="createPoll">
       Create poll
     </button>
+ <!--
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -18,10 +20,20 @@
         </button>
       </div>
     </div>
+
+  -->
     <button v-on:click="addQuestion">
       Add question
     </button>
     <input type="number" v-model="questionNumber">
+
+    Min:
+    <input type="text" v-model="min">
+    Max:
+    <input type="text" v-model="max">
+    Operator:
+    <input type="text" v-model="operator">
+
     <button v-on:click="startPoll">
       Start poll
     </button>
@@ -30,6 +42,9 @@
     </button>
     <router-link v-bind:to="'/result/' + pollId">Check result</router-link>
     Data: {{ pollData }}
+  </div>
+  <div>
+    {{ operator }}
   </div>
 </template>
 

@@ -124,6 +124,23 @@ Data.prototype.submitAnswer = function(pollId, answer) {
   }
 }
 
+
+
+// NYA FUNKTIONER SOM VI SKAPAT
+Data.prototype.generateQuestion = function(a) {
+
+  let x = (Math.random() * (a.max - a.min) + a.min);
+  let y = (Math.random() * (a.max - a.min) + a.min);
+  let q = x+operator+y;
+  let a = ""
+  if (a.operator === "+"){
+    a = (Number(x) + Number(y))
+  }
+  
+  this.addQuestion(a.pollId, q)
+  console.log(a.pollId)
+}
+
 export { Data };
 
 
