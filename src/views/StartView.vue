@@ -15,13 +15,11 @@
     <label>
       Write poll id: 
     </label>
-    <router-link v-bind:to="'/lobby/' + newPollId">
-      {{ uiLabels.participatePoll }}
-    </router-link>
     <nav>
       <router-link to="/create/">
         {{ uiLabels.createPoll }}
       </router-link>
+      
       <!--<a href="">
         {{ uiLabels.about }}
       </a>
@@ -30,6 +28,9 @@
       </a>
     -->
       <input type="text" v-model="newPollId" placeholder="Lobby ID">
+      <router-link v-bind:to="'/lobby/' + newPollId">
+      {{ uiLabels.participatePoll }}
+      </router-link>
     </nav>
     <button v-on:click="switchLanguage">
         {{ uiLabels.changeLanguage }}
@@ -122,7 +123,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20em;
+    width: 30em;
     background-color: lightgray;
     height: 4em;
     display: grid;
