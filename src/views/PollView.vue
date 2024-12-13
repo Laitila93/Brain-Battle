@@ -8,6 +8,7 @@
       Run question
     </button>
   </div>
+  <hr>
   <div>
     {{pollId}}
     <QuestionComponent v-bind:question="question"
