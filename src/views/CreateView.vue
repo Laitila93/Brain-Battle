@@ -1,5 +1,5 @@
 <template>
-  <form id="app" @submit="createPoll">
+  <form id="app" @submit="checkValues">
   <p>
     <label for="formOperator">Operator</label>
     <select id="formOperator" v-model="formOperator" name="formOperator" required>
@@ -44,21 +44,25 @@
       required
     >
   </p>
-
   <p>
+    <label for="formPollId">Poll ID: </label>
     <input
-      type="submit"
-      value="Create game"
+      id="formPollId"
+      v-model="formPollId"
+      type="text"
+      name="formPollId"
+      required
     >
+  </p>
+  <p>
+    <button type="submit">
+      {{this.uiLabels.createPoll}}
+    </button>
   </p>
 
 </form>
+<!--
   <div>
-    Poll link: 
-    <input type="text" v-model="pollId">
-    <button v-on:click="createPoll">
-      Create poll
-    </button>
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -76,6 +80,8 @@
       Add question
     </button>
     <input type="number" v-model="questionNumber">
+    -->
+  <div>
     <button v-on:click="startPoll">
       Start poll
     </button>
@@ -88,9 +94,6 @@
     <br>
     <br>
     Data: {{ pollData }}
-    operator: {{formOperator}}
-      min: {{min}}
-      max: {{max}}
   </div>
 </template>
 
@@ -103,18 +106,22 @@ export default {
   data: function () {
     return {
       lang: localStorage.getItem("lang") || "en",
-      pollId: "",
+      pollId: null,
       question: "",
       answers: ["", ""],
       questionNumber: 0,
       pollData: {},
       uiLabels: {},
+
+      formPollId: null,
       formOperator: null,
       formMin: null,
       formMax: null,
+
       operator: null,
       min: null,
       max: null,
+
       numberOfQuestions: 0,
       questions:
       {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
@@ -153,6 +160,7 @@ export default {
           this.questions.a[2] = {a:num1 + num2 - 1, c:false};
           this.questions.a[3] = {a:num1 + num2 + 4, c:false};
           this.shuffle(this.questions.a);
+          
           break;
         case '-':
           this.questions.q = `${num1} - ${num2}`;
@@ -191,17 +199,27 @@ export default {
       }
     },
 
-    createPoll: function () {
-      this.operator = this.formOperator;
-      this.min = this.formMin;
-      this.max = this.formMax;
-      for (let i = 0; i < this.numberOfQuestions; i++){
-        this.generateRandomQuestion();
-        this.addQuestion();
-
+    checkValues: function (e) {
+      e.preventDefault();
+      if (this.formOperator && this.formMin && this.formMax && this.formPollId){
+        this.operator = this.formOperator;
+        this.min = this.formMin;
+        this.max = this.formMax;
+        this.pollId = this.formPollId;
+        this.createQuiz();
       }
-      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
+      else {
+      console.log("Please fill in all fields.");
+      }
+    },
+    createQuiz: function () {
+
       socket.emit("joinPoll", this.pollId);
+      for (let i = 0; i < this.numberOfQuestions; i++){
+          this.generateRandomQuestion();
+          this.addQuestion(); 
+        }
+      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
     },
     startPoll: function () {
       socket.emit("startPoll", this.pollId)
@@ -216,6 +234,7 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     }
+    
   }
 }
 

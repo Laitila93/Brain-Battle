@@ -42,6 +42,13 @@ export default {
     participateInPoll: function () {
       socket.emit( "participateInPoll", {pollId: this.pollId, name: this.userName} )
       this.joined = true;
+      this.startPoll();
+    },
+    startPoll: function () {
+      if (this.participants.length > 1){
+        socket.emit("startPoll", this.pollId)
+        socket.emit("getNumberOfQuestions", this.pollId)
+      }
     }
   }
 }
