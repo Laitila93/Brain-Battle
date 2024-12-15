@@ -12,14 +12,10 @@
     </header>
     <!--<h1>{{ uiLabels["sales-pitch"] }}</h1>
     <h2>{{ uiLabels.subHeading }}</h2>-->
+    <!--
     <label>
       Write poll id: 
-    </label>
-    <nav>
-      <router-link to="/create/">
-        {{ uiLabels.createPoll }}
-      </router-link>
-      
+    </label>--> <!--Kommenterat bort detta-->
       <!--<a href="">
         {{ uiLabels.about }}
       </a>
@@ -27,11 +23,20 @@
         FAQ
       </a>
     -->
-      <input type="text" v-model="newPollId" placeholder="Lobby ID">
-      <router-link v-bind:to="'/lobby/' + newPollId">
-      {{ uiLabels.participatePoll }}
+
+    <nav class="Create"> <!--Skapat class för create-->
+      <router-link to="/create/">
+      {{ uiLabels.createPoll || 'Create Game' }} <!-- Lagt till create text --> 
       </router-link>
     </nav>
+    
+    <nav class="Join"> <!--Skapat class för join-->
+      <input type="text" v-model="newPollId" placeholder="Lobby ID">
+      <router-link v-bind:to="'/lobby/' + newPollId">
+      {{ uiLabels.participatePoll || 'Join Game'  }}<!-- Lagt till texten join --> 
+      </router-link>
+    </nav>
+  
     <button v-on:click="switchLanguage">
         {{ uiLabels.changeLanguage }}
       </button>
@@ -171,4 +176,22 @@ export default {
   }
 }
   */
+/*Har lagt till dessa nedan*/
+.Create {
+  position: fixed;
+  background-color: orange;
+  border-radius: 5px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Join {
+  position: fixed;
+  background-color: #32cd32;
+  border-radius: 5px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
