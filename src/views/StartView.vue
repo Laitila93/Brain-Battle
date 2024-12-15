@@ -139,7 +139,7 @@ export default {
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     text-decoration: none;
-    color: gray;
+    color: rgb(249, 245, 245);
     display: grid;
     align-items: center;
     justify-content: center;
