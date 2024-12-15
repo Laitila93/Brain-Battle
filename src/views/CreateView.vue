@@ -128,10 +128,20 @@ export default {
     socket.emit( "getUILabels", this.lang );
   },
   methods: {
+    shuffle(array) {
 
-      generateRandomQuestion: function () {
+      // Iterate over the array in reverse order
+      for (let i = array.length - 1; i > 0; i--) {
 
+      // Generate Random Index
+      const j = Math.floor(Math.random() * (i + 1));
 
+      // Swap elements
+      [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    },
+    generateRandomQuestion: function () {
       const num1 = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
       const num2 = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
 
@@ -142,6 +152,7 @@ export default {
           this.questions.a[1] = {a:num1 + num2 + 1, c:false};
           this.questions.a[2] = {a:num1 + num2 - 1, c:false};
           this.questions.a[3] = {a:num1 + num2 + 4, c:false};
+          this.shuffle(this.questions.a);
           break;
         case '-':
           this.questions.q = `${num1} - ${num2}`;
@@ -149,6 +160,7 @@ export default {
           this.questions.a[1] = {a:num1 - num2 + 1, c:false};
           this.questions.a[2] = {a:num1 - num2 - 1, c:false};
           this.questions.a[3] = {a:num1 - num2 + 4, c:false};
+          this.shuffle(this.questions.a);
           break;
         case '*':
           this.questions.q = `${num1} * ${num2}`;
@@ -156,6 +168,7 @@ export default {
           this.questions.a[1] = {a:num1 * num2 + 1, c:false};
           this.questions.a[2] = {a:num1 * num2 - 1, c:false};
           this.questions.a[3] = {a:num1 * num2 + 4, c:false};
+          this.shuffle(this.questions.a);
           break;
         case '/':
 
@@ -167,6 +180,7 @@ export default {
           this.questions.a[1] = {a:num1 / num2 + 1, c:false};
           this.questions.a[2] = {a:num1 / num2 - 1, c:false};
           this.questions.a[3] = {a:num1 / num2 + 4, c:false};
+          this.shuffle(this.questions.a);
           break;
         default:
           this.questions.q = "Not valid operator";
