@@ -98,6 +98,14 @@ Data.prototype.getQuestion = function(pollId, qId = null) {
   return {}
 }
 
+Data.prototype.getNumberOfQuestions = function(pollId) {
+  if (this.pollExists(pollId)) {
+    const poll = this.polls[pollId];
+    return poll.questions;
+  }
+  return {}
+}
+
 Data.prototype.getSubmittedAnswers = function(pollId) {
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];

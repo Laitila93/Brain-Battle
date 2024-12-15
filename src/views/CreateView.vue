@@ -1,11 +1,5 @@
 <template>
-  <form
-  id="app"
-  @submit="createPoll"
-
->
-
-
+  <form id="app" @submit="createPoll">
   <p>
     <label for="formOperator">Operator</label>
     <select id="formOperator" v-model="formOperator" name="formOperator" required>
@@ -13,6 +7,15 @@
       <option>-</option>
       <option>*</option>
       <option>/</option>
+    </select>
+  </p>
+  <p>
+    <label for="numberOfQuestions">Number Of Questions</label>
+    <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
+      <option>16</option>
+      <option>25</option>
+      <option>36</option>
+      <option>49</option>
     </select>
   </p>
 
@@ -112,7 +115,7 @@ export default {
       operator: null,
       min: null,
       max: null,
-      errors: [],
+      numberOfQuestions: 0,
       questions:
       {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
       
@@ -127,16 +130,11 @@ export default {
   methods: {
 
       generateRandomQuestion: function () {
-        
 
 
       const num1 = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
       const num2 = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
 
-      let question = '';
-      let answer = 0;
-
-      // Use the chosen operator to create a question and compute the answer
       switch (this.operator) {
         case '+':
           this.questions.q = `${num1} + ${num2}`;
@@ -160,9 +158,9 @@ export default {
           this.questions.a[3] = {a:num1 * num2 + 4, c:false};
           break;
         case '/':
-          // Ensure we don't divide by 0
+
           if (num2 === 0) {
-            return this.generateRandomQuestion(); // Recurse to regenerate the question
+            return this.generateRandomQuestion();
           }
           this.questions.q = `${num1} / ${num2}`;
           this.questions.a[0] = {a: num1 + num2, c:true};
@@ -177,17 +175,15 @@ export default {
           this.questions.a[2] = {a:null, c:false};
           this.questions.a[3] = {a:null, c:false};
       }
-
     },
 
-  
     createPoll: function () {
       this.operator = this.formOperator;
       this.min = this.formMin;
       this.max = this.formMax;
-      for (let i = 0; i < 10; i++){
-        this.generateRandomQuestion;
-        this.addQuestion;
+      for (let i = 0; i < this.numberOfQuestions; i++){
+        this.generateRandomQuestion();
+        this.addQuestion();
 
       }
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
@@ -195,6 +191,7 @@ export default {
     },
     startPoll: function () {
       socket.emit("startPoll", this.pollId)
+      socket.emit("getNumberOfQuestions", this.pollId)
     },
     addQuestion: function () {
       socket.emit("addQuestion", {pollId: this.pollId, q: this.questions.q, a: this.questions.a } )
