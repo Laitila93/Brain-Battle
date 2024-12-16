@@ -83,6 +83,7 @@ Data.prototype.getParticipants = function(pollId) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   if (this.pollExists(pollId)) {
+    console.log("inside data",pollId)
     this.polls[pollId].questions.push(q);
   }
 }

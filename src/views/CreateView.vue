@@ -1,5 +1,7 @@
 <template>
-  <form id="app" @submit="checkValues">
+  <div>Poll ID: {{ pollId }}</div>
+  <div>
+  <form id="app" @submit="createAndStart">
   <p>
     <label for="formOperator">Operator</label>
     <select id="formOperator" v-model="formOperator" name="formOperator" required>
@@ -45,22 +47,14 @@
     >
   </p>
   <p>
-    <label for="formPollId">Poll ID: </label>
-    <input
-      id="formPollId"
-      v-model="formPollId"
-      type="text"
-      name="formPollId"
-      required
-    >
-  </p>
-  <p>
     <button type="submit">
       {{this.uiLabels.createPoll}}
     </button>
   </p>
 
 </form>
+</div>
+
 <!--
   <div>
     <div>
@@ -85,15 +79,12 @@
     <button v-on:click="startPoll">
       Start poll
     </button>
-    <br>
-    <button v-on:click="runQuestion">
-      Run question
-    </button>
+
     <br>
     <router-link v-bind:to="'/result/' + pollId">Check result</router-link>
     <br>
     <br>
-    Data: {{ pollData }}
+    Data: {{ this.pollData }}
   </div>
 </template>
 
@@ -113,7 +104,6 @@ export default {
       pollData: {},
       uiLabels: {},
 
-      formPollId: null,
       formOperator: null,
       formMin: null,
       formMax: null,
@@ -129,13 +119,23 @@ export default {
     }
   },
   created: function () {
+    
     socket.on( "uiLabels", labels => this.uiLabels = labels );
     socket.on( "pollData", data => this.pollData = data );
+    this.generatePollId();
     socket.on( "participantsUpdate", p => this.pollData.participants = p );
     socket.emit( "getUILabels", this.lang );
+    
+    this.createQuiz();
+
   },
   methods: {
-    shuffle(array) {
+    generatePollId: function () {
+      this.pollId = Math.floor(1000 + Math.random() * 9000);
+      console.log(this.pollId)
+    },
+
+    shuffle: function (array) {
 
       // Iterate over the array in reverse order
       for (let i = array.length - 1; i > 0; i--) {
@@ -199,27 +199,34 @@ export default {
       }
     },
 
-    checkValues: function (e) {
+    createAndStart: function (e) {
       e.preventDefault();
-      if (this.formOperator && this.formMin && this.formMax && this.formPollId){
+      if (this.formOperator && this.formMin && this.formMax){
         this.operator = this.formOperator;
         this.min = this.formMin;
         this.max = this.formMax;
-        this.pollId = this.formPollId;
-        this.createQuiz();
-      }
-      else {
-      console.log("Please fill in all fields.");
-      }
-    },
-    createQuiz: function () {
-
-      socket.emit("joinPoll", this.pollId);
-      for (let i = 0; i < this.numberOfQuestions; i++){
+        for (let i = 0; i < this.numberOfQuestions; i++){
           this.generateRandomQuestion();
           this.addQuestion(); 
         }
+        socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
+        socket.emit("joinPoll", this.pollId);
+        this.$router.push(('/lobby/' + this.pollId))
+        console.log(this.pollData)
+      }
+      else {
+        console.log("Please fill in all fields.");
+      }
+    },
+    createQuiz: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
+      socket.emit("joinPoll", this.pollId);
+      console.log("first createQuiz")
+
+      
+    },
+    addQuestions: function () {
+
     },
     startPoll: function () {
       socket.emit("startPoll", this.pollId)
