@@ -10,19 +10,7 @@
         <img src="../assets/logo.svg">
       </div>
     </header>
-    <!--<h1>{{ uiLabels["sales-pitch"] }}</h1>
-    <h2>{{ uiLabels.subHeading }}</h2>-->
-    <!--
-    <label>
-      Write poll id: 
-    </label>--> <!--Kommenterat bort detta-->
-      <!--<a href="">
-        {{ uiLabels.about }}
-      </a>
-      <a href="">
-        FAQ
-      </a>
-    -->
+  
 
     <nav class="Create"> <!--Skapat class för create-->
       <router-link to="/create/">
@@ -31,10 +19,18 @@
     </nav>
     
     <nav class="Join"> <!--Skapat class för join-->
-      <input type="text" v-model="newPollId" placeholder="Lobby ID">
+      <input type="text" v-model="newPollId" placeholder="Enter Lobby ID">
       <router-link v-bind:to="'/lobby/' + newPollId">
       {{ uiLabels.participatePoll || 'Join Game'  }}<!-- Lagt till texten join --> 
       </router-link>
+    </nav>
+    <nav class="temp-menu">
+      <a href="">
+        {{ uiLabels.about }}
+      </a>
+      <a href="">
+        FAQ
+      </a>
     </nav>
   
     <button v-on:click="switchLanguage">
@@ -157,31 +153,12 @@ export default {
     cursor: pointer;
   } 
 
-  /*
-@media screen and (max-width:50em) {
-  .logo {
-    font-size: 5vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hamburger::before {
-    content: "☰";
-  }
-  .close::before {
-    content: "✕";
-  }
-  .hide {
-    left:-12em;
-  }
-}
-  */
-/*Har lagt till dessa nedan*/
+
 .Create {
   position: fixed;
   background-color: orange;
   border-radius: 5px;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -190,8 +167,19 @@ export default {
   position: fixed;
   background-color: #32cd32;
   border-radius: 5px;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.temp-menu {
+  position: fixed;
+  background-color: gray;
+  border-radius: 5px;
+  top:60%;
+  left: bottom;
+  transform: translate(-50%, -50%);
+
+  }
+
+
 </style>
