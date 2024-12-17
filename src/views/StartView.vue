@@ -1,41 +1,41 @@
 <template>
   <div class="wrapper">
     <header>
-      <div v-bind:class="['hamburger', {'close': !hideNav}]" 
-          v-on:click="toggleNav">
-      </div>
       <div class="logo">
         <img src="/img/logo.png">
         Brain Battle
         <img src="../assets/logo.svg">
       </div>
     </header>
-  
-
-    <nav class="Create"> <!--Skapat class för create-->
-      <router-link to="/create/">
-      {{ uiLabels.createPoll}} 
-      </router-link>
-    </nav>
-    
-    <nav class="Join"> <!--Skapat class för join-->
-      <input type="text" v-model="newPollId" placeholder="Enter Lobby ID">
-      <router-link v-bind:to="'/lobby/' + newPollId">
-      {{ uiLabels.participatePoll}} 
-      </router-link>
+    <nav class="main-menu">
+      <div class="menu-item">
+        <input class="id-input" type="text" v-model="newPollId" placeholder="Enter game ID">
+        <router-link v-bind:class="['join-game', {'hidden':!newPollId}]" v-bind:to="'/lobby/' + newPollId">
+        {{ uiLabels.participatePoll }}
+        </router-link>
+      </div>
+      <div class="menu-item">
+        <div class="or">
+          OR
+        </div>
+      </div>
+      <div class="menu-item">
+        <router-link to="/create/" class="create-game">
+          {{ uiLabels.createPoll }}
+        </router-link>
+      </div>
     </nav>
     <nav class="temp-menu">
-      <a href="">
+      <button v-on:click="switchLanguage">
+        {{ uiLabels.changeLanguage }}
+      </button>
+      <a class="temp-menu-item" href="">
         {{ uiLabels.about }}
       </a>
-      <a href="">
+      <a class="temp-menu-item" href="">
         FAQ
       </a>
     </nav>
-  
-    <button v-on:click="switchLanguage">
-        {{ uiLabels.changeLanguage }}
-      </button>
   </div>
 </template>
 
@@ -92,8 +92,6 @@ export default {
   header {
     background-color:#1e1e2f;
     width: 100%;
-    display: grid;
-    grid-template-columns: 2em auto;
     padding-top: 0.2em;
   }
   .logo {
@@ -108,80 +106,92 @@ export default {
     vertical-align: bottom;
     margin-right: 0.5rem; 
   }
-  .hamburger {
-    color:white;
-    width:1em;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    padding:0.5rem;
-    top:0;
-    left:0;
-    height: 2rem;
-    cursor: pointer;
-    font-size: 1.5rem;
-  }
-  nav {
-    position: fixed;
+  .main-menu {
+    position:fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 26em;
+  }
+  .menu-item {
+    text-transform: uppercase;
+    display: flex;
+    height: 3em;
+    width: 100%;
+    justify-content: center;
+  }
+  .temp-menu {
+    position: fixed;
     background-color: lightgray;
-    height: 4em;
+    bottom: 2px;
+    left: 50px;
+    width: 30em;
+    height: 2em;
     display: grid;
     grid-template-columns: repeat(auto-fit, 10em);
-  }
-  nav a {
     text-transform: uppercase;
+  }
+  .temp-menu-item {
     font-size: 0.8rem;
-    letter-spacing: 0.1em;
     text-decoration: none;
-    color: rgb(249, 245, 245);
+    letter-spacing: 0.1em;
     display: grid;
     align-items: center;
     justify-content: center;
     border-left: 1px solid gray;
   }
-  
+  .id-input {
+    font-size: 1.2rem;
+    max-width: 40%;
+  }
+  .id-input::placeholder {
+    text-transform: uppercase;
+    color: gray;
+    opacity: 0.5;
+  }
+  .join-game {
+    background-color: #32cd32;
+    color:black;
+    font-size: 0.8rem;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    display: grid;
+    align-items: center;
+    width: 55%;
+  }
+  .hidden {
+    background-color: gray;
+    color:black;
+    width: 55%;
+    font-size: 0.8rem;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    display: grid;
+    align-items: center;
+    pointer-events: none;
+  }
+  .create-game {
+    background-color: #ff8c00;
+    color:black;
+    width: 60%;
+    font-size: 0.8rem;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    display: grid;
+    align-items: center;
+  }
+  .or {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 2rem;
+    color: #007bff;
+  }
   button {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    border: none;
-    border-radius: 5em;
-    height: 5em;
-    width: 5em;
+    height: 2em;
+    width: 10em;
     cursor: pointer;
   } 
-
-
-.Create {
-  position: fixed;
-  background-color: orange;
-  border-radius: 5px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.Join {
-  position: fixed;
-  background-color: #32cd32;
-  border-radius: 5px;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.temp-menu {
-  position: fixed;
-  background-color: gray;
-  border-radius: 5px;
-  top:60%;
-  left: bottom;
-  transform: translate(-50%, -50%);
-
-  }
-
-
 </style>
