@@ -19,12 +19,12 @@ function Data() {
        {q: "4?", 
         a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
        }
-    ],
-    answers: [],
-    currentQuestion: 0,
-    participants: []
+      ],
+      answers: [],
+      currentQuestion: 0,
+      participants: []
+    }
   }
-}
 
 /***********************************************
 For performance reasons, methods are added to the
@@ -137,23 +137,6 @@ Data.prototype.submitAnswer = function(pollId, answer) {
       answers[answer] += 1
     console.log("answers looks like ", answers, typeof answers);
   }
-}
-
-
-
-// NYA FUNKTIONER SOM VI SKAPAT
-Data.prototype.generateQuestion = function(a) {
-
-  let x = (Math.random() * (a.max - a.min) + a.min);
-  let y = (Math.random() * (a.max - a.min) + a.min);
-  let q = x+operator+y;
-  let a = ""
-  if (a.operator === "+"){
-    a = (Number(x) + Number(y))
-  }
-  
-  this.addQuestion(a.pollId, q)
-  console.log(a.pollId)
 }
 
 export { Data };

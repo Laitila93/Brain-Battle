@@ -14,14 +14,14 @@
 
     <nav class="Create"> <!--Skapat class för create-->
       <router-link to="/create/">
-      {{ uiLabels.createPoll || 'Create Game' }} <!-- Lagt till create text --> 
+      {{ uiLabels.createPoll}} 
       </router-link>
     </nav>
     
     <nav class="Join"> <!--Skapat class för join-->
       <input type="text" v-model="newPollId" placeholder="Enter Lobby ID">
       <router-link v-bind:to="'/lobby/' + newPollId">
-      {{ uiLabels.participatePoll || 'Join Game'  }}<!-- Lagt till texten join --> 
+      {{ uiLabels.participatePoll}} 
       </router-link>
     </nav>
     <nav class="temp-menu">
@@ -40,17 +40,15 @@
 </template>
 
 <script>
-import testComponent from '../components/testComponent.vue';
+
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-import TestComponent from '../components/testComponent.vue';
 const socket = io("localhost:3000");
 
 export default {
   name: 'StartView',
   components: {
     ResponsiveNav,
-    testComponent
   },
   data: function () {
     return {
@@ -61,8 +59,12 @@ export default {
     }
   },
   created: function () {
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+
+    console.log(this.lang);
     socket.emit( "getUILabels", this.lang );
+    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    
+    console.log(this.uiLabels);
   },
   methods: {
     switchLanguage: function() {

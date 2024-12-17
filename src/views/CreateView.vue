@@ -1,13 +1,6 @@
 <template>
   <div>Poll ID: {{ pollId }}</div>
   <div>
-    Poll link: 
-    <input type="text" v-model="pollId">
-
-    <button v-on:click="createPoll">
-      Create poll
-    </button>
-
   <form id="app" @submit="createAndStart">
   <p>
     <label for="formOperator">Operator</label>
@@ -55,7 +48,7 @@
   </p>
   <p>
     <button type="submit">
-      {{this.uiLabels.createPoll}}
+      {{uiLabels.createPoll}}
     </button>
   </p>
 
