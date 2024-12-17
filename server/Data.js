@@ -7,12 +7,18 @@ function Data() {
   this.polls['test'] = {
     lang: "en",
     questions: [
-      {q: "How old are you?", 
-       a: ["0-13", "14-18", "19-25", "26-35", "36-45","45-"]
+      {q: "1?", 
+       a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
       },
-      {q: "How much do you enjoy coding?", 
-       a: ["1", "2", "3", "4", "5"]
-      }
+      {q: "2?", 
+       a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
+      },
+      {q: "3?", 
+        a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
+       },
+       {q: "4?", 
+        a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
+       }
     ],
     answers: [],
     currentQuestion: 0,
@@ -77,6 +83,7 @@ Data.prototype.getParticipants = function(pollId) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   if (this.pollExists(pollId)) {
+    console.log("inside data",pollId)
     this.polls[pollId].questions.push(q);
   }
 }
@@ -88,6 +95,14 @@ Data.prototype.getQuestion = function(pollId, qId = null) {
       poll.currentQuestion = qId;
     }
     return poll.questions[poll.currentQuestion];
+  }
+  return {}
+}
+
+Data.prototype.getNumberOfQuestions = function(pollId) {
+  if (this.pollExists(pollId)) {
+    const poll = this.polls[pollId];
+    return poll.questions;
   }
   return {}
 }
