@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper" >
+    CREATE GAME
     <nav class="main-menu">
       <div class="logo">Poll ID: {{ pollId }}</div>
         <div>
@@ -209,9 +210,59 @@ export default {
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
+    },
+    switchLanguage: function() {
+      if (this.lang === "en") {
+        this.lang = "sv"
+      }
+      else {
+        this.lang = "en"
+      }
+      localStorage.setItem( "lang", this.lang );
+      socket.emit( "getUILabels", this.lang );
     }
     
   }
 }
 
 </script>
+
+<style>
+/*"wrapper" and "main-menu" classes are styled in main.css */
+
+.lang-wrapper {
+    position:fixed;
+    bottom: 10px;
+    right: 20px;
+    color:#007bff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    font-size: 1em;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+
+  .button-sv {
+    height: 3em;
+    width: 5em;
+    cursor: pointer;
+    border-radius: 1em;
+    background-image: url("../assets/swedish-flag.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .button-en {
+    height: 3em;
+    width: 5em;
+    cursor: pointer;
+    border-radius: 1em;
+    background-image: url("../assets/uk-flag.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+
+</style>
