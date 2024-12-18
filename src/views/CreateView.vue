@@ -1,7 +1,9 @@
 <template>
+  <div class="wrapper" >
+    <nav class="main-menu">
   <div>Poll ID: {{ pollId }}</div>
   <div>
-  <form id="app" @submit="createAndStart">
+  <form id="createForm" @submit="createAndStart">
   <p>
     <label for="formOperator">Operator</label>
     <select id="formOperator" v-model="formOperator" name="formOperator" required>
@@ -54,13 +56,14 @@
 
 </form>
 </div>
-
+</nav>
 <div>
   <br>
   Data: {{ this.pollData }}
 </div>
 <div>
   {{ operator }}
+</div>
 </div>
 </template>
 

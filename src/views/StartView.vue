@@ -84,11 +84,7 @@ export default {
 }
 </script>
 <style scoped>
-  .wrapper{
-    width:100%;
-    height:100vh;
-    background-color: #1e1e2f;
-  }
+
   header {
     background-color:#1e1e2f;
     width: 100%;
@@ -106,16 +102,7 @@ export default {
     vertical-align: bottom;
     margin-right: 0.5rem; 
   }
-  .main-menu {
-    position:fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-    width: 26em;
-  }
+
   .menu-item {
     text-transform: uppercase;
     display: flex;

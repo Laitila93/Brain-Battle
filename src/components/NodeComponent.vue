@@ -1,20 +1,18 @@
 <template>
-    <!-- Pass the questionId to the parent when the button is clicked -->
-    <button v-on:click="emitQuestionId">
-      o
+    <button class="nodeButton" v-on:click="emitQuestionId">
+      O
     </button>
-  </template>
+</template>
   
   <script>
   export default {
     name: 'NodeComponent',
     props: {
-      questionId: Number  // Accept questionId as a prop
+      questionId: Number
     },
-    emits: ["questionId"],  // Declare the event name to emit
+    emits: ["questionId"],
     methods: {
       emitQuestionId: function () {
-        // Emit the questionId to the parent component
         this.$emit("questionId", this.questionId);
       }
     }

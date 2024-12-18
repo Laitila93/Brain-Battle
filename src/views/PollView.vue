@@ -1,13 +1,16 @@
 <template>
-  <div v-if="totalQuestions > 0">
-    <NodeComponent 
-      v-for="index in totalQuestions" 
-      :key="index" 
-      :questionId="index"  
-      v-on:questionId="runQuestion($event)"  
-    />
-  </div>
-  <hr>
+  
+  <div class="wrapper">
+    <div class="main-menu">
+    <div class="node" v-if="totalQuestions > 0">
+      <NodeComponent 
+        v-for="index in totalQuestions" 
+        :key="index" 
+        :questionId="index"  
+        v-on:questionId="runQuestion($event)"  
+      />
+    </div>
+    
   <div>
     {{ pollId }}
     <QuestionComponent 
@@ -17,6 +20,8 @@
     <hr>
     <span>{{ submittedAnswers }}</span>
   </div>
+</div>
+</div>
 </template>
 
 <script>
@@ -44,6 +49,7 @@ export default {
       nodeNumber: 0
     };
   },
+  
   created: function () {
     this.pollId = this.$route.params.id;
     socket.on("questionUpdate", q => this.question = q);
