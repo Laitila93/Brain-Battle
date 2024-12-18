@@ -2,9 +2,9 @@
   <div class="wrapper">
     <header>
       <div class="logo">
-        <img src="/img/logo.png">
+        <img src="../assets/swords.png">
         Brain Battle
-        <img src="../assets/logo.svg">
+        <img src="../assets/brain.png">
       </div>
     </header>
     <nav class="main-menu">
@@ -25,10 +25,9 @@
         </router-link>
       </div>
     </nav>
+
     <nav class="temp-menu">
-      <button v-on:click="switchLanguage">
-        {{ uiLabels.changeLanguage }}
-      </button>
+
       <a class="temp-menu-item" href="">
         {{ uiLabels.about }}
       </a>
@@ -36,6 +35,11 @@
         {{ uiLabels.rules }}
       </a>
     </nav>
+    <div class="lang-wrapper">
+      {{ uiLabels.changeLanguage }}
+      <button v-on:click="switchLanguage" v-bind:class="['lang-sv', {'lang-en':this.lang=='sv'}]">
+      </button>
+    </div>
   </div>
 </template>
 
@@ -59,12 +63,8 @@ export default {
     }
   },
   created: function () {
-
-    console.log(this.lang);
     socket.emit( "getUILabels", this.lang );
     socket.on( "uiLabels", labels => this.uiLabels = labels );
-    
-    console.log(this.uiLabels);
   },
   methods: {
     switchLanguage: function() {
