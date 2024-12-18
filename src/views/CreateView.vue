@@ -1,70 +1,60 @@
 <template>
   <div class="wrapper" >
     <nav class="main-menu">
-  <div>Poll ID: {{ pollId }}</div>
-  <div>
-  <form id="createForm" @submit="createAndStart">
-  <p>
-    <label for="formOperator">Operator</label>
-    <select id="formOperator" v-model="formOperator" name="formOperator" required>
-      <option>+</option>
-      <option>-</option>
-      <option>*</option>
-      <option>/</option>
-    </select>
-  </p>
-  <p>
-    <label for="numberOfQuestions">Number Of Questions</label>
-    <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
-      <option>16</option>
-      <option>25</option>
-      <option>36</option>
-      <option>49</option>
-    </select>
-  </p>
-
-  <p>
-    <label for="formMin">Min</label>
-    <input
-      id="formMin"
-      v-model="formMin"
-      type="number"
-      name="formMin"
-      min="1"
-      max="100"
-      required
-    >
-  </p>
-
-  <p>
-    <label for="formMax">Max</label>
-    <input
-      id="formMax"
-      v-model="formMax"
-      type="number"
-      name="formMax"
-      max="100"
-      min="1"
-      required
-    >
-  </p>
-  <p>
-    <button type="submit">
-      {{uiLabels.createPoll}}
-    </button>
-  </p>
-
-</form>
-</div>
-</nav>
-<div>
-  <br>
-  Data: {{ this.pollData }}
-</div>
-<div>
-  {{ operator }}
-</div>
-</div>
+      <div class="logo">Poll ID: {{ pollId }}</div>
+        <div>
+          <form id="createForm" @submit="createAndStart">
+            <p>
+              <label for="formOperator">Operator: </label>
+                <select id="formOperator" v-model="formOperator" name="formOperator" required>
+                  <option>+</option>
+                  <option>-</option>
+                  <option>*</option>
+                  <option>/</option>
+                </select>
+            </p>
+            <p>
+              <label for="numberOfQuestions">Number Of Questions: </label>
+                <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
+                  <option>16</option>
+                  <option>25</option>
+                  <option>36</option>
+                  <option>49</option>
+                </select>
+            </p>
+            <p>
+              <label for="formMin">Min: </label>
+                <input
+                  id="formMin"
+                  v-model="formMin"
+                  type="number"
+                  name="formMin"
+                  min="1"
+                  max="100"
+                  required
+                >
+            </p>
+            <p>
+              <label for="formMax">Max: </label>
+                <input
+                  id="formMax"
+                  v-model="formMax"
+                  type="number"
+                  name="formMax"
+                  max="100"
+                  min="1"
+                  required
+                >
+            </p>
+            <p>
+              <button type="submit">
+                {{uiLabels.createPoll}}
+              </button>
+            </p>
+          </form>
+        </div>
+    </nav>
+  </div>
 </template>
 
 <script>

@@ -1,16 +1,19 @@
 <template>
-  <div>
-    {{pollId}}
-    <div v-if="!joined">
-      <input type="text" v-model="userName">
-      <button v-on:click="participateInPoll">
-        {{ this.uiLabels.participateInPoll }}
-      </button>
+  <div class="wrapper">
+    <div class="main-menu">
+      <div class="logo">
+        {{pollId}}
+      </div>
+      <div v-if="!joined">
+        <input type="text" v-model="userName">
+        <button v-on:click="participateInPoll">
+          {{ this.uiLabels.participateInPoll }}
+        </button>
+      </div>
+      <div v-if="joined">
+        <p>Waiting for host to start poll</p>
+      </div>
     </div>
-    <div v-if="joined">
-      <p>Waiting for host to start poll</p>
-      {{ participants }}
-  </div>
   </div>
 </template>
 

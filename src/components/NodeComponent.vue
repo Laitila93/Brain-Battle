@@ -1,6 +1,6 @@
 <template>
     <button class="nodeButton" v-on:click="emitQuestionId">
-      O
+      
     </button>
 </template>
   

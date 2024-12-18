@@ -1,8 +1,7 @@
 <template>
-  
   <div class="wrapper">
     <div class="main-menu">
-    <div class="node" v-if="totalQuestions > 0">
+    <div class="node" :style="{ gap: gap }" v-if="totalQuestions > 0">
       <NodeComponent 
         v-for="index in totalQuestions" 
         :key="index" 
@@ -46,16 +45,19 @@ export default {
       submittedAnswers: {},
       questionNumber: 0,
       totalQuestions: 0,
-      nodeNumber: 0
+      nodeNumber: 0,
+      columns: 0,
+      gap: ""
     };
   },
-  
+
   created: function () {
     this.pollId = this.$route.params.id;
     socket.on("questionUpdate", q => this.question = q);
     socket.emit("getNumberOfQuestions", this.pollId);
     socket.on("numberOfQuestions", number => {
       this.totalQuestions = number;
+      this.setNodeWidth();
     });
     socket.on("submittedAnswersUpdate", answers => this.submittedAnswers = answers.a);
     socket.on("uiLabels", labels => this.uiLabels = labels);
@@ -63,9 +65,33 @@ export default {
     socket.emit("joinPoll", this.pollId);
   },
   methods: {
+    setNodeWidth: function () {
+      console.log("total questions", this.totalQuestions);
+      console.log(this.gap);
+      switch (this.totalQuestions) {
+        case 16:
+          this.gap = "100px";
+          break;
+
+        case 25:
+          this.gap = "70px";
+          break;
+
+        case 36:
+          this.gap = "40px";
+          break;
+
+        case 49:
+          this.gap = "30px";
+          break;
+
+        default:
+          this.gap = "0px";
+      }
+        
+    },
     submitAnswer: function (answer) {
       socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a });
-      console.log(this.totalQuestions);
     },
     updateQuestionNumber: function (num) {
       // Handle question number if needed
