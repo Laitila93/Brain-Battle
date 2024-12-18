@@ -7,5 +7,8 @@
 	"question": "Fråga",
 	"changeLanguage": "Change to English",
 	"about": "Om oss",
-	"participateInPoll": "Delta i enkäten"
+	"participateInPoll": "Delta i enkäten",
+	"enterprompt": "Ange spel-ID",
+	"rules": "Spelregler",
+	"or": "Eller"
 }

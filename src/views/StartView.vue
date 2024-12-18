@@ -9,14 +9,14 @@
     </header>
     <nav class="main-menu">
       <div class="menu-item">
-        <input class="id-input" type="text" v-model="newPollId" placeholder="Enter game ID">
+        <input class="id-input" type="text" v-model="newPollId" :placeholder="uiLabels.enterprompt">
         <router-link v-bind:class="['join-game', {'hidden':!newPollId}]" v-bind:to="'/lobby/' + newPollId">
         {{ uiLabels.participatePoll }}
         </router-link>
       </div>
       <div class="menu-item">
         <div class="or">
-          OR
+          {{ uiLabels.or }}
         </div>
       </div>
       <div class="menu-item">
@@ -33,7 +33,7 @@
         {{ uiLabels.about }}
       </a>
       <a class="temp-menu-item" href="">
-        FAQ
+        {{ uiLabels.rules }}
       </a>
     </nav>
   </div>
