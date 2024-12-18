@@ -2,9 +2,9 @@
   <div class="wrapper">
     <header>
       <div class="logo">
-        <img src="/img/logo.png">
+        <img src="../assets/swords.png">
         Brain Battle
-        <img src="../assets/logo.svg">
+        <img src="../assets/brain.png">
       </div>
     </header>
     <nav class="main-menu">
@@ -25,10 +25,9 @@
         </router-link>
       </div>
     </nav>
+
     <nav class="temp-menu">
-      <button v-on:click="switchLanguage">
-        {{ uiLabels.changeLanguage }}
-      </button>
+
       <a class="temp-menu-item" href="">
         {{ uiLabels.about }}
       </a>
@@ -36,6 +35,11 @@
         {{ uiLabels.rules }}
       </a>
     </nav>
+    <div class="lang-wrapper">
+      {{ uiLabels.changeLanguage }}
+      <button v-on:click="switchLanguage" v-bind:class="['lang-sv', {'lang-en':this.lang=='sv'}]">
+      </button>
+    </div>
   </div>
 </template>
 
@@ -59,12 +63,8 @@ export default {
     }
   },
   created: function () {
-
-    console.log(this.lang);
     socket.emit( "getUILabels", this.lang );
     socket.on( "uiLabels", labels => this.uiLabels = labels );
-    
-    console.log(this.uiLabels);
   },
   methods: {
     switchLanguage: function() {
@@ -112,10 +112,10 @@ export default {
   }
   .temp-menu {
     position: fixed;
-    background-color: lightgray;
+    background-color: #1e1e2f;
     bottom: 2px;
     left: 50px;
-    width: 30em;
+    width: 20em;
     height: 2em;
     display: grid;
     grid-template-columns: repeat(auto-fit, 10em);
@@ -128,7 +128,9 @@ export default {
     display: grid;
     align-items: center;
     justify-content: center;
-    border-left: 1px solid gray;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    color: white;
   }
   .id-input {
     font-size: 1.2rem;
@@ -176,9 +178,40 @@ export default {
     font-size: 2rem;
     color: #007bff;
   }
-  button {
-    height: 2em;
-    width: 10em;
+
+  
+  .lang-wrapper {
+    position:fixed;
+    bottom: 10px;
+    right: 20px;
+    color:#007bff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    font-size: 1em;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+
+  .lang-sv {
+    height: 3em;
+    width: 5em;
     cursor: pointer;
-  } 
+    border-radius: 1em;
+    background-image: url("../assets/swedish-flag.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .lang-en {
+    height: 3em;
+    width: 5em;
+    cursor: pointer;
+    border-radius: 1em;
+    background-image: url("../assets/uk-flag.png");
+    background-size: cover;
+    background-position: center;
+  }
+
 </style>
