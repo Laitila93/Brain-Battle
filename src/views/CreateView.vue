@@ -55,6 +55,11 @@
           </form>
         </div>
     </nav>
+    <div class="lang-wrapper">
+      {{ uiLabels.changeLanguage }}
+      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'}]">
+      </button>
+    </div>
   </div>
 </template>
 
