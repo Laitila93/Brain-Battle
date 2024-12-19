@@ -11,7 +11,9 @@
     </div>
     
   <div>
-    {{ pollId }}
+    <div>
+      Poll ID: {{ pollId }} <span v-if="playerRole">(You: {{ playerRole }})</span>
+    </div>
     <QuestionComponent 
       v-bind:question="question" 
       v-on:answer="submitAnswer($event)" 
@@ -41,6 +43,7 @@ export default {
         q: "",
         a: []
       },
+      playerRole: "",
       pollId: "inactive poll",
       submittedAnswers: {},
       questionNumber: 0,
@@ -58,6 +61,9 @@ export default {
     socket.on("numberOfQuestions", number => {
       this.totalQuestions = number;
       this.setNodeWidth();
+    });
+    socket.on("playerRoleAssigned", (role) => {
+      this.playerRole = role;
     });
     socket.on("submittedAnswersUpdate", answers => this.submittedAnswers = answers.a);
     socket.on("uiLabels", labels => this.uiLabels = labels);

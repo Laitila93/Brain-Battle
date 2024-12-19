@@ -65,10 +65,12 @@ Data.prototype.getPoll = function(pollId) {
   return {};
 }
 
-Data.prototype.participateInPoll = function(pollId, name) {
-  console.log("participant will be added to", pollId, name);
+Data.prototype.participateInPoll = function (pollId, player) {
   if (this.pollExists(pollId)) {
-    this.polls[pollId].participants.push({name: name, answers: []})
+    const poll = this.polls[pollId];
+    if (poll.participants.length < 2) {
+      poll.participants.push(player);
+    }
   }
 }
 

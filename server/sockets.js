@@ -25,10 +25,33 @@ function sockets(io, socket, data) {
     socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
   });
 
-  socket.on('participateInPoll', function(d) {
-    data.participateInPoll(d.pollId, d.name);
-    io.to(d.pollId).emit('participantsUpdate', data.getParticipants(d.pollId));
+  socket.on("participateInPoll", function (d) {
+    const poll = data.getPoll(d.pollId);
+  
+    if (!poll.participants.some((p) => p.role === "Player 1")) {
+      // Assign Player 1
+      data.participateInPoll(d.pollId, { name: "Player 1", role: "Player 1" });
+      socket.emit("playerRoleAssigned", "Player 1");
+      socket.join(d.pollId);
+    } else if (!poll.participants.some((p) => p.role === "Player 2")) {
+      // Assign Player 2
+      data.participateInPoll(d.pollId, { name: "Player 2", role: "Player 2" });
+      socket.emit("playerRoleAssigned", "Player 2");
+      socket.join(d.pollId);
+    } else {
+      // Reject additional players
+      socket.emit("error", "The game already has two players.");
+      return;
+    }
+  
+    io.to(d.pollId).emit("participantsUpdate", data.getParticipants(d.pollId));
+  
+    // Start the game if both players have joined
+    if (poll.participants.length === 2) {
+      io.to(d.pollId).emit("startPoll");
+    }
   });
+  
   socket.on('startPoll', function(pollId) {
     io.to(pollId).emit('startPoll');
   })
