@@ -3,7 +3,9 @@
 1. Separate runQuestion by player to be able to get different questions
 
 
+---MOBILE---
 
+1. Can not create poll or join poll from an other device
 
 
 
@@ -14,3 +16,4 @@
 
 1. Check pollExists när man joinar en poll.
 2. dynamic 
+3. rename all "poll" to "Quiz"
