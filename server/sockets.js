@@ -65,6 +65,15 @@ function sockets(io, socket, data) {
     data.submitAnswer(d.pollId, d.answer);
     io.to(d.pollId).emit('submittedAnswersUpdate', data.getSubmittedAnswers(d.pollId));
   }); 
+
+  socket.on('validatePollId', (pollId, callback) => {
+    if (typeof pollId !== 'string' || pollId.trim() === '') {
+      return callback(false);
+    }
+    const pollExists = data.pollExists(pollId);
+    callback(pollExists);
+  });
+
 }
 
 export { sockets };

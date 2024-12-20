@@ -12,9 +12,12 @@
       </div>
     </header>
     <nav class="main-menu">
+      <p v-if="!pollExists && pollIsChecked" id="error-message">
+          {{ uiLabels.invalidGameId }}
+      </p>
       <div class="menu-item">
-        <input class="id-input" type="text" v-model="newPollId" :placeholder="uiLabels.enterprompt">
-        <router-link v-bind:class="['join-game', {'hidden':!newPollId}]" v-bind:to="'/lobby/' + newPollId">
+        <input class="id-input" type="text" v-on:input="checkPollID" v-model="newPollId" :placeholder="uiLabels.enterprompt">
+        <router-link v-bind:class="['join-game', {'hidden':!pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
         {{ uiLabels.participatePoll }}
         </router-link>
       </div>
@@ -63,7 +66,10 @@ export default {
       uiLabels: {},
       newPollId: "",
       lang: localStorage.getItem( "lang") || "en",
-      hideNav: true
+      hideNav: true,
+      pollExists: false,
+      checkTimeout: null,
+      pollIsChecked: false
     }
   },
   created: function () {
@@ -83,6 +89,18 @@ export default {
     },
     toggleNav: function () {
       this.hideNav = ! this.hideNav;
+    },
+    checkPollID() {
+      clearTimeout(this.checkTimeout);
+      if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
+        this.pollIsChecked = false
+      }
+      if (this.newPollId.length === 4) {
+        socket.emit('validatePollId', this.newPollId, (exists) => {
+          this.pollExists = exists;
+          this.pollIsChecked = true;
+          });
+        };
     }
   }
 }
@@ -127,6 +145,12 @@ export default {
     height: 3em;
     width: 100%;
     justify-content: center;
+  }
+
+  #error-message {
+    color: red;
+    font-size: 1rem;
+    text-transform: none;
   }
   .temp-menu {
     position: fixed;
