@@ -1,6 +1,8 @@
 <template>
-    <button class="nodeButton" v-on:click="emitQuestionId">
-      
+    <button 
+        class="nodeButton" 
+        :id="'node-' + questionId" 
+        v-on:click="emitQuestionId">
     </button>
 </template>
   
