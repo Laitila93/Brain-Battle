@@ -10,5 +10,6 @@
 	"participateInPoll": "Participate in poll",
 	"enterprompt": "Enter game ID",
 	"rules": "Rules",
-	"or": "Or"
+	"or": "Or",
+	"invalidGameId": "Please enter a valid ID, 4 numbers"
 }

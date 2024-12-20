@@ -23,9 +23,7 @@
 4. rename all "poll" to "Quiz".
 
 --Poll--
-
-1. Check pollExists när man joinar en poll.
-2. Eventuellt problem om man skulle få ett pollId som redan använts.
+1. Eventuellt problem om man skulle få ett pollId som redan använts.
 
 --Nodes--
 
