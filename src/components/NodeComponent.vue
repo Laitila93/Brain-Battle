@@ -1,7 +1,8 @@
 <template>
     <button 
         class="nodeButton" 
-        :id="'node-' + questionId" 
+        :id="'node-' + questionId"
+        :disabled="questionId === 2" 
         v-on:click="emitQuestionId">
     </button>
 </template>

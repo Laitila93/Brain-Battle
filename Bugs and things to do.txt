@@ -1,11 +1,12 @@
 ----------------------BUGS----------------------
 
-
+1. Divition operatorn räknar inte ut korrekt när den skapar frågorna.
 
 
 ---MOBILE---
 
 1. Can not create poll or join poll from an other device
+2. Fix rezisable game area.
 
 
 
@@ -32,4 +33,5 @@
 
 2. Räkna ut och byt färg på angränsande noder.
 
-3. Separate runQuestion by player to be able to get different questions
+3. Separate runQuestion by player to be able to get different questions.
+4. Make non valid nodes un-clickable.
