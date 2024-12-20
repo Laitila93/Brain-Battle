@@ -73,6 +73,18 @@ function sockets(io, socket, data) {
     const pollExists = data.pollExists(pollId);
     callback(pollExists);
   });
+  socket.on('nodeStatusChanged', function(d) {
+    const poll = data.getPoll(d.pollId);
+
+    if (poll) {
+      // Update the node status for the specific question
+      if (!poll.nodeStatusMap) poll.nodeStatusMap = {};
+      poll.nodeStatusMap[d.questionId] = d.nodeStatus;
+
+      // Broadcast the updated status to all connected clients
+      io.to(d.pollId).emit('nodeStatusUpdate', d);
+    }
+  });
 
 }
 

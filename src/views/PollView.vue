@@ -6,7 +6,8 @@
         v-for="index in totalQuestions" 
         :key="index" 
         :questionId="index"  
-        v-on:questionId="runQuestion($event)"  
+        v-on:questionId="runQuestion($event)"
+        v-on:nodeStatusChanged="processNodeStatusChange($event)"  
       />
     </div>
     
@@ -50,7 +51,8 @@ export default {
       totalQuestions: 0,
       nodeNumber: 0,
       columns: 0,
-      gap: ""
+      gap: "",
+      nodeStatusMap: {} // Track the status of each node
     };
   },
 
@@ -61,8 +63,8 @@ export default {
       if (d.playerRole === this.playerRole) {
         this.question = d.q
       }
-
     });
+
     socket.emit("getNumberOfQuestions", this.pollId);
     socket.on("numberOfQuestions", number => {
       this.totalQuestions = number;
@@ -76,6 +78,11 @@ export default {
     socket.on("uiLabels", labels => this.uiLabels = labels);
     socket.emit("getUILabels", this.lang);
     socket.emit("joinPoll", this.pollId);
+    
+    // Handle future nodeStatus changes from the server
+    socket.on("nodeStatusUpdate", (data) => {
+      this.nodeStatusMap[data.questionId] = data.nodeStatus;
+    });
   },
   methods: {
     setNodeWidth: function () {
@@ -114,6 +121,17 @@ export default {
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole});
       console.log(this.playerRole);
       // Adjusted questionNumber - 1 for correct indexing
+    },
+    processNodeStatusChange: function (data) {
+      console.log(`Node status change: Question ID: ${data.questionId}, Status: ${data.nodeStatus}`);
+      this.nodeStatusMap[data.questionId] = data.nodeStatus;
+      this.nodeStatus = data.nodeStatus;
+      // Send updated status to the server
+      socket.emit("nodeStatusChanged", { 
+        pollId: this.pollId, 
+        questionId: data.questionId, 
+        nodeStatus: data.nodeStatus 
+      });
     }
   }
 }
