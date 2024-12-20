@@ -14,6 +14,12 @@
 
 ------------------Things to do------------------
 
+--Views--
+1. Städa och ordna alla klass- ,id- och variabelnamn.
+2. Kontrollera att alla views använder rätt klasser och ser likadana ut.
+
+--Poll--
 1. Check pollExists när man joinar en poll.
-2. dynamic 
-3. rename all "poll" to "Quiz"
+2. Dynamiska node färger.
+3. rename all "poll" to "Quiz".
+4. Eventuellt problem om man skulle få ett pollId som redan använts.
