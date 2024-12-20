@@ -21,7 +21,7 @@
 
 <script>
 import io from 'socket.io-client';
-const socket = io("localhost:3000");
+const socket = io(localStorage.getItem("serverIP"));
 
 export default {
   name: 'LobbyView',

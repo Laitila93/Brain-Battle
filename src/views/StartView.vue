@@ -16,8 +16,14 @@
           {{ uiLabels.invalidGameId }}
       </p>
       <div class="menu-item">
-        <input class="id-input" type="text" v-on:input="checkPollID" v-model="newPollId" :placeholder="uiLabels.enterprompt">
-        <router-link v-bind:class="['join-game', {'hidden':!pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
+        <input 
+        class="id-input" 
+        type="text" 
+        maxlength="4"
+        v-on:input="checkPollID" 
+        v-model="newPollId" 
+        :placeholder="uiLabels.enterprompt">
+        <router-link v-bind:class="['join-game', {'hidden':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
         {{ uiLabels.participatePoll }}
         </router-link>
       </div>
@@ -54,7 +60,8 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-const socket = io("localhost:3000");
+localStorage.setItem("serverIP", "192.168.50.97:3000");
+const socket = io(localStorage.getItem("serverIP"));
 
 export default {
   name: 'StartView',
@@ -94,13 +101,16 @@ export default {
       clearTimeout(this.checkTimeout);
       if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
         this.pollIsChecked = false
+        console.log(this.pollExists, this.pollIsChecked)
       }
       if (this.newPollId.length === 4) {
         socket.emit('validatePollId', this.newPollId, (exists) => {
           this.pollExists = exists;
           this.pollIsChecked = true;
+          console.log(this.pollExists, this.pollIsChecked)
           });
         };
+        console.log(this.pollExists, this.pollIsChecked)
     }
   }
 }
