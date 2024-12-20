@@ -31,7 +31,7 @@ export default {
     this.pollId = this.$route.params.id
     socket.on( "uiLabels", labels => this.uiLabels = labels );
     socket.on("submittedAnswersUpdate", update => this.submittedAnswers = update);
-    socket.on("questionUpdate", update => this.question = update );
+    socket.on("questionUpdate", d => this.question = d.q ); //Add functionallity for separate result tracking
     socket.emit( "getUILabels", this.lang );
     socket.emit( "joinPoll", this.pollId );
   }

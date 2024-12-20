@@ -56,7 +56,13 @@ export default {
 
   created: function () {
     this.pollId = this.$route.params.id;
-    socket.on("questionUpdate", q => this.question = q);
+    socket.on("questionUpdate", d => {
+      console.log(d.playerRole,"this playerId: ", this.playerRole)
+      if (d.playerRole === this.playerRole) {
+        this.question = d.q
+      }
+
+    });
     socket.emit("getNumberOfQuestions", this.pollId);
     socket.on("numberOfQuestions", number => {
       this.totalQuestions = number;
@@ -105,8 +111,8 @@ export default {
     },
     runQuestion: function (questionNumber) {
       this.questionNumber = questionNumber;
-      socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1 });
-        console.log(this.playerRole);
+      socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole});
+      console.log(this.playerRole);
       // Adjusted questionNumber - 1 for correct indexing
     }
   }

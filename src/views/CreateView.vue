@@ -200,9 +200,7 @@ export default {
 
       
     },
-    addQuestions: function () {
-
-    },
+  
     startPoll: function () {
       socket.emit("startPoll", this.pollId)
       socket.emit("getNumberOfQuestions", this.pollId)
