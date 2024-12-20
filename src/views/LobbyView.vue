@@ -41,6 +41,7 @@ export default {
     
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
+      localStorage.setItem("playerRole", role);
       this.joined = true;
     });
 

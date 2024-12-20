@@ -43,7 +43,7 @@ export default {
         q: "",
         a: []
       },
-      playerRole: "",
+      playerRole: localStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
       submittedAnswers: {},
       questionNumber: 0,
@@ -64,6 +64,7 @@ export default {
     });
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
+      localStorage.setItem("playerRole", role); // Update locally just in case
     });
     socket.on("submittedAnswersUpdate", answers => this.submittedAnswers = answers.a);
     socket.on("uiLabels", labels => this.uiLabels = labels);
@@ -105,6 +106,7 @@ export default {
     runQuestion: function (questionNumber) {
       this.questionNumber = questionNumber;
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1 });
+        console.log(this.playerRole);
       // Adjusted questionNumber - 1 for correct indexing
     }
   }
