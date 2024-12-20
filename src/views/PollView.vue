@@ -29,7 +29,7 @@
 import QuestionComponent from '@/components/QuestionComponent.vue';
 import io from 'socket.io-client';
 import NodeComponent from '../components/NodeComponent.vue';
-const socket = io("localhost:3000");
+const socket = io(localStorage.getItem("serverIP"));
 
 export default {
   name: 'PollView',
