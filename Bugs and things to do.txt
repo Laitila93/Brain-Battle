@@ -22,6 +22,10 @@
 3. flytta CSS kod till Main.css
 4. rename all "poll" to "Quiz".
 
+5. I lobbyView, är tanken att det ska stå både att man väntar på "host" och på 
+"other player"? Dessutom står det att man väntar på "host" även när det är host som
+klickat att hen är redo. /Emil 
+
 --Poll--
 1. Eventuellt problem om man skulle få ett pollId som redan använts.
 
