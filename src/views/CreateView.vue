@@ -107,7 +107,7 @@ export default {
   methods: {
     generatePollId: function () {
       this.pollId = Math.floor(1000 + Math.random() * 9000);
-      console.log(this.pollId)
+      console.log(this.pollId) //Remove? /Emil 21dec
     },
 
     shuffle: function (array) {
