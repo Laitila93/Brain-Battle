@@ -4,14 +4,13 @@
       <div class="logo">
         {{pollId}}
       </div>
-        <div>
-          <p v-if="playerRole">You are: <strong>{{ playerRole }}</strong></p>
-          <button v-if="!joined" @click="participateInPoll">
-          Participate in Poll
-          </button>
-          <p v-if="waitingForPlayers">Waiting for other player to join...</p>
-        </div>
-
+      <div>
+        <p v-if="playerRole">You are: <strong>{{ playerRole }}</strong></p>
+        <button v-if="!joined" @click="participateInPoll">
+        Participate in Poll
+        </button>
+        <p v-if="waitingForPlayers">Waiting for other player to join...</p>
+      </div>
       <div v-if="joined">
         <p>Waiting for host to start poll</p>
       </div>
