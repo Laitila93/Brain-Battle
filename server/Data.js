@@ -22,7 +22,8 @@ function Data() {
       ],
       answers: [],
       currentQuestion: 0,
-      participants: []
+      participants: [],
+      nodeStatus: []
     }
   }
 
@@ -34,6 +35,14 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
 
 Data.prototype.pollExists = function (pollId) {
   return typeof this.polls[pollId] !== "undefined"
+}
+
+Data.prototype.getNodeStatus = function (pollId) {
+  return this.polls[pollId].nodeStatus;
+}
+
+Data.prototype.nodeStatusUpdate = function (pollId,d) {
+    this.polls[pollId].nodeStatus[d.node] = d.status;
 }
 
 Data.prototype.getUILabels = function (lang) {
@@ -51,8 +60,10 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
-    poll.currentQuestion = 0;              
+    poll.currentQuestion = 0;
+    poll.nodeStatus = [];             
     this.polls[pollId] = poll;
+    
     console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
@@ -85,8 +96,8 @@ Data.prototype.getParticipants = function(pollId) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   if (this.pollExists(pollId)) {
-    console.log("inside data",pollId)
     this.polls[pollId].questions.push(q);
+    this.polls[pollId].nodeStatus.push(0);
   }
 }
 

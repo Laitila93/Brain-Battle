@@ -130,12 +130,6 @@ button {
   flex-wrap: wrap; 
   gap: 100px;
 }
-
-#node-6 {
-  background-color: #1e1e2f;
-}
-
-
   
 .lang-wrapper {
   position:fixed;

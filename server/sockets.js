@@ -4,6 +4,17 @@ function sockets(io, socket, data) {
     socket.emit('uiLabels', data.getUILabels(lang));
   });
 
+  socket.on("getNodeStatus", function(pollId) {
+    socket.emit("sendNodeStatus", data.getNodeStatus(pollId));
+    console.log(data.getNodeStatus(pollId));
+  });
+
+  socket.on("nodeStatusUpdate", function(pollId, d) {
+    data.nodeStatusUpdate(pollId,d);
+    socket.emit("sendNodeStatus", data.getNodeStatus(pollId));
+    console.log(pollId);
+  });
+
   socket.on('createPoll', function(d) {
     data.createPoll(d.pollId, d.lang)
     socket.emit('pollData', data.getPoll(d.pollId));
