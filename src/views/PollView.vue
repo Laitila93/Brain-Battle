@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <button @click="getNodeStatus()">Get Node Status</button>
+    <button @click="checkAdjacentNodes()">Adjacent nodes</button>
     <button @click="setNodeStatus({node:totalQuestions-2, status:4})">Set Node 0 to 6</button>
     {{ totalQuestions }}
     {{ nodeStatus }}
@@ -61,6 +61,7 @@ export default {
 //--------------------------------------------------------------------------------
   created: function () {
     this.gameSetup();
+    
 
   },
   watch: {
@@ -73,6 +74,9 @@ export default {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
+        this.$nextTick(() => {                //la till detta o flyttade checkadjacent
+          this.checkAdjacentNodes();
+        });
       });
       this.pollId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
@@ -83,8 +87,9 @@ export default {
         this.columns = Math.sqrt(this.totalQuestions);
         this.setNodeStatus({ node: lastNode, status: 2 });
         console.log("nodeStatus", this.nodeStatus);
-        this.checkAdjacentNodes(); // Check adjacent nodes
+
       });
+      
       socket.emit("getNumberOfQuestions", this.pollId);
 
       socket.on("playerRoleAssigned", role => {
