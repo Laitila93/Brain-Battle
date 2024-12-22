@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <button @click="getNodeStatus()">Get Node Status</button>
-    <button @click="setNodeStatus({node:totalQuestions-1, status:6})">Set Node 0 to 6</button>
+    <button @click="setNodeStatus({node:totalQuestions-2, status:4})">Set Node 0 to 6</button>
     {{ totalQuestions }}
     {{ nodeStatus }}
     <div class="main-menu">
@@ -314,6 +314,7 @@ export default {
      * Logs a warning if the node status is unhandled.
      */
     runQuestion: function (questionNumber) {
+      console.log("questionNumber", questionNumber);
       this.questionNumber = questionNumber;
       let nodeElement = document.getElementById('node-' + questionNumber);
 
@@ -326,7 +327,7 @@ export default {
         socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
         nodeElement.disabled = true;
       };
-
+      console.log("nodeStatus", this.nodeStatus[questionNumber-1]);
       switch (this.nodeStatus[questionNumber-1]) {
 
         case 1:
