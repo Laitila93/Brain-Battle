@@ -18,7 +18,7 @@ export default {
   props: {
     questionId: Number
   },
-  emits:"questionId",
+  emits:["questionId"],
 
   methods: {
     emitQuestionId: function () {

@@ -317,39 +317,14 @@ export default {
       console.log("questionNumber", questionNumber);
       this.questionNumber = questionNumber;
       let nodeElement = document.getElementById('node-' + questionNumber);
-
       if (!nodeElement) {
         console.error(`Node element with ID 'node-${questionNumber}' not found.`);
         return;
       }
+      socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
 
-      const emitRunQuestion = () => {
-        socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
-        nodeElement.disabled = true;
-      };
-      console.log("nodeStatus", this.nodeStatus[questionNumber-1]);
-      switch (this.nodeStatus[questionNumber-1]) {
 
-        case 1:
-          if (this.playerRole === "Player 1") {
-            emitRunQuestion();
-            nodeElement.style.backgroundColor = "#32cd32";
-          }
-          break;
-        case 2:
-          if (this.playerRole === "Player 2") {
-            emitRunQuestion();
-            nodeElement.style.backgroundColor = "#ff8c00";
-          }
-          break;
-        case 3:
-          emitRunQuestion();
-          nodeElement.style.backgroundColor = this.playerRole === "Player 2" ? "#ff8c00" : "#32cd32";
-          break;
 
-        default:
-          console.warn(`Unhandled node status: ${this.nodeStatus[questionNumber]}`);
-      }
     },
   }
 }
