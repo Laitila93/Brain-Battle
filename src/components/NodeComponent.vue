@@ -1,7 +1,8 @@
 <template>
   <button 
     class="nodeButton" 
-    :id="'node-' + questionId" 
+    :id="'node-' + questionId"
+    :disabled="disabled" 
     v-on:click="emitQuestionId">
   </button>
 </template>
@@ -17,13 +18,9 @@ export default {
   props: {
     questionId: Number
   },
-  emits: ["questionId", "nodeStatusChanged"],
+  emits:"questionId",
 
   methods: {
-    handleClick: function () {
-      this.emitQuestionId();
-
-    },
     emitQuestionId: function () {
       this.$emit("questionId", this.questionId);
     },

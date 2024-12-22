@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <button @click="getNodeStatus()">Get Node Status</button>
-    <button @click="setNodeStatus({node:totalQuestions-1, status:3})">Set Node 0 to 5</button>
+    <button @click="setNodeStatus({node:totalQuestions-1, status:2})">Set Node 0 to 5</button>
     {{ totalQuestions }}
     {{ nodeStatus }}
     <div class="main-menu">
@@ -10,8 +10,7 @@
           v-for="index in totalQuestions" 
           :questionId="index" 
           :status="nodeStatus[index]"
-          v-on:questionId="runQuestion($event)"
-          v-on:nodeStatusChanged="processNodeStatusChange($event)"  
+          v-on:questionId="runQuestion($event)" 
         />
       </div>
     
@@ -45,10 +44,6 @@ export default {
   //--------------------------------------------------------------------------------
   data: function () {
     return {
-      question: {
-        q: "",
-        a: []
-      },
       playerRole: localStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
       submittedAnswers: {},
@@ -57,7 +52,8 @@ export default {
       nodeNumber: 0,
       columns: 0,
       gap: "",
-      nodeStatus: []
+      nodeStatus: [],
+      watcherActive: true // Add a flag to control the watcher
     };
   },
 //--------------------------------------------------------------------------------
@@ -67,27 +63,29 @@ export default {
   },
   watch: {
     nodeStatus: function () {
-      this.drawNodeColors();
+      if (!this.watcherActive) return; // Check the flag before executing the watcher callback
+      try {
+        this.checkAdjacentNodes();
+        this.drawNodeColors();
+      } catch (error) {
+        console.error("Error in nodeStatus watcher:", error);
+      }
     }
   },
   //--------------------------------------------------------------------------------
   methods: {
     gameSetup: function () {
       this.pollId = this.$route.params.id;
-
-      socket.on("questionUpdate", d => {
-      if (d.playerRole === this.playerRole) {
-        this.question = d.q;
-      }
-      });
-
-      socket.emit("getNumberOfQuestions", this.pollId);
       socket.on("numberOfQuestions", number => {
-      this.totalQuestions = number;
-      this.setNodeWidth();
-      this.getNodeStatus();
+        this.totalQuestions = number;
+        this.setNodeWidth();
+        this.setNodeStatus({ node: 0, status: 1 });
+        let lastNode = this.totalQuestions - 1;
+        this.columns = Math.sqrt(this.totalQuestions);
+        this.setNodeStatus({ node: lastNode, status: 2 });
+        console.log("nodeStatus", this.nodeStatus);
       });
-
+      socket.emit("getNumberOfQuestions", this.pollId);
 
       socket.on("playerRoleAssigned", role => {
       this.playerRole = role;
@@ -107,13 +105,21 @@ export default {
 
       socket.emit("joinPoll", this.pollId);
 
-      this.setNodeStatus({ node: 0, status: 4 });
-      let lastNode = this.totalQuestions - 1;
-      this.setNodeStatus({ node: lastNode, status: 5 });
-      this.getNodeStatus();
-      this.checkAdjacentNodes(0); // Check adjacent nodes
-      this.checkAdjacentNodes(lastNode); // Check adjacent nodes
-      this.drawNodeColors();
+
+
+      socket.on("questionUpdate", d => {
+      if (d.playerRole === this.playerRole) {
+        this.question = d.q;
+      }
+      });
+      this.checkAdjacentNodes(); // Check adjacent nodes
+    },
+    to2DArray: function(arr, chunkSize) {
+      const result = [];
+      for (let i = 0; i < arr.length; i += chunkSize) {
+        result.push(arr.slice(i, i + chunkSize));
+      }
+      return result;
     },
 
     /**
@@ -139,122 +145,136 @@ export default {
      * 
      * After performing the checks and updates, the function calls `getNodeStatus` to refresh the node statuses.
      */
-    checkAdjacentNodes: function (node) {
-      let nodeNumber = node;
-      let columns = Math.sqrt(this.totalQuestions);
-      if (this.playerRole === "Player 1") {
-
-        if ( 0< nodeNumber < this.totalQuestions - 1) {
-          if (node-1 % columns !== 0) {
-            if (this.nodeStatus[node - 1] !== 6 || this.nodeStatus[node - 1] !== 5 || this.nodeStatus[node - 1] !== 4) {
-              this.setNodeStatus({node: nodeNumber, status:1});
-            }
-          }
-          if (node - columns > 0) {
-            if (this.nodeStatus[node - columns] !== 6 || this.nodeStatus[node - columns] !== 5 || this.nodeStatus[node - columns] !== 4) {
-              this.setNodeStatus({node: nodeNumber, status:1});
-            }
-          }
+    checkAdjacentNodes: function () {
+      this.watcherActive = false; // Disable the watcher to prevent infinite loop
+      let Nodestatus2D = this.to2DArray(this.nodeStatus, this.columns);
       
-          if ((node + 1) % columns !== 0) {
-            if (this.nodeStatus[node + 1] !== 6 || this.nodeStatus[node + 1] !== 5 || this.nodeStatus[node + 1] !== 4) {
-              this.setNodeStatus({node: nodeNumber, status:1});
+      for (let i = 1; i <= this.totalQuestions; i++) {
+        console.log("inside player", this.playerRole);
+        if (this.nodeStatus[i] === 1 || this.nodeStatus[i] === 2) {
+
+          let nodeRow = Math.floor(i / this.columns);
+          let nodeCol = i % this.columns;
+          
+          if (this.playerRole === "Player 1") {
+            console.log("inside checkAdjacentNodes player 1", i);
+              if (i === 0) {
+                console.log("inside checkAdjacentNodes player 1 node 0", i);
+                this.setNodeStatus({ node: i + 1, status: 4 });
+                this.setNodeStatus({ node: i + this.columns, status: 4 });
+              }
+            if (nodeCol > 0) {
+              
+              if (Nodestatus2D[nodeRow][i - 1] !== 1 && Nodestatus2D[nodeRow][i - 1] !== 2 && Nodestatus2D[nodeRow][i - 1] !== 3) {
+                this.setNodeStatus({ node: i - 1, status: 4 });
+              }
+            }
+            if (nodeRow > 0) {
+              if (Nodestatus2D[nodeRow - 1][nodeCol] !== 1 && Nodestatus2D[nodeRow - 1][nodeCol] !== 2 && Nodestatus2D[nodeRow - 1][nodeCol] !== 3) {
+                this.setNodeStatus({ node: i - this.columns, status: 4 });
+              }
+            }
+            if (nodeCol < this.columns - 1) {
+              if (Nodestatus2D[nodeRow][nodeCol + 1] !== 1 && Nodestatus2D[nodeRow][nodeCol + 1] !== 2 && Nodestatus2D[nodeRow][nodeCol + 1] !== 3) {
+                this.setNodeStatus({ node: i + 1, status: 4 });
+              }
+            }
+            if (nodeRow < this.columns - 1) {
+              if (Nodestatus2D[nodeRow + 1][nodeCol] !== 1 && Nodestatus2D[nodeRow + 1][nodeCol] !== 2 && Nodestatus2D[nodeRow + 1][nodeCol] !== 3) {
+                this.setNodeStatus({ node: i + this.columns, status: 4 });
+              }
+            }
+          } 
+          else if (this.playerRole === "Player 2") {
+            if (i === this.totalQuestions - 1) {
+              this.setNodeStatus({ node: i - 1, status: 5 });
+              this.setNodeStatus({ node: i - this.columns, status: 5 });
+            }
+            if (nodeCol > 0) {
+              if (Nodestatus2D[nodeRow][nodeCol - 1] !== 1 && Nodestatus2D[nodeRow][nodeCol - 1] !== 2 && Nodestatus2D[nodeRow][nodeCol - 1] !== 3) {
+                this.setNodeStatus({ node: i - 1, status: 5 });
+              }
+            }
+            if (nodeRow > 0) {
+              if (Nodestatus2D[nodeRow - 1][nodeCol] !== 1 && Nodestatus2D[nodeRow - 1][nodeCol] !== 2 && Nodestatus2D[nodeRow - 1][nodeCol] !== 3) {
+                this.setNodeStatus({ node: i - this.columns, status: 5 });
+              }
+            }
+            if (nodeCol < this.columns - 1) {
+              if (Nodestatus2D[nodeRow][nodeCol + 1] !== 1 && Nodestatus2D[nodeRow][nodeCol + 1] !== 2 && Nodestatus2D[nodeRow][nodeCol + 1] !== 3) {
+                this.setNodeStatus({ node: i + 1, status: 5 });
+              }
+            }
+            if (nodeRow < this.columns - 1) {
+              if (Nodestatus2D[nodeRow + 1][nodeCol] !== 1 && Nodestatus2D[nodeRow + 1][nodeCol] !== 2 && Nodestatus2D[nodeRow + 1][nodeCol] !== 3) {
+                this.setNodeStatus({ node: i + this.columns, status: 5 });
+              }
             }
           }
-          if (node + columns < this.totalQuestions-1) {
-            if (this.nodeStatus[node + columns] !== 6 || this.nodeStatus[node + columns] !== 5 || this.nodeStatus[node + columns] !== 4) {
-              this.setNodeStatus({node: nodeNumber, status:1});
-            }
-          }
-        } 
-      if (nodeNumber === 0) {
-        if (this.nodeStatus[node + 1] !== 6 || this.nodeStatus[node + 1] !== 5 || this.nodeStatus[node + 1] !== 4) {
-          this.setNodeStatus({node: nodeNumber, status:1});
-        }
-        if (this.nodeStatus[node + columns] !== 6 || this.nodeStatus[node + columns] !== 5 || this.nodeStatus[node + columns] !== 4) {
-          this.setNodeStatus({node: nodeNumber, status:1});
         }
       }
-      if (nodeNumber === this.totalQuestions - 1) {
-        if (this.nodeStatus[node - 1] !== 6 || this.nodeStatus[node - 1] !== 5 || this.nodeStatus[node - 1] !== 4) {
-          this.setNodeStatus({node: nodeNumber, status:1});
-        }
-        if (this.nodeStatus[node - columns] !== 6 || this.nodeStatus[node - columns] !== 5 || this.nodeStatus[node - columns] !== 4) {
-          this.setNodeStatus({node: nodeNumber, status:1});
-        }
-      }
-    }
-    if (this.playerRole === "Player 2") {
-      if ( 0< nodeNumber < this.totalQuestions - 1) {
-        if (node-1 % columns !== 0) {
-          if (this.nodeStatus[node - 1] !== 6 || this.nodeStatus[node - 1] !== 5 || this.nodeStatus[node - 1] !== 4) {
-            this.setNodeStatus({node: nodeNumber, status:2});
-          }
-        }
-        if (node - columns > 0) {
-          if (this.nodeStatus[node - columns] !== 6 || this.nodeStatus[node - columns] !== 5 || this.nodeStatus[node - columns] !== 4) {
-            this.setNodeStatus({node: nodeNumber, status:2});
-          }
-        }
-    
-        if ((node + 1) % columns !== 0) {
-          if (this.nodeStatus[node + 1] !== 6 || this.nodeStatus[node + 1] !== 5 || this.nodeStatus[node + 1] !== 4) {
-            this.setNodeStatus({node: nodeNumber, status:2});
-          }
-        }
-        if (node + columns < this.totalQuestions-1) {
-          if (this.nodeStatus[node + columns] !== 6 || this.nodeStatus[node + columns] !== 5 || this.nodeStatus[node + columns] !== 4) {
-            this.setNodeStatus({node: nodeNumber, status:2});
-          }
-        }
-      }
-    }
-      this.getNodeStatus();
+      this.getNodeStatus(); // Refresh the node statuses
+      this.drawNodeColors(); // Draw the node colors
+      this.watcherActive = true; // Re-enable the watcher
     },
-    /**
-     * Updates the background color of node elements based on their status.
-     * Iterates through all questions and sets the background color of each node element
-     * according to its status in the `nodeStatus` array.
-     * 
-     * Node status color mapping:
-     * - 1: Green (#32cd32)
-     * - 2: Dark Orange (#ff8c00)
-     * - 3: Green (#32cd32)
-     * - 4: Green (#32cd32)
-     * - 5: Dark Orange (#ff8c00)
-     * - 6: Gray (#808080)
-     */
+                /*
+            Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
+             0 = standdard
+             1 = tagen av spelare 1
+             2 = tagen av spelare 2
+             3 = borttagen/död
+             4 = nåbar för spelare 1
+             5 = nåbar för spelare 2
+             6 = nåbar för 1 och 2
+            */
+
     drawNodeColors: function () {
-      for (let i = 0; i < this.totalQuestions; i++) {
+
+      for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
-        if (this.nodeStatus[i] === 1) {
-          nodeElement.style.backgroundColor = "#32cd32";
+        if (!nodeElement) {
+          console.error(`Node element with ID 'node-${i}' not found.`);
+          continue;
         }
-        if (this.nodeStatus[i] === 2) {
-          nodeElement.style.backgroundColor = "#ff8c00";
-        }
-        if (this.nodeStatus[i] === 3) {
-          nodeElement.style.backgroundColor = "#32cd32";
-        }
-        if (this.nodeStatus[i] === 4) {
-          nodeElement.style.backgroundColor = "#32cd32";
-        }
-        if (this.nodeStatus[i] === 5) {
-          nodeElement.style.backgroundColor = "#ff8c00";
-        }
-        if (this.nodeStatus[i] === 6) {
-          nodeElement.style.backgroundColor = "#808080";
+
+        switch (this.nodeStatus[i-1]) {
+          case 1:
+            nodeElement.style.backgroundColor = "#32cd32";
+            break;
+          
+          case 2:
+            nodeElement.style.backgroundColor = "#ff8c00";
+            break;
+          case 3:
+            nodeElement.style.backgroundColor = "#ff8c00";
+            break;
+          case 4:
+            nodeElement.style.backgroundColor = "#ffb6c1"; 
+            nodeElement.disabled = false;
+            break;
+          
+          case 5:
+            nodeElement.style.backgroundColor = "#ffb6c1";
+            nodeElement.disabled = false; 
+            break;
+          case 6:
+            nodeElement.style.backgroundColor = "#ffff00"; // Yellow to indicate reachability by both players
+            break;
+          default:
+            break;
         }
       }
     },
     getNodeStatus: function() {
       socket.emit("getNodeStatus", this.pollId);
+      socket.off("sendNodeStatus"); // Remove any existing listeners
       socket.on("sendNodeStatus", status => {
-      this.nodeStatus = status;
+        this.nodeStatus = status;
       });
     },
     setNodeStatus: function(d) {
-      socket.emit("nodeStatusUpdate", this.pollId,d);
+      socket.emit("nodeStatusUpdate", this.pollId, d);
+      this.getNodeStatus();
       
     },
     setNodeWidth: function () {
@@ -278,10 +298,6 @@ export default {
 
     submitAnswer: function (answer) {
       socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a });
-    },
-
-    updateQuestionNumber: function (num) {
-      // Handle question number if needed
     },
 
     /**
@@ -320,9 +336,7 @@ export default {
       };
 
       switch (this.nodeStatus[questionNumber-1]) {
-        case 0:
-          nodeElement.disabled = true;
-          break;
+
         case 1:
           if (this.playerRole === "Player 1") {
             emitRunQuestion();
@@ -339,11 +353,7 @@ export default {
           emitRunQuestion();
           nodeElement.style.backgroundColor = this.playerRole === "Player 2" ? "#ff8c00" : "#32cd32";
           break;
-        case 4:
-        case 5:
-        case 6:
-          nodeElement.disabled = true;
-          break;
+
         default:
           console.warn(`Unhandled node status: ${this.nodeStatus[questionNumber]}`);
       }
