@@ -8,9 +8,12 @@ function sockets(io, socket, data) {
     socket.emit("sendNodeStatus", data.getNodeStatus(pollId));
   });
 
-  socket.on("nodeStatusUpdate", function(pollId, d) {
-    data.nodeStatusUpdate(pollId,d);
-    socket.emit("sendNodeStatus", data.getNodeStatus(pollId));
+  socket.on("nodeStatusUpdate", function (pollId, d) {
+    // Update the node status in the data object
+    data.nodeStatusUpdate(pollId, d);
+  
+    // Broadcast the updated status to all players in the poll
+    io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
   });
 
   socket.on('createPoll', function(d) {
@@ -29,8 +32,8 @@ function sockets(io, socket, data) {
   });
 
   socket.on('joinPoll', function(pollId) {
-    socket.join(pollId);
-    socket.emit('questionUpdate', {q:(data.getQuestion(pollId)), player:""})
+    socket.join(pollId); // Add the client to the poll's room
+    socket.emit('questionUpdate', { q: data.getQuestion(pollId), player: "" });
     socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
   });
 

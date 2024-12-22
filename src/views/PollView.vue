@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <button @click="checkAdjacentNodes()">Adjacent nodes</button>
-    <button @click="setNodeStatus({node:totalQuestions-2, status:4})">Set Node 0 to 6</button>
+    <button @click="setNodeStatus({node:3, status:4})">Set Node 0 to 6</button>
     {{ totalQuestions }}
     {{ nodeStatus }}
     <div class="main-menu">
@@ -74,6 +74,7 @@ export default {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
         this.$nextTick(() => {  //la till detta
+          
           if (this.firstCheck){
             this.checkAdjacentNodes();
           }
@@ -87,8 +88,7 @@ export default {
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
         this.setNodeStatus({ node: lastNode, status: 2 });
-        console.log("nodeStatus", this.nodeStatus);
-        
+        console.log("nodeStatus", this.nodeStatus);        
       });
       
       socket.emit("getNumberOfQuestions", this.pollId);
