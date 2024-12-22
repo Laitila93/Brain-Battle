@@ -56,13 +56,12 @@ export default {
       columns: 0,
       gap: "",
       nodeStatus: [],
+      firstCheck: true, // Guard variable
     };
   },
 //--------------------------------------------------------------------------------
   created: function () {
     this.gameSetup();
-    
-
   },
   watch: {
     nodeStatus: function () {
@@ -74,9 +73,11 @@ export default {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
-        this.$nextTick(() => {                //la till detta o flyttade checkadjacent
-          this.checkAdjacentNodes();
-        });
+        this.$nextTick(() => {  //la till detta
+          if (this.firstCheck){
+            this.checkAdjacentNodes();
+          }
+        }); 
       });
       this.pollId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
@@ -87,7 +88,7 @@ export default {
         this.columns = Math.sqrt(this.totalQuestions);
         this.setNodeStatus({ node: lastNode, status: 2 });
         console.log("nodeStatus", this.nodeStatus);
-
+        
       });
       
       socket.emit("getNumberOfQuestions", this.pollId);
@@ -151,8 +152,9 @@ export default {
      * After performing the checks and updates, the function calls `getNodeStatus` to refresh the node statuses.
      */
     checkAdjacentNodes: function () {
+      this.firstCheck = false;
       let Nodestatus2D = this.to2DArray(this.nodeStatus, this.columns);
-
+      
       for (let i = 1; i <= this.totalQuestions; i++) {
         console.log("inside player", this.playerRole);
         if (this.nodeStatus[i] === 1 || this.nodeStatus[i] === 2) {
@@ -167,7 +169,7 @@ export default {
                 this.setNodeStatus({ node: i + 1, status: 4 });
                 this.setNodeStatus({ node: i + this.columns, status: 4 });
               }
-            if (nodeCol > 0) {
+            if (nodeCol > 0) {                                             //antagligen detta som gör att checkadjacent ej funkar för p1
               
               if (Nodestatus2D[nodeRow][i - 1] !== 1 && Nodestatus2D[nodeRow][i - 1] !== 2 && Nodestatus2D[nodeRow][i - 1] !== 3) {
                 this.setNodeStatus({ node: i - 1, status: 4 });
