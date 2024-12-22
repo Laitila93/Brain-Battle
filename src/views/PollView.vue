@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <button @click="getNodeStatus()">Get Node Status</button>
-    <button @click="setNodeStatus({node:totalQuestions-1, status:2})">Set Node 0 to 5</button>
+    <button @click="setNodeStatus({node:totalQuestions-1, status:6})">Set Node 0 to 6</button>
     {{ totalQuestions }}
     {{ nodeStatus }}
     <div class="main-menu">
@@ -9,7 +9,6 @@
         <NodeComponent 
           v-for="index in totalQuestions" 
           :questionId="index" 
-          :status="nodeStatus[index]"
           v-on:questionId="runQuestion($event)" 
         />
       </div>
@@ -44,6 +43,10 @@ export default {
   //--------------------------------------------------------------------------------
   data: function () {
     return {
+      question: {
+        q: "",
+        a: []
+      },
       playerRole: localStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
       submittedAnswers: {},
@@ -53,7 +56,6 @@ export default {
       columns: 0,
       gap: "",
       nodeStatus: [],
-      watcherActive: true // Add a flag to control the watcher
     };
   },
 //--------------------------------------------------------------------------------
@@ -63,18 +65,15 @@ export default {
   },
   watch: {
     nodeStatus: function () {
-      if (!this.watcherActive) return; // Check the flag before executing the watcher callback
-      try {
-        this.checkAdjacentNodes();
         this.drawNodeColors();
-      } catch (error) {
-        console.error("Error in nodeStatus watcher:", error);
       }
-    }
   },
   //--------------------------------------------------------------------------------
   methods: {
     gameSetup: function () {
+      socket.on("sendNodeStatus", status => {
+        this.nodeStatus = status;
+      });
       this.pollId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
         this.totalQuestions = number;
@@ -84,12 +83,13 @@ export default {
         this.columns = Math.sqrt(this.totalQuestions);
         this.setNodeStatus({ node: lastNode, status: 2 });
         console.log("nodeStatus", this.nodeStatus);
+        this.checkAdjacentNodes(); // Check adjacent nodes
       });
       socket.emit("getNumberOfQuestions", this.pollId);
 
       socket.on("playerRoleAssigned", role => {
-      this.playerRole = role;
-      localStorage.setItem("playerRole", role); // Update locally just in case
+        this.playerRole = role;
+        localStorage.setItem("playerRole", role); // Update locally just in case
       });
 
       socket.on("submittedAnswersUpdate", answers => {
@@ -112,7 +112,7 @@ export default {
         this.question = d.q;
       }
       });
-      this.checkAdjacentNodes(); // Check adjacent nodes
+      
     },
     to2DArray: function(arr, chunkSize) {
       const result = [];
@@ -146,9 +146,8 @@ export default {
      * After performing the checks and updates, the function calls `getNodeStatus` to refresh the node statuses.
      */
     checkAdjacentNodes: function () {
-      this.watcherActive = false; // Disable the watcher to prevent infinite loop
       let Nodestatus2D = this.to2DArray(this.nodeStatus, this.columns);
-      
+
       for (let i = 1; i <= this.totalQuestions; i++) {
         console.log("inside player", this.playerRole);
         if (this.nodeStatus[i] === 1 || this.nodeStatus[i] === 2) {
@@ -213,9 +212,6 @@ export default {
           }
         }
       }
-      this.getNodeStatus(); // Refresh the node statuses
-      this.drawNodeColors(); // Draw the node colors
-      this.watcherActive = true; // Re-enable the watcher
     },
                 /*
             Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
@@ -267,10 +263,6 @@ export default {
     },
     getNodeStatus: function() {
       socket.emit("getNodeStatus", this.pollId);
-      socket.off("sendNodeStatus"); // Remove any existing listeners
-      socket.on("sendNodeStatus", status => {
-        this.nodeStatus = status;
-      });
     },
     setNodeStatus: function(d) {
       socket.emit("nodeStatusUpdate", this.pollId, d);
