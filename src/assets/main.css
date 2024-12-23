@@ -105,6 +105,60 @@ button {
   width: 10em;
   cursor: pointer;
 } 
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  padding: 0px;
+  color: white;
+}
+
+.player {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+
+.player1 {
+  background-color: #32cd32; /* Player 1's color */
+}
+
+.player2 {
+  background-color: #ff8c00; /* Player 2's color */
+}
+
+.poll-id {
+  flex: 2;
+  text-align: center;
+  font-weight: bold;
+}
+.node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+  gap: 5px;
+  max-width: 800px;
+  text-align: center;
+  margin:  auto;
+}
+
+.node-area {
+  padding: 10%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nodeButton {
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background-color: #007bff;
+  text-align: center;
+  margin: auto;
+}
+
 .main-menu {
   position:fixed;
   top: 50%;
@@ -128,7 +182,7 @@ button {
   color: aqua;
   display: flex; 
   flex-wrap: wrap; 
-  gap: 100px;
+
 }
   
 .lang-wrapper {
@@ -165,12 +219,7 @@ button {
   background-position: center;
 }
 
-.nodeButton {
-  height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  background-color: #007bff;
-}
+
 
 .pollBody {
   width: 500px;
