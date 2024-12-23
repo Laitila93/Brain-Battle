@@ -1,5 +1,10 @@
 <template>
   <div class="wrapper">
+    <!--                                                                         Uncomment to activate debugging block
+    <button @click="checkAdjacentNodes()">Adjacent nodes</button>
+    <button @click="setNodeStatus({node:7, status:1})">Set Node 7 to 1</button>
+    {{ nodeStatus }}
+    -->
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">You</div>
       <div class="player player1" v-else>Opponent</div>
@@ -172,21 +177,25 @@ export default {
 
           if (this.nodeStatus[i] === 1) {
             if (i === 0) {
-              if (Nodestatus2D[nodeRow][nodeCol + 1] === 5 || Nodestatus2D[nodeRow][nodeCol + 1] === 6){ // lös krockar om tillgänglig för båda
-                this.setNodeStatus({ node: i + 1, status: 6 });
-                Nodestatus2D[nodeRow][nodeCol + 1] = 6;
+              if (Nodestatus2D[nodeRow][nodeCol + 1] !== 1 && Nodestatus2D[nodeRow][nodeCol + 1] !== 2 && Nodestatus2D[nodeRow][nodeCol + 1] !== 3){
+                if (Nodestatus2D[nodeRow][nodeCol + 1] === 5 || Nodestatus2D[nodeRow][nodeCol + 1] === 6){ // lös krockar om tillgänglig för båda
+                  this.setNodeStatus({ node: i + 1, status: 6 });
+                  Nodestatus2D[nodeRow][nodeCol + 1] = 6;
+                }
+                else {
+                  this.setNodeStatus({ node: i + 1, status: 4 });
+                  Nodestatus2D[nodeRow][nodeCol + 1] = 4;
+                }
               }
-              else {
-                this.setNodeStatus({ node: i + 1, status: 4 });
-                Nodestatus2D[nodeRow][nodeCol + 1] = 4;
-              }
-              if (Nodestatus2D[nodeRow + 1][nodeCol] === 5 || Nodestatus2D[nodeRow + 1][nodeCol] === 6){
-                this.setNodeStatus({ node: i + this.columns, status: 6 });
-                Nodestatus2D[nodeRow + 1][nodeCol] = 6;
-              }
-              else {
-                this.setNodeStatus({ node: i + this.columns, status: 4 });
-                Nodestatus2D[nodeRow + 1][nodeCol] = 4; 
+              if (Nodestatus2D[nodeRow + 1][nodeCol] !== 1 && Nodestatus2D[nodeRow + 1][nodeCol] !== 2 && Nodestatus2D[nodeRow + 1][nodeCol] !== 3){
+                if (Nodestatus2D[nodeRow + 1][nodeCol] === 5 || Nodestatus2D[nodeRow + 1][nodeCol] === 6){
+                  this.setNodeStatus({ node: i + this.columns, status: 6 });
+                  Nodestatus2D[nodeRow + 1][nodeCol] = 6;
+                }
+                else {
+                  this.setNodeStatus({ node: i + this.columns, status: 4 });
+                  Nodestatus2D[nodeRow + 1][nodeCol] = 4; 
+                }
               }
             }
 
@@ -241,22 +250,25 @@ export default {
           } 
           else if (this.nodeStatus[i] === 2) {
             if (i === this.totalQuestions - 1) {
-              if(Nodestatus2D[nodeRow][nodeCol - 1] === 4 || Nodestatus2D[nodeRow][nodeCol - 1] === 6){
-                this.setNodeStatus({ node: i - 1, status: 6 });
-                Nodestatus2D[nodeRow][nodeCol - 1] = 6;
+              if (Nodestatus2D[nodeRow][nodeCol - 1] !== 1 && Nodestatus2D[nodeRow][nodeCol - 1] !== 2 && Nodestatus2D[nodeRow][nodeCol - 1] !== 3){
+                if(Nodestatus2D[nodeRow][nodeCol - 1] === 4 || Nodestatus2D[nodeRow][nodeCol - 1] === 6){
+                  this.setNodeStatus({ node: i - 1, status: 6 });
+                  Nodestatus2D[nodeRow][nodeCol - 1] = 6;
+                }
+                else {
+                  this.setNodeStatus({ node: i - 1, status: 5 });
+                  Nodestatus2D[nodeRow][nodeCol - 1] = 5;
+                }
               }
-              else {
-                this.setNodeStatus({ node: i - 1, status: 5 });
-                Nodestatus2D[nodeRow][nodeCol - 1] = 5;
-              }
-              
-              if (Nodestatus2D[nodeRow - 1][nodeCol] === 4 || Nodestatus2D[nodeRow - 1][nodeCol] === 6){
-                this.setNodeStatus({ node: i - this.columns, status: 6 });
-                Nodestatus2D[nodeRow - 1][nodeCol] = 6;
-              }
-              else {
-                this.setNodeStatus({ node: i - this.columns, status: 5 });
-                Nodestatus2D[nodeRow - 1][nodeCol] = 5;
+              if (Nodestatus2D[nodeRow - 1][nodeCol] !== 1 && Nodestatus2D[nodeRow - 1][nodeCol] !== 2 && Nodestatus2D[nodeRow - 1][nodeCol] !== 3){
+                if (Nodestatus2D[nodeRow - 1][nodeCol] === 4 || Nodestatus2D[nodeRow - 1][nodeCol] === 6){
+                  this.setNodeStatus({ node: i - this.columns, status: 6 });
+                  Nodestatus2D[nodeRow - 1][nodeCol] = 6;
+                }
+                else {
+                  this.setNodeStatus({ node: i - this.columns, status: 5 });
+                  Nodestatus2D[nodeRow - 1][nodeCol] = 5;
+                }
               }
             }
             if (nodeCol > 0) {
