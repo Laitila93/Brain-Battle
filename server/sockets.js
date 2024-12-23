@@ -74,6 +74,7 @@ function sockets(io, socket, data) {
   });
 
   socket.on('submitAnswer', function(d) {
+    console.log('SOCKETS: Answer received in sockets, forwarding to data');
     data.submitAnswer(d.pollId, d.answer);
     io.to(d.pollId).emit('submittedAnswersUpdate', data.getSubmittedAnswers(d.pollId));
   }); 

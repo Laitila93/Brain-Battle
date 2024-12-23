@@ -48,12 +48,12 @@ export default {
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;
-        console.log("Both players joined. Starting the game!");
+        console.log("LOBBY: Both players joined. Starting the game!");
       }
     });
     
     socket.on("startPoll", () => {
-    console.log("Game started!");
+    console.log("LOBBY: Game started!");
     this.$router.push(`/poll/${this.pollId}`);
     });
 

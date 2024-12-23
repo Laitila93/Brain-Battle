@@ -87,8 +87,7 @@ export default {
         this.setNodeStatus({ node: 0, status: 1 });
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
-        this.setNodeStatus({ node: lastNode, status: 2 });
-        console.log("nodeStatus", this.nodeStatus);        
+        this.setNodeStatus({ node: lastNode, status: 2 });       
       });
       
       socket.emit("getNumberOfQuestions", this.pollId);
@@ -296,6 +295,8 @@ export default {
     },
 
     submitAnswer: function (answer) {
+      console.log('POLLVIEW Answer received in PollView, answer is: ', answer, ' type: ', typeof(answer));
+      console.log('POLLVIEW information sent to server will be: ', answer.a, ' type: ', typeof(answer.a));
       socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a });
     },
 
@@ -321,7 +322,7 @@ export default {
      * Logs a warning if the node status is unhandled.
      */
     runQuestion: function (questionNumber) {
-      console.log("questionNumber", questionNumber);
+      console.log("POLLVIEW: runQuestion was run");
       this.questionNumber = questionNumber;
       let nodeElement = document.getElementById('node-' + questionNumber);
       if (!nodeElement) {

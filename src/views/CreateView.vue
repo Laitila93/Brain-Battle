@@ -107,7 +107,6 @@ export default {
   methods: {
     generatePollId: function () {
       this.pollId = Math.floor(1000 + Math.random() * 9000);
-      console.log(this.pollId) //Remove? /Emil 21dec
     },
 
     shuffle: function (array) {
@@ -187,7 +186,6 @@ export default {
         socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
         socket.emit("joinPoll", this.pollId);
         this.$router.push(('/lobby/' + this.pollId))
-        console.log(this.pollData)
       }
       else {
         console.log("Please fill in all fields.");
@@ -196,7 +194,6 @@ export default {
     createQuiz: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
       socket.emit("joinPoll", this.pollId);
-      console.log("first createQuiz")
 
       
     },

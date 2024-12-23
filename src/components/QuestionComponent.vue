@@ -15,7 +15,10 @@ export default {
   emits: ["answer"],
   methods: {
     answer: function (answer) {
+      console.log('QUESTIONCOMP Answer submitted by user');
+      console.log('QUESTIONCOMP Answer is; ', answer, 'type: ', typeof(answer));
       if (answer.c){
+        console.log('Answer was correct, emitting event to PollView');
         this.$emit("answer", answer);
       }
     } 

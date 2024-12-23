@@ -63,8 +63,8 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.currentQuestion = 0;
     poll.nodeStatus = [];             
     this.polls[pollId] = poll;
+    poll.counter = 0; //EMIL: for testing 
     
-    console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
 }
@@ -87,7 +87,7 @@ Data.prototype.participateInPoll = function (pollId, player) {
 
 Data.prototype.getParticipants = function(pollId) {
   const poll = this.polls[pollId];
-  console.log("participants requested for", pollId);
+  console.log("DATA: participants requested for", pollId);
   if (this.pollExists(pollId)) { 
     return this.polls[pollId].participants
   }
@@ -96,16 +96,23 @@ Data.prototype.getParticipants = function(pollId) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   if (this.pollExists(pollId)) {
+    this.polls[pollId].counter++;
+    let counter = this.polls[pollId].counter
     this.polls[pollId].questions.push(q);
     this.polls[pollId].nodeStatus.push(0);
+    console.log("DATA: question ", counter, " added"); //EMIL: testing stuff
+    this.polls[pollId].answers.push({});
   }
 }
 
 Data.prototype.getQuestion = function(pollId, qId = null) {
+  console.log("DATA: getQuestion reached"); //EMIL: testing stuff
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
     if (qId !== null) {
+      console.log("Found qId not null"); //EMIL: testing stuff
       poll.currentQuestion = qId;
+      console.log("currentQuestion updated"); //EMIL: testing stuff
     }
     return poll.questions[poll.currentQuestion];
   }
@@ -132,23 +139,31 @@ Data.prototype.getSubmittedAnswers = function(pollId) {
 }
 
 Data.prototype.submitAnswer = function(pollId, answer) {
+  console.log('DATA: Answer arrived in data, processing and storing answer: ', answer, ' type: ', typeof(answer));
   if (this.pollExists(pollId)) {
+    console.log('DATA: found poll ', pollId);
     const poll = this.polls[pollId];
+    console.log('DATA: found value of currentQuestion: ', poll.currentQuestion);
     let answers = poll.answers[poll.currentQuestion];
+
+    console.log('DATA: answers-array has length: ', poll.answers.length);
     // create answers object if no answers have yet been submitted
     if (typeof answers !== 'object') {
+      console.log("DATA: No 'answers' object found, creating new answers object")
       answers = {};
       answers[answer] = 1;
       poll.answers.push(answers);
     }
     // create answer property if that specific answer has not yet been submitted
     else if (typeof answers[answer] === 'undefined') {
+      console.log(`DATA: Found 'answers' but no earlier property of value ${answer} exists, creating new property` );
       answers[answer] = 1;
     }
     // if the property already exists, increase the number
     else
-      answers[answer] += 1
-    console.log("answers looks like ", answers, typeof answers);
+      answers[answer] += 1;
+    console.log("DATA: Answers look like ", answers, " type: ", typeof(answers));
+    console.log("DATA: poll.answers looks like ", poll.answers, " type: ", typeof(poll.answers));
   }
 }
 

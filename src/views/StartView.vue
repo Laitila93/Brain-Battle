@@ -60,7 +60,7 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-localStorage.setItem("serverIP", "192.168.0.5:3000");
+localStorage.setItem("serverIP", "192.168.1.131:3000");
 const socket = io(localStorage.getItem("serverIP"));
 
 export default {
@@ -101,16 +101,13 @@ export default {
       clearTimeout(this.checkTimeout);
       if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
         this.pollIsChecked = false
-        console.log(this.pollExists, this.pollIsChecked)
       }
       if (this.newPollId.length === 4) {
         socket.emit('validatePollId', this.newPollId, (exists) => {
           this.pollExists = exists;
           this.pollIsChecked = true;
-          console.log(this.pollExists, this.pollIsChecked)
           });
         };
-        console.log(this.pollExists, this.pollIsChecked)
     }
   }
 }
