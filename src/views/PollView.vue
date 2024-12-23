@@ -1,22 +1,23 @@
 <template>
   <div class="wrapper">
-    <button @click="checkAdjacentNodes()">Adjacent nodes</button>
-    <button @click="setNodeStatus({node:3, status:4})">Set Node 0 to 6</button>
-    {{ totalQuestions }}
-    {{ nodeStatus }}
-    <div class="main-menu">
-      <div class="node" :style="{ gap: gap }" v-if="totalQuestions > 0">
-        <NodeComponent 
-          v-for="index in totalQuestions" 
-          :questionId="index" 
-          v-on:questionId="runQuestion($event)" 
-        />
+    <div class="banner">
+      <div class="player player1" v-if="playerRole === 'Player 1'">You</div>
+      <div class="player player1" v-else>Opponent</div>
+      <div class="poll-id">Poll ID: {{ pollId }}</div>
+      <div class="player player2" v-if="playerRole === 'Player 2'">You</div>
+      <div class="player player2" v-else>Opponent</div>
+    </div>
+    <div class="node-area">
+      <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
+          <NodeComponent 
+            v-for="index in totalQuestions" 
+            :questionId="index" 
+            @questionId="runQuestion($event)" 
+          />
       </div>
-    
+    </div>
         <div>
-          <div>
-            Poll ID: {{ pollId }} <span v-if="playerRole">(You: {{ playerRole }})</span>
-          </div>
+
           <QuestionComponent 
             v-bind:question="question" 
             v-on:answer="submitAnswer($event)" 
@@ -24,7 +25,7 @@
           <hr>
           <span>{{ submittedAnswers }}</span>
         </div>
-      </div>
+      
   </div>
 </template>
 
@@ -54,7 +55,6 @@ export default {
       totalQuestions: 0,
       nodeNumber: 0,
       columns: 0,
-      gap: "",
       nodeStatus: [],
       firstCheck: true, // Guard variable
     };
@@ -63,6 +63,14 @@ export default {
   created: function () {
     this.gameSetup();
   },
+  computed: {
+    dynamicGap() {
+      const containerWidth = this.$el.clientWidth;
+      const baseGap = 5; // Base gap in pixels
+      const additionalGap = (containerWidth - (this.columns * 100)) / (this.columns - 1);
+      return `${baseGap + additionalGap}px`;
+    }
+  },
   watch: {
     nodeStatus: function () {
         this.drawNodeColors();
@@ -70,6 +78,9 @@ export default {
   },
   //--------------------------------------------------------------------------------
   methods: {
+    updateGap: function () {
+      this.$forceUpdate(); // Force re-render to update the gap
+    },
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
@@ -83,7 +94,6 @@ export default {
       this.pollId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
         this.totalQuestions = number;
-        this.setNodeWidth();
         this.setNodeStatus({ node: 0, status: 1 });
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
@@ -119,6 +129,7 @@ export default {
       });
       
     },
+
     to2DArray: function(arr, chunkSize) {
       const result = [];
       for (let i = 0; i < arr.length; i += chunkSize) {
@@ -274,24 +285,6 @@ export default {
       socket.emit("nodeStatusUpdate", this.pollId, d);
       this.getNodeStatus();
       
-    },
-    setNodeWidth: function () {
-      switch (this.totalQuestions) {
-        case 16:
-          this.gap = "100px";
-          break;
-        case 25:
-          this.gap = "70px";
-          break;
-        case 36:
-          this.gap = "40px";
-          break;
-        case 49:
-          this.gap = "30px";
-          break;
-        default:
-          this.gap = "0px";
-      }
     },
 
     submitAnswer: function (answer) {
