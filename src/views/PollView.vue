@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <!--                                                                         Uncomment to activate debugging block
+    <!--                                                                         
     <button @click="checkAdjacentNodes()">Adjacent nodes</button>
     <button @click="setNodeStatus({node:7, status:1})">Set Node 7 to 1</button>
     {{ nodeStatus }}
@@ -22,7 +22,6 @@
       </div>
     </div>
         <div>
-
           <QuestionComponent 
             v-bind:question="question" 
             v-on:answer="submitAnswer($event)" 
@@ -357,15 +356,20 @@ export default {
             break;
           case 4:
             nodeElement.style.backgroundColor = "#ffb6c1"; 
-            nodeElement.disabled = false;
+            if (this.playerRole === "Player 1") {
+              nodeElement.disabled = false;
+            }
             break;
           
           case 5:
             nodeElement.style.backgroundColor = "#ffb6c1";
-            nodeElement.disabled = false; 
+            if (this.playerRole === "Player 2"){
+              nodeElement.disabled = false; 
+            }
             break;
           case 6:
             nodeElement.style.backgroundColor = "#ffff00"; // Yellow to indicate reachability by both players
+            nodeElement.disabled = false;
             break;
           default:
             break;
