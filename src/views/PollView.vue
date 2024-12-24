@@ -1,8 +1,7 @@
 <template>
   <div class="wrapper">
                                                                             
-    <button @click="checkAdjacentNodes()">Adjacent nodes</button>
-    <button @click="setNodeStatus({node:7, status:1})">Set Node 7 to 1</button>
+
     {{ nodeStatus }}
     
     <div class="banner">
@@ -24,7 +23,7 @@
         <div>
           <QuestionComponent 
             v-bind:question="question" 
-            v-on:answer="submitAnswer($event)" 
+            v-on:answer="submitAnswer($event, this.playerRole)" 
           />
           <hr>
           <span>{{ submittedAnswers }}</span>
@@ -112,7 +111,8 @@ export default {
       });
 
       socket.on("submittedAnswersUpdate", answers => {
-      if (answers) {
+        this.checkAdjacentNodes();                            //EDVIN: MÅSTE VARA KVAR!!!
+        if (answers) {
         this.submittedAnswers = answers;
       }
       });
@@ -386,11 +386,11 @@ export default {
       
     },
 
-    submitAnswer: function (answer) {
-      console.log('POLLVIEW Answer received in PollView, answer is: ', answer, ' type: ', typeof(answer));
-      console.log('POLLVIEW information sent to server will be: ', answer.a, ' type: ', typeof(answer.a));
-      socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a });
+    submitAnswer: function (answer, playerRole) {
+      socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.c, playerRole });    
     },
+
+    
 
     /**
      * Runs the specified question based on the question number.

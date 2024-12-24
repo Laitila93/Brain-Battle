@@ -138,13 +138,35 @@ Data.prototype.getSubmittedAnswers = function(pollId) {
   return {}
 }
 
-Data.prototype.submitAnswer = function(pollId, answer) {
+Data.prototype.submitAnswer = function(pollId, answer, playerRole) {
   console.log('DATA: Answer arrived in data, processing and storing answer: ', answer, ' type: ', typeof(answer));
   if (this.pollExists(pollId)) {
     console.log('DATA: found poll ', pollId);
     const poll = this.polls[pollId];
     console.log('DATA: found value of currentQuestion: ', poll.currentQuestion);
     let answers = poll.answers[poll.currentQuestion];
+    
+    console.log("status before answering: ",poll.nodeStatus[poll.currentQuestion])
+    if(poll.nodeStatus[poll.currentQuestion] > 3){
+      if(answer){
+        if(playerRole === "Player 1"){
+          poll.nodeStatus[poll.currentQuestion] = 1;
+          console.log("DATA: answer is true, p1, setting status to:", poll.nodeStatus[poll.currentQuestion])
+        }
+        else {
+          poll.nodeStatus[poll.currentQuestion] = 2;
+          console.log("DATA: answer is true, p2, setting status to:", poll.nodeStatus[poll.currentQuestion])
+        }
+      }
+      else {
+        poll.nodeStatus[poll.currentQuestion] = 3;
+        console.log("DATA: answer is false, setting status to: ",poll.nodeStatus[poll.currentQuestion])
+      }
+    }
+    else {
+      console.log("The other player got the question first") //GÖR SÅ ATT DEN ANDRAS FRPGEFÄLT FÖRSVINNER? KANSKE VIA SUBMITTED ANSERSARRAYEN?
+    }
+    
 
     console.log('DATA: answers-array has length: ', poll.answers.length);
     // create answers object if no answers have yet been submitted
