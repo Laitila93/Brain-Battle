@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <!--                                                                         
+                                                                            
     <button @click="checkAdjacentNodes()">Adjacent nodes</button>
     <button @click="setNodeStatus({node:7, status:1})">Set Node 7 to 1</button>
     {{ nodeStatus }}
-    -->
+    
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">You</div>
       <div class="player player1" v-else>Opponent</div>
@@ -352,26 +352,26 @@ export default {
             nodeElement.style.backgroundColor = "#ff8c00";
             break;
           case 3:
-            nodeElement.style.backgroundColor = "#ff8c00";
+            nodeElement.style.backgroundColor = "#1e1e2f";
             break;
           case 4:
-            nodeElement.style.backgroundColor = "#ffb6c1"; 
+            nodeElement.style.backgroundColor = "#9cca9cff";
             if (this.playerRole === "Player 1") {
               nodeElement.disabled = false;
             }
             break;
-          
           case 5:
-            nodeElement.style.backgroundColor = "#ffb6c1";
+            nodeElement.style.backgroundColor = "#ffc379ff";
             if (this.playerRole === "Player 2"){
               nodeElement.disabled = false; 
             }
             break;
           case 6:
-            nodeElement.style.backgroundColor = "#ffff00"; // Yellow to indicate reachability by both players
+            nodeElement.style.backgroundColor = "#f7ffa1ff";
             nodeElement.disabled = false;
             break;
           default:
+            nodeElement.style.backgroundColor = "#f5f5f5ff"
             break;
         }
       }
