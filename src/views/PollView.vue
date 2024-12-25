@@ -2,11 +2,11 @@
   {{this.scores}}
   <div class="wrapper"> 
     <div class="banner">
-      <div class="player player1" v-if="playerRole === 'Player 1'">You</div>
-      <div class="player player1" v-else>Opponent</div>
+      <div class="player player1" v-if="playerRole === 'Player 1'">Your score: {{ this.scores.p1Score }}</div>
+      <div class="player player1" v-else>Opponents score: {{ this.scores.p1Score }}</div>
       <div class="poll-id">Poll ID: {{ pollId }}</div>
-      <div class="player player2" v-if="playerRole === 'Player 2'">You</div>
-      <div class="player player2" v-else>Opponent</div>
+      <div class="player player2" v-if="playerRole === 'Player 2'">Your score: {{ this.scores.p2Score }}</div>
+      <div class="player player2" v-else>Opponents score: {{ this.scores.p2Score }}</div>
     </div>
     <div class="node-area">
       <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
@@ -418,10 +418,7 @@ export default {
         return;
       }
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
-      console.log("scores:",this.scores)
-
-
-
+    
     },
   }
 }

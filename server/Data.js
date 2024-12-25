@@ -152,35 +152,43 @@ Data.prototype.submitAnswer = function(pollId, answer, playerRole) {
     console.log('DATA: found value of currentQuestion: ', poll.currentQuestion);
     let answers = poll.answers[poll.currentQuestion];
     
-    console.log("status before answering: ",poll.nodeStatus[poll.currentQuestion])
-    if(poll.nodeStatus[poll.currentQuestion] > 3){
-      if(answer){
-        if(playerRole === "Player 1"){
-          poll.nodeStatus[poll.currentQuestion] = 1;
-          poll.scores.p1Score ++;
+    Data.prototype.submitAnswer = function (pollId, answer, playerRole) {
+      console.log("Processing answer:", answer, "for player:", playerRole);
+    
+      if (this.pollExists(pollId)) {
+        const poll = this.polls[pollId];
+        const currentStatus = poll.nodeStatus[poll.currentQuestion];
+    
+        // Handle valid state transitions only
+        if (currentStatus === 1 || currentStatus === 2) {
+          console.log("Node already claimed by Player", currentStatus);
+          return; // Prevent changes if already claimed
         }
-        else {
-          poll.nodeStatus[poll.currentQuestion] = 2;
-          console.log("DATA: p2score: ",poll.scores.p2Score);
-          poll.scores.p2Score ++;
-          console.log("DATA: p2score: ",poll.scores.p2Score);
+    
+        if (currentStatus > 3) {
+          if (answer) {
+            if (playerRole === "Player 1") {
+              poll.nodeStatus[poll.currentQuestion] = 1; // Player 1 claims
+              poll.scores.p1Score++;
+            } else {
+              poll.nodeStatus[poll.currentQuestion] = 2; // Player 2 claims
+              poll.scores.p2Score++;
+            }
+          } else {
+            if (playerRole === "Player 1") {
+              poll.nodeStatus[poll.currentQuestion] = 2; // Player 2 wins
+              poll.scores.p2Score++;
+            } else {
+              poll.nodeStatus[poll.currentQuestion] = 1; // Player 1 wins
+              poll.scores.p1Score++;
+            }
+          }
+        } else {
+          console.log("Node status is invalid or unclaimed.");
         }
       }
-      else {
-        if(playerRole === "Player 1"){
-          poll.nodeStatus[poll.currentQuestion] = 2;
-          poll.scores.p2Score ++;
-        }
-      else {
-        poll.nodeStatus[poll.currentQuestion] = 1;
-        poll.scores.p1Score ++;
-      }
-          
-      }
-    }
-    else {
-      console.log("The other player got the question first") //GÖR SÅ ATT DEN ANDRAS FRPGEFÄLT FÖRSVINNER? KANSKE VIA SUBMITTED ANSERSARRAYEN?
-    }
+    };
+    
     
 
     console.log('DATA: answers-array has length: ', poll.answers.length);

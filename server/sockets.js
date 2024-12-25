@@ -9,12 +9,19 @@ function sockets(io, socket, data) {
   });
 
   socket.on("nodeStatusUpdate", function (pollId, d) {
-    // Update the node status in the data object
-    data.nodeStatusUpdate(pollId, d);
+    const currentStatus = data.getNodeStatus(pollId)[d.node];
   
-    // Broadcast the updated status to all players in the poll
+    // Prevent overwriting status 1 or 2
+    if (currentStatus === 1 || currentStatus === 2) {
+      console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
+      return;
+    }
+  
+    // Allow valid updates
+    data.nodeStatusUpdate(pollId, d);
     io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
   });
+  
 
   socket.on('createPoll', function(d) {
     data.createPoll(d.pollId, d.lang)
