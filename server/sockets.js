@@ -70,15 +70,14 @@ function sockets(io, socket, data) {
   socket.on('runQuestion', function(d) {
     let question = data.getQuestion(d.pollId, d.questionNumber);
     io.to(d.pollId).emit('questionUpdate', {q:question, playerRole:d.playerRole});
-    io.to(d.pollId).emit('submittedAnswersUpdate', data.getSubmittedAnswers(d.pollId));
+  
   });
 
   socket.on('submitAnswer', function(d) {
     console.log('SOCKETS: Answer received in sockets, forwarding to data');
     data.submitAnswer(d.pollId, d.answer, d.playerRole);                    
-
     io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
-    io.to(d.pollId).emit('submittedAnswersUpdate', data.getSubmittedAnswers(d.pollId)); //EDVIN: MÅSTE VARA KVAR
+    io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
   }); 
 
   socket.on('validatePollId', (pollId, callback) => {

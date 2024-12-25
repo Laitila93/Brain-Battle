@@ -23,7 +23,8 @@ function Data() {
       answers: [],
       currentQuestion: 0,
       participants: [],
-      nodeStatus: []
+      nodeStatus: [],
+      scores: {p1Score: 1, p2Score: 1}
     }
   }
 
@@ -39,6 +40,10 @@ Data.prototype.pollExists = function (pollId) {
 
 Data.prototype.getNodeStatus = function (pollId) {
   return this.polls[pollId].nodeStatus;
+}
+
+Data.prototype.getScores = function (pollId) {
+  return this.polls[pollId].scores;
 }
 
 Data.prototype.nodeStatusUpdate = function (pollId,d) {
@@ -64,6 +69,7 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.nodeStatus = [];             
     this.polls[pollId] = poll;
     poll.counter = 0; //EMIL: for testing 
+    poll.scores = {p1Score: 1, p2Score: 1};
     
   }
   return this.polls[pollId];
@@ -151,16 +157,25 @@ Data.prototype.submitAnswer = function(pollId, answer, playerRole) {
       if(answer){
         if(playerRole === "Player 1"){
           poll.nodeStatus[poll.currentQuestion] = 1;
-          console.log("DATA: answer is true, p1, setting status to:", poll.nodeStatus[poll.currentQuestion])
+          poll.scores.p1Score ++;
         }
         else {
           poll.nodeStatus[poll.currentQuestion] = 2;
-          console.log("DATA: answer is true, p2, setting status to:", poll.nodeStatus[poll.currentQuestion])
+          console.log("DATA: p2score: ",poll.scores.p2Score);
+          poll.scores.p2Score ++;
+          console.log("DATA: p2score: ",poll.scores.p2Score);
         }
       }
       else {
-        poll.nodeStatus[poll.currentQuestion] = 3;
-        console.log("DATA: answer is false, setting status to: ",poll.nodeStatus[poll.currentQuestion])
+        if(playerRole === "Player 1"){
+          poll.nodeStatus[poll.currentQuestion] = 2;
+          poll.scores.p2Score ++;
+        }
+      else {
+        poll.nodeStatus[poll.currentQuestion] = 1;
+        poll.scores.p1Score ++;
+      }
+          
       }
     }
     else {

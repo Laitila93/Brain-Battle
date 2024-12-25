@@ -1,9 +1,6 @@
 <template>
-  <div class="wrapper">
-                                                                            
-
-    {{ nodeStatus }}
-    
+  {{this.scores}}
+  <div class="wrapper"> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">You</div>
       <div class="player player1" v-else>Opponent</div>
@@ -60,6 +57,7 @@ export default {
       columns: 0,
       nodeStatus: [],
       firstCheck: true, // Guard variable
+      scores: {p1Score: 1, p2Score: 1}
     };
   },
 //--------------------------------------------------------------------------------
@@ -110,11 +108,9 @@ export default {
         localStorage.setItem("playerRole", role); // Update locally just in case
       });
 
-      socket.on("submittedAnswersUpdate", answers => {
+      socket.on("submittedAnswersUpdate", scores => {
         this.checkAdjacentNodes();                            //EDVIN: MÅSTE VARA KVAR!!!
-        if (answers) {
-        this.submittedAnswers = answers;
-      }
+        this.scores = scores;
       });
 
       socket.on("uiLabels", labels => {
@@ -422,6 +418,7 @@ export default {
         return;
       }
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
+      console.log("scores:",this.scores)
 
 
 
