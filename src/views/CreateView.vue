@@ -21,6 +21,8 @@
                   <option>25</option>
                   <option>36</option>
                   <option>49</option>
+                  <option>64</option>
+                  <option>81</option>
                 </select>
             </p>
             <p>

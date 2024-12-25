@@ -1,5 +1,4 @@
 <template>
-  {{this.scores}}
   <div class="wrapper"> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">Your score: {{ this.scores.p1Score }}</div>
@@ -13,17 +12,19 @@
           <NodeComponent 
             v-for="index in totalQuestions" 
             :questionId="index" 
-            @questionId="runQuestion($event)" 
+            @questionId="runQuestion($event)"
           />
       </div>
     </div>
-        <div>
+    <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">Correct answer!</div>
+    <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">Wrong answer!</div>
+    <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">Click a node</div>
+        <div v-if="showQuestionComponent">
           <QuestionComponent 
             v-bind:question="question" 
-            v-on:answer="submitAnswer($event, this.playerRole)" 
+            v-on:answer="submitAnswer($event, this.playerRole)"
+            v-on:answered="handleAnswered"
           />
-          <hr>
-          <span>{{ submittedAnswers }}</span>
         </div>
       
   </div>
@@ -44,7 +45,7 @@ export default {
   //--------------------------------------------------------------------------------
   data: function () {
     return {
-      question: {
+      question: { //convertera till en array så flera frågor kan vara laddade samtidigt
         q: "",
         a: []
       },
@@ -57,7 +58,9 @@ export default {
       columns: 0,
       nodeStatus: [],
       firstCheck: true, // Guard variable
-      scores: {p1Score: 1, p2Score: 1}
+      scores: {p1Score: 1, p2Score: 1},
+      showQuestionComponent: true, // Control the visibility of the QuestionComponent
+      lastAnswer: "",
     };
   },
 //--------------------------------------------------------------------------------
@@ -79,9 +82,6 @@ export default {
   },
   //--------------------------------------------------------------------------------
   methods: {
-    updateGap: function () {
-      this.$forceUpdate(); // Force re-render to update the gap
-    },
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
@@ -137,184 +137,60 @@ export default {
       }
       return result;
     },
+    handleAnswered() {
+      this.showQuestionComponent = false; // Hide the QuestionComponent
+    },
 
     /**
-     * Checks the adjacent nodes of the given node and updates their status based on the player's role.
+     * This method checks the adjacent nodes of each node in the grid and updates their statuses based on specific conditions.
      * 
-     * @param {number} node - The node number to check adjacent nodes for.
+     * - If the current node's status is 1:
+     *   - It checks the adjacent nodes (left, right, top, bottom) and updates their statuses to 4 or 6 based on their current status.
+     * - If the current node's status is 2:
+     *   - It checks the adjacent nodes (left, right, top, bottom) and updates their statuses to 5 or 6 based on their current status.
      * 
-     * The function performs the following checks and updates:
-     * - For "Player 1":
-     *   - If the node is within the valid range (0 < node < totalQuestions - 1):
-     *     - Checks the left, top, right, and bottom adjacent nodes.
-     *     - Updates the status of the adjacent nodes to 1 if their current status is not 4, 5, or 6.
-     *   - If the node is the first node (nodeNumber === 0):
-     *     - Checks the right and bottom adjacent nodes.
-     *     - Updates the status of the adjacent nodes to 1 if their current status is not 4, 5, or 6.
-     *   - If the node is the last node (nodeNumber === totalQuestions - 1):
-     *     - Checks the left and top adjacent nodes.
-     *     - Updates the status of the adjacent nodes to 1 if their current status is not 4, 5, or 6.
-     * - For "Player 2":
-     *   - If the node is within the valid range (0 < node < totalQuestions - 1):
-     *     - Checks the left, top, right, and bottom adjacent nodes.
-     *     - Updates the status of the adjacent nodes to 2 if their current status is not 4, 5, or 6.
+     * The method uses a 2D array representation of the node statuses to facilitate the checking of adjacent nodes.
      * 
-     * After performing the checks and updates, the function calls `getNodeStatus` to refresh the node statuses.
+     * @method checkAdjacentNodes
      */
     checkAdjacentNodes: function () {
       this.firstCheck = false;
       let Nodestatus2D = this.to2DArray(this.nodeStatus, this.columns);
-      
-      for (let i = 0; i <= this.totalQuestions; i++) {
+
+      const updateNodeStatus = (currentIndex, adjacentIndex, newStatus) => {
+        const currentStatus = Nodestatus2D[adjacentIndex.row][adjacentIndex.col];
+        if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3) {
+          if ((newStatus === 4 && currentStatus === 5) || (newStatus === 5 && currentStatus === 4)) {
+            this.setNodeStatus({ node: adjacentIndex.index, status: 6 });
+            Nodestatus2D[adjacentIndex.row][adjacentIndex.col] = 6;
+          } else if (currentStatus !== 4 && currentStatus !== 5 && currentStatus !== 6) {
+            this.setNodeStatus({ node: adjacentIndex.index, status: newStatus });
+            Nodestatus2D[adjacentIndex.row][adjacentIndex.col] = newStatus;
+          }
+        }
+      };
+
+      for (let i = 0; i < this.totalQuestions; i++) {
         if (this.nodeStatus[i] === 1 || this.nodeStatus[i] === 2) {
           let nodeRow = Math.floor(i / this.columns);
           let nodeCol = i % this.columns;
+          let newStatus = this.nodeStatus[i] === 1 ? 4 : 5;
 
-          if (this.nodeStatus[i] === 1) {
-            if (i === 0) {
-              if (Nodestatus2D[nodeRow][nodeCol + 1] !== 1 && Nodestatus2D[nodeRow][nodeCol + 1] !== 2 && Nodestatus2D[nodeRow][nodeCol + 1] !== 3){
-                if (Nodestatus2D[nodeRow][nodeCol + 1] === 5 || Nodestatus2D[nodeRow][nodeCol + 1] === 6){ // lös krockar om tillgänglig för båda
-                  this.setNodeStatus({ node: i + 1, status: 6 });
-                  Nodestatus2D[nodeRow][nodeCol + 1] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i + 1, status: 4 });
-                  Nodestatus2D[nodeRow][nodeCol + 1] = 4;
-                }
-              }
-              if (Nodestatus2D[nodeRow + 1][nodeCol] !== 1 && Nodestatus2D[nodeRow + 1][nodeCol] !== 2 && Nodestatus2D[nodeRow + 1][nodeCol] !== 3){
-                if (Nodestatus2D[nodeRow + 1][nodeCol] === 5 || Nodestatus2D[nodeRow + 1][nodeCol] === 6){
-                  this.setNodeStatus({ node: i + this.columns, status: 6 });
-                  Nodestatus2D[nodeRow + 1][nodeCol] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i + this.columns, status: 4 });
-                  Nodestatus2D[nodeRow + 1][nodeCol] = 4; 
-                }
-              }
-            }
-
-            if (nodeCol > 0) {                                             
-              if (Nodestatus2D[nodeRow][i - 1] !== 1 && Nodestatus2D[nodeRow][i - 1] !== 2 && Nodestatus2D[nodeRow][i - 1] !== 3) {
-                if (Nodestatus2D[nodeRow][i - 1] === 5 || Nodestatus2D[nodeRow][i - 1] === 6){
-                  this.setNodeStatus({ node: i - 1, status: 6 });
-                  Nodestatus2D[nodeRow][i - 1] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i - 1, status: 4 });
-                  Nodestatus2D[nodeRow][i - 1] = 4;
-                }
-              }
-            }
-            if (nodeRow > 0) {
-              if (Nodestatus2D[nodeRow - 1][nodeCol] !== 1 && Nodestatus2D[nodeRow - 1][nodeCol] !== 2 && Nodestatus2D[nodeRow - 1][nodeCol] !== 3) {
-                if (Nodestatus2D[nodeRow - 1][nodeCol] === 5 || Nodestatus2D[nodeRow - 1][nodeCol] === 6){
-                  this.setNodeStatus({ node: i - this.columns, status: 6 });
-                  Nodestatus2D[nodeRow - 1][nodeCol] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i - this.columns, status: 4 });
-                  Nodestatus2D[nodeRow - 1][nodeCol] = 4;
-                }
-              }
-            }
-            if (nodeCol < this.columns - 1) {
-              if (Nodestatus2D[nodeRow][nodeCol + 1] !== 1 && Nodestatus2D[nodeRow][nodeCol + 1] !== 2 && Nodestatus2D[nodeRow][nodeCol + 1] !== 3) {
-                if(Nodestatus2D[nodeRow][nodeCol + 1] === 5 || Nodestatus2D[nodeRow][nodeCol + 1] === 6){
-                  this.setNodeStatus({ node: i + 1, status: 6 });
-                  Nodestatus2D[nodeRow][nodeCol + 1] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i + 1, status: 4 });
-                  Nodestatus2D[nodeRow][nodeCol + 1] = 4;
-                }
-              }
-            }
-            if (nodeRow < this.columns - 1) {
-              if (Nodestatus2D[nodeRow + 1][nodeCol] !== 1 && Nodestatus2D[nodeRow + 1][nodeCol] !== 2 && Nodestatus2D[nodeRow + 1][nodeCol] !== 3) {
-                if (Nodestatus2D[nodeRow + 1][nodeCol] === 5 || Nodestatus2D[nodeRow + 1][nodeCol] === 6){
-                  this.setNodeStatus({ node: i + this.columns, status: 6 });
-                  Nodestatus2D[nodeRow + 1][nodeCol] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i + this.columns, status: 4 });
-                  Nodestatus2D[nodeRow + 1][nodeCol] = 4;
-                }
-              }
-            }
-          } 
-          else if (this.nodeStatus[i] === 2) {
-            if (i === this.totalQuestions - 1) {
-              if (Nodestatus2D[nodeRow][nodeCol - 1] !== 1 && Nodestatus2D[nodeRow][nodeCol - 1] !== 2 && Nodestatus2D[nodeRow][nodeCol - 1] !== 3){
-                if(Nodestatus2D[nodeRow][nodeCol - 1] === 4 || Nodestatus2D[nodeRow][nodeCol - 1] === 6){
-                  this.setNodeStatus({ node: i - 1, status: 6 });
-                  Nodestatus2D[nodeRow][nodeCol - 1] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i - 1, status: 5 });
-                  Nodestatus2D[nodeRow][nodeCol - 1] = 5;
-                }
-              }
-              if (Nodestatus2D[nodeRow - 1][nodeCol] !== 1 && Nodestatus2D[nodeRow - 1][nodeCol] !== 2 && Nodestatus2D[nodeRow - 1][nodeCol] !== 3){
-                if (Nodestatus2D[nodeRow - 1][nodeCol] === 4 || Nodestatus2D[nodeRow - 1][nodeCol] === 6){
-                  this.setNodeStatus({ node: i - this.columns, status: 6 });
-                  Nodestatus2D[nodeRow - 1][nodeCol] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i - this.columns, status: 5 });
-                  Nodestatus2D[nodeRow - 1][nodeCol] = 5;
-                }
-              }
-            }
-            if (nodeCol > 0) {
-              if (Nodestatus2D[nodeRow][nodeCol - 1] !== 1 && Nodestatus2D[nodeRow][nodeCol - 1] !== 2 && Nodestatus2D[nodeRow][nodeCol - 1] !== 3) {
-                if (Nodestatus2D[nodeRow][nodeCol - 1] === 4 || Nodestatus2D[nodeRow][nodeCol - 1] === 6){
-                  this.setNodeStatus({ node: i - 1, status: 6 });
-                  Nodestatus2D[nodeRow][nodeCol - 1] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i - 1, status: 5 });
-                  Nodestatus2D[nodeRow][nodeCol - 1] = 5;
-                }
-              }
-            }
-            if (nodeRow > 0) {
-              if (Nodestatus2D[nodeRow - 1][nodeCol] !== 1 && Nodestatus2D[nodeRow - 1][nodeCol] !== 2 && Nodestatus2D[nodeRow - 1][nodeCol] !== 3) {
-                if (Nodestatus2D[nodeRow - 1][nodeCol] === 4 || Nodestatus2D[nodeRow - 1][nodeCol] === 6){
-                  this.setNodeStatus({ node: i - this.columns, status: 6 });
-                  Nodestatus2D[nodeRow - 1][nodeCol] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i - this.columns, status: 5 });
-                  Nodestatus2D[nodeRow - 1][nodeCol] = 5;
-                }
-              }
-            }
-            if (nodeCol < this.columns - 1) {
-              if (Nodestatus2D[nodeRow][nodeCol + 1] !== 1 && Nodestatus2D[nodeRow][nodeCol + 1] !== 2 && Nodestatus2D[nodeRow][nodeCol + 1] !== 3) {
-                if (Nodestatus2D[nodeRow][nodeCol + 1] === 4 || Nodestatus2D[nodeRow][nodeCol + 1] === 6){
-                  this.setNodeStatus({ node: i + 1, status: 6 });
-                  Nodestatus2D[nodeRow ][nodeCol + 1] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i + 1, status: 5 });
-                  Nodestatus2D[nodeRow ][nodeCol + 1] = 5;
-                }
-              }
-            }
-            if (nodeRow < this.columns - 1) {
-              if (Nodestatus2D[nodeRow + 1][nodeCol] !== 1 && Nodestatus2D[nodeRow + 1][nodeCol] !== 2 && Nodestatus2D[nodeRow + 1][nodeCol] !== 3) {
-                if (Nodestatus2D[nodeRow + 1][nodeCol] === 4 || Nodestatus2D[nodeRow + 1][nodeCol] === 6){
-                  this.setNodeStatus({ node: i + this.columns, status: 6 });
-                  Nodestatus2D[nodeRow + 1][nodeCol] = 6;
-                }
-                else {
-                  this.setNodeStatus({ node: i + this.columns, status: 5 });
-                  Nodestatus2D[nodeRow + 1][nodeCol] = 5;
-                }
-
-              }
-            }
+          // Check left
+          if (nodeCol > 0) {
+            updateNodeStatus(i, { row: nodeRow, col: nodeCol - 1, index: i - 1 }, newStatus);
+          }
+          // Check right
+          if (nodeCol < this.columns - 1) {
+            updateNodeStatus(i, { row: nodeRow, col: nodeCol + 1, index: i + 1 }, newStatus);
+          }
+          // Check top
+          if (nodeRow > 0) {
+            updateNodeStatus(i, { row: nodeRow - 1, col: nodeCol, index: i - this.columns }, newStatus);
+          }
+          // Check bottom
+          if (nodeRow < this.columns - 1) {
+            updateNodeStatus(i, { row: nodeRow + 1, col: nodeCol, index: i + this.columns }, newStatus);
           }
         }
       }
@@ -330,6 +206,22 @@ export default {
              6 = nåbar för 1 och 2
             */
 
+    /**
+     * Function to update the background color of node elements based on their status.
+     * Iterates through all questions and sets the background color of each node element
+     * according to its status. Also enables the node element if certain conditions are met.
+     *
+     * Node statuses and their corresponding colors:
+     * - 1: Green (#32cd32)
+     * - 2: Dark Orange (#ff8c00)
+     * - 3: Dark Slate Blue (#1e1e2f)
+     * - 4: Light Green (#9cca9cff) - Enables node if playerRole is "Player 1"
+     * - 5: Light Orange (#ffc379ff) - Enables node if playerRole is "Player 2"
+     * - 6: Light Yellow (#f7ffa1ff) - Enables node
+     * - Default: Light Gray (#f5f5f5ff)
+     *
+     * Logs an error if a node element with the expected ID is not found.
+     */
     drawNodeColors: function () {
 
       for (let i = 1; i <= this.totalQuestions; i++) {
@@ -342,29 +234,38 @@ export default {
         switch (this.nodeStatus[i-1]) {
           case 1:
             nodeElement.style.backgroundColor = "#32cd32";
+            nodeElement.disabled = true;
+            nodeElement.style.animation = "none"; 
             break;
           
           case 2:
             nodeElement.style.backgroundColor = "#ff8c00";
+            nodeElement.disabled = true;
+            nodeElement.style.animation = "none"; 
             break;
           case 3:
             nodeElement.style.backgroundColor = "#1e1e2f";
+            nodeElement.disabled = true;
+            nodeElement.style.animation = "none"; 
             break;
           case 4:
             nodeElement.style.backgroundColor = "#9cca9cff";
             if (this.playerRole === "Player 1") {
               nodeElement.disabled = false;
+              nodeElement.style.animation = "pulse 2s infinite";
             }
             break;
           case 5:
             nodeElement.style.backgroundColor = "#ffc379ff";
             if (this.playerRole === "Player 2"){
-              nodeElement.disabled = false; 
+              nodeElement.disabled = false;
+              nodeElement.style.animation = "pulse 2s infinite"; 
             }
             break;
           case 6:
             nodeElement.style.backgroundColor = "#f7ffa1ff";
             nodeElement.disabled = false;
+            nodeElement.style.animation = "pulse 2s infinite";
             break;
           default:
             nodeElement.style.backgroundColor = "#f5f5f5ff"
@@ -383,7 +284,16 @@ export default {
     },
 
     submitAnswer: function (answer, playerRole) {
-      socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.c, playerRole });    
+      if (answer.c) {
+        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.c, playerRole }); 
+        this.drawNodeColors();
+        this.lastAnswer = "correct";
+      }
+      else {
+        this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
+        this.lastAnswer = "wrong";
+      }
+      
     },
 
     
@@ -418,7 +328,7 @@ export default {
         return;
       }
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
-    
+     this.showQuestionComponent = true; 
     },
   }
 }

@@ -158,6 +158,17 @@ button {
   text-align: center;
   margin: auto;
 }
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .main-menu {
   position:fixed;

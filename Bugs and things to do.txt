@@ -1,6 +1,7 @@
 ----------------------BUGS----------------------
 
 1. Divition operatorn räknar inte ut korrekt när den skapar frågorna.
+2. Måste fixa så flera olika frågor kan vara laddade samtidigt
 
 
 ---MOBILE---
