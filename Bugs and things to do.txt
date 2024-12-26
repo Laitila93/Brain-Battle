@@ -4,26 +4,16 @@
 2. Måste fixa så flera olika frågor kan vara laddade samtidigt
 
 
----MOBILE---
-
-1. Can not create poll or join poll from an other device
-2. Fix rezisable game area.
-
-
-
-
-
-
 ------------------Things to do------------------
 
---Style--
 
+--Style--
 1. Städa och ordna alla klass- ,id- och variabelnamn.
 2. Kontrollera att alla views använder rätt klasser och ser likadana ut.
 3. flytta CSS kod till Main.css
 4. rename all "poll" to "Quiz".
-
-5. I lobbyView, är tanken att det ska stå både att man väntar på "host" och på 
+5. Fixa så att all text hämtas från language filen.
+6. I lobbyView, är tanken att det ska stå både att man väntar på "host" och på 
 "other player"? Dessutom står det att man väntar på "host" även när det är host som
 klickat att hen är redo. /Emil 
 
@@ -31,10 +21,3 @@ klickat att hen är redo. /Emil
 1. Eventuellt problem om man skulle få ett pollId som redan använts.
 
 --Nodes--
-
-1. Dynamiska node färger.
-
-2. Räkna ut och byt färg på angränsande noder.
-
-3. Separate runQuestion by player to be able to get different questions.
-4. Make non valid nodes un-clickable.
