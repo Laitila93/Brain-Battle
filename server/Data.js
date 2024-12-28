@@ -175,13 +175,7 @@ Data.prototype.submitAnswer = function(pollId, answer, playerRole) {
               poll.scores.p2Score++;
             }
           } else {
-            if (playerRole === "Player 1") {
-              poll.nodeStatus[poll.currentQuestion] = 2; // Player 2 wins
-              poll.scores.p2Score++;
-            } else {
-              poll.nodeStatus[poll.currentQuestion] = 1; // Player 1 wins
-              poll.scores.p1Score++;
-            }
+            poll.nodeStatus[poll.currentQuestion] = 3;
           }
         } else {
           console.log("Node status is invalid or unclaimed.");

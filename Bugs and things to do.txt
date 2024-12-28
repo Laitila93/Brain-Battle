@@ -26,6 +26,6 @@
 5.  (Sulle)Ändra createView till radioknappar? eller liknande.
 
 --Result--
-1.  (Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp)
+1.  (Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) - Halvvägs
 
 --Nodes--
