@@ -111,8 +111,14 @@ export default {
       });
 
       socket.on("submittedAnswersUpdate", scores => {
-        this.checkAdjacentNodes();                            //EDVIN: MÅSTE VARA KVAR!!!
+        this.checkAdjacentNodes();                            
         this.scores = scores;
+        if (this.isGameOver()){
+          console.log("the game is over")
+        }
+        else{
+          console.log("the game is NOT over:")
+        }
       });
 
       socket.on("uiLabels", labels => {
@@ -142,6 +148,32 @@ export default {
 
     handleAnswered() {
       this.showQuestionComponent = false; // Hide the QuestionComponent
+    },
+    isGameOver: function(){
+      let count4 = 0;
+      let count5 = 0;
+      let count6 = 0;
+      for (let i = 0; i < this.totalQuestions; i++) {
+        if(this.nodeStatus[i] === 4){
+          count4 ++;
+        }
+        if(this.nodeStatus[i] === 5){
+          count5 ++;
+        }
+        if(this.nodeStatus[i] === 6){
+          count6 ++;
+        }
+      }
+      if (count6 > 0){
+        return false;
+      }
+      if (count4 === 0 && this.scores.p1Score < this.scores.p2Score){
+        return true;
+      }
+      if (count5 === 0 && this.scores.p1Score > this.scores.p2Score){
+        return true;
+      }
+      return false;
     },
 
     /**
@@ -310,9 +342,11 @@ export default {
         this.lastAnswer = "correct";
       }
       else {
-        this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
+        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.c, playerRole }); 
+        //this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
         this.lastAnswer = "wrong";
       }
+
       
     },
 

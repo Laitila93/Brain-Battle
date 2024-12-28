@@ -153,29 +153,68 @@ Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returne
   return {}
 }
 
-Data.prototype.submitAnswer = function(d) { 
-  console.log('DATA: Answer arrived in data, processing and storing answer: ', d.answer, ' type: ', typeof(d.answer));
-  if (this.pollExists(d.pollId)) {
+Data.prototype.submitAnswer = function(pollId, answer, playerRole) {
+  console.log('DATA: Answer arrived in data, processing and storing answer: ', answer, ' type: ', typeof(answer));
+  if (this.pollExists(pollId)) {
+    console.log('DATA: found poll ', pollId);
+    const poll = this.polls[pollId];
+    console.log('DATA: found value of currentQuestion: ', poll.currentQuestion);
+    let answers = poll.answers[poll.currentQuestion];
+    
+    Data.prototype.submitAnswer = function (pollId, answer, playerRole) {
+      console.log("Processing answer:", answer, "for player:", playerRole);
+    
+      if (this.pollExists(pollId)) {
+        const poll = this.polls[pollId];
+        const currentStatus = poll.nodeStatus[poll.currentQuestion];
+    
+        // Handle valid state transitions only
+        if (currentStatus === 1 || currentStatus === 2) {
+          console.log("Node already claimed by Player", currentStatus);
+          return; // Prevent changes if already claimed
+        }
+    
+        if (currentStatus > 3) {
+          if (answer) {
+            if (playerRole === "Player 1") {
+              poll.nodeStatus[poll.currentQuestion] = 1; // Player 1 claims
+              poll.scores.p1Score++;
+            } else {
+              poll.nodeStatus[poll.currentQuestion] = 2; // Player 2 claims
+              poll.scores.p2Score++;
+            }
+          } else {
+            poll.nodeStatus[poll.currentQuestion] = 3;
+          }
+        } else {
+          console.log("Node status is invalid or unclaimed.");
+        }
+      }
+    };
+    
+    
 
-    const poll = this.polls[d.pollId];
-    let answers = {};
-
-    if (d.playerRole === "Player 1"){    
-      console.log('DATA: found value of currentQuestion: ', poll.currentQuestion[0]);
-      answers = poll.answers[poll.currentQuestion[0]];
-      console.log("Processing answer:", d.answer, "for player:", d.playerRole);
-      poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
-      poll.scores.p1Score++;
+    console.log('DATA: answers-array has length: ', poll.answers.length);
+    // create answers object if no answers have yet been submitted
+    if (typeof answers !== 'object') {
+      console.log("DATA: No 'answers' object found, creating new answers object")
+      answers = {};
+      answers[answer] = 1;
+      poll.answers.push(answers);
     }
-    if (d.playerRole === "Player 2"){
-      console.log('DATA: found value of currentQuestion: ', poll.currentQuestion[1]);
-      answers = poll.answers[poll.currentQuestion[1]];
-      console.log("Processing answer:", d.answer, "for player:", d.playerRole);
-      poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
-      poll.scores.p2Score++;
+    // create answer property if that specific answer has not yet been submitted
+    else if (typeof answers[answer] === 'undefined') {
+      console.log(`DATA: Found 'answers' but no earlier property of value ${answer} exists, creating new property` );
+      answers[answer] = 1;
     }
-  } 
+    // if the property already exists, increase the number
+    else
+      answers[answer] += 1;
+    console.log("DATA: Answers look like ", answers, " type: ", typeof(answers));
+    console.log("DATA: poll.answers looks like ", poll.answers, " type: ", typeof(poll.answers));
+  }
 }
+
 export { Data };
 
 
