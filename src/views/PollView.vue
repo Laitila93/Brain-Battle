@@ -17,16 +17,22 @@
         />
       </div>
     </div>
-    <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">Correct answer!</div>
-    <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">Wrong answer!</div>
-    <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">Click a node</div>
-        <div v-if="showQuestionComponent">
-          <QuestionComponent 
-            v-bind:question="question" 
-            v-on:answer="submitAnswer($event, this.playerRole)"
-            v-on:answered="handleAnswered"
-          />
-        </div>
+    <div v-if="!isGameOver">
+      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">Correct answer!</div>
+      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">Wrong answer!</div>
+      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">Click a node</div>
+          <div v-if="showQuestionComponent">
+            <QuestionComponent 
+              v-bind:question="question" 
+              v-on:answer="submitAnswer($event, this.playerRole)"
+              v-on:answered="handleAnswered"
+            />
+          </div>
+      </div>
+      <div v-else>
+        <div>Game over!</div>
+        <div>{{ winner }} wins!</div>
+      </div>
       
   </div>
 </template>
@@ -62,7 +68,8 @@ export default {
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "",
-      activeNodeElement: null,
+      isGameOver:false,
+      winner: "",
     };
   },
 //--------------------------------------------------------------------------------
@@ -113,12 +120,7 @@ export default {
       socket.on("submittedAnswersUpdate", scores => {
         this.checkAdjacentNodes();                            
         this.scores = scores;
-        if (this.isGameOver()){
-          console.log("the game is over")
-        }
-        else{
-          console.log("the game is NOT over:")
-        }
+        this.checkIsGameOver();
       });
 
       socket.on("uiLabels", labels => {
@@ -149,31 +151,30 @@ export default {
     handleAnswered() {
       this.showQuestionComponent = false; // Hide the QuestionComponent
     },
-    isGameOver: function(){
-      let count4 = 0;
-      let count5 = 0;
-      let count6 = 0;
+
+    //Exempel på gameOver funktion
+    checkIsGameOver: function(){
+      let isReachablePlayer1 = false;
+      let isReachablePlayer2 = false;
+
       for (let i = 0; i < this.totalQuestions; i++) {
-        if(this.nodeStatus[i] === 4){
-          count4 ++;
+        if (this.nodeStatus[i] === 4 || this.nodeStatus[i] === 6) {
+          isReachablePlayer1 = true;
         }
-        if(this.nodeStatus[i] === 5){
-          count5 ++;
-        }
-        if(this.nodeStatus[i] === 6){
-          count6 ++;
+        if (this.nodeStatus[i] === 5 || this.nodeStatus[i] === 6) {
+          isReachablePlayer2 = true;
         }
       }
-      if (count6 > 0){
-        return false;
+      if (!isReachablePlayer1 && this.scores.p2Score > this.scores.p1Score){
+        this.isGameOver = true;
+        this.winner = "Player 2";
+        this.showQuestionComponent = true;
       }
-      if (count4 === 0 && this.scores.p1Score < this.scores.p2Score){
-        return true;
+      if (!isReachablePlayer2 && this.scores.p1Score > this.scores.p2Score){
+        this.isGameOver = true;
+        this.winner = "Player 1";
+        this.showQuestionComponent = true;
       }
-      if (count5 === 0 && this.scores.p1Score > this.scores.p2Score){
-        return true;
-      }
-      return false;
     },
 
     /**
@@ -342,9 +343,11 @@ export default {
         this.lastAnswer = "correct";
       }
       else {
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.c, playerRole }); 
-        //this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
+        console.log("wrong answer");
+        this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
+        this.drawNodeColors();
         this.lastAnswer = "wrong";
+
       }
 
       
@@ -374,15 +377,10 @@ export default {
      * Logs a warning if the node status is unhandled.
      */
     runQuestion: function (questionNumber) {
-      this.setNodeStatus({ node: questionNumber-1, status: this.playerRole === "Player 1" ? 1 : 2 });
       this.questionNumber = questionNumber;
-      this.activeNodeElement = document.getElementById('node-' + questionNumber);
-      if (!this.activeNodeElement) {
-        console.error(`Node element with ID 'node-${questionNumber}' not found.`);
-        return;
-      }
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
+      this.setNodeStatus({ node: this.questionNumber-1, status: 0 });
     },
   }
 }
