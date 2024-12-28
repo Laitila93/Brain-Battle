@@ -210,7 +210,7 @@ export default {
     addAnswer: function () {
       this.answers.push("");
     },
-    runQuestion: function () {
+    runQuestion: function () { //Är denna överflödig?
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     },
     switchLanguage: function() {

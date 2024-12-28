@@ -21,7 +21,7 @@ function Data() {
        }
       ],
       answers: [],
-      currentQuestion: 0,
+      currentQuestion: [],
       participants: [],
       nodeStatus: [],
       scores: {p1Score: 1, p2Score: 1}
@@ -65,7 +65,7 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
-    poll.currentQuestion = 0;
+    poll.currentQuestion = [];
     poll.nodeStatus = [];             
     this.polls[pollId] = poll;
     poll.counter = 0; //EMIL: for testing 
@@ -87,6 +87,7 @@ Data.prototype.participateInPoll = function (pollId, player) {
     const poll = this.polls[pollId];
     if (poll.participants.length < 2) {
       poll.participants.push(player);
+      poll.currentQuestion.push(0);
     }
   }
 }
@@ -106,21 +107,29 @@ Data.prototype.addQuestion = function(pollId, q) {
     let counter = this.polls[pollId].counter
     this.polls[pollId].questions.push(q);
     this.polls[pollId].nodeStatus.push(0);
-    console.log("DATA: question ", counter, " added"); //EMIL: testing stuff
     this.polls[pollId].answers.push({});
   }
 }
 
-Data.prototype.getQuestion = function(pollId, qId = null) {
-  console.log("DATA: getQuestion reached"); //EMIL: testing stuff
+Data.prototype.getQuestion = function(pollId, player = null, qId = null) {
+
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
     if (qId !== null) {
-      console.log("Found qId not null"); //EMIL: testing stuff
-      poll.currentQuestion = qId;
-      console.log("currentQuestion updated"); //EMIL: testing stuff
+      if (player === "Player 1") {
+        poll.currentQuestion [0] = qId;
+        return poll.questions[poll.currentQuestion[0]];
+      }
+      else if (player === "Player 2") {
+        poll.currentQuestion [1] = qId;
+        return poll.questions[poll.currentQuestion[1]];
+      }
+      else {
+        return poll.questions[qId];
+      }
+
     }
-    return poll.questions[poll.currentQuestion];
+    
   }
   return {}
 }
@@ -133,11 +142,11 @@ Data.prototype.getNumberOfQuestions = function(pollId) {
   return {}
 }
 
-Data.prototype.getSubmittedAnswers = function(pollId) {
+Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returnerar bara svar från spelare 1!!
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
-    const answers = poll.answers[poll.currentQuestion];
-    if (typeof poll.questions[poll.currentQuestion] !== 'undefined') {
+    const answers = poll.answers[poll.currentQuestion[0]];
+    if (typeof poll.questions[poll.currentQuestion[0]] !== 'undefined') {
       return answers;
     }
   }

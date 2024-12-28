@@ -317,7 +317,7 @@ export default {
 
     submitAnswer: function (answer, playerRole) {
       if (answer.c) {
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.c, playerRole }); 
+        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: playerRole }); 
         this.drawNodeColors();
         this.lastAnswer = "correct";
       }

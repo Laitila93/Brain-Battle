@@ -75,14 +75,14 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('startPoll');
   })
   socket.on('runQuestion', function(d) {
-    let question = data.getQuestion(d.pollId, d.questionNumber);
+    let question = data.getQuestion(d.pollId, d.playerRole, d.questionNumber);
     io.to(d.pollId).emit('questionUpdate', {q:question, playerRole:d.playerRole});
   
   });
 
   socket.on('submitAnswer', function(d) {
     console.log('SOCKETS: Answer received in sockets, forwarding to data');
-    data.submitAnswer(d.pollId, d.answer, d.playerRole);                    
+    data.submitAnswer(d);                    
     io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
     io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
   }); 
