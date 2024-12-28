@@ -9,11 +9,12 @@
     </div>
     <div class="node-area">
       <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
-          <NodeComponent 
-            v-for="index in totalQuestions" 
-            :questionId="index" 
-            @questionId="runQuestion($event)"
-          />
+        <NodeComponent 
+          v-for="index in totalQuestions" 
+          :key="index"
+          :questionId="index" 
+          @questionId="runQuestion($event)"
+        />
       </div>
     </div>
     <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">Correct answer!</div>
@@ -59,8 +60,9 @@ export default {
       nodeStatus: [],
       firstCheck: true, // Guard variable
       scores: {p1Score: 1, p2Score: 1},
-      showQuestionComponent: true, // Control the visibility of the QuestionComponent
+      showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "",
+      activeNodeElement: null,
     };
   },
 //--------------------------------------------------------------------------------
@@ -137,6 +139,7 @@ export default {
       }
       return result;
     },
+
     handleAnswered() {
       this.showQuestionComponent = false; // Hide the QuestionComponent
     },
@@ -249,6 +252,11 @@ export default {
             nodeElement.style.animation = "none"; 
             break;
           case 4:
+            if (this.showQuestionComponent === true){
+              nodeElement.disabled = true;
+              nodeElement.style.animation = "none"; 
+              break;
+            }
             nodeElement.style.backgroundColor = "#9cca9cff";
             if (this.playerRole === "Player 1") {
               nodeElement.disabled = false;
@@ -256,6 +264,11 @@ export default {
             }
             break;
           case 5:
+          if (this.showQuestionComponent === true){
+              nodeElement.disabled = true;
+              nodeElement.style.animation = "none"; 
+              break;
+            }
             nodeElement.style.backgroundColor = "#ffc379ff";
             if (this.playerRole === "Player 2"){
               nodeElement.disabled = false;
@@ -263,12 +276,19 @@ export default {
             }
             break;
           case 6:
+          if (this.showQuestionComponent === true){
+              nodeElement.disabled = true;
+              nodeElement.style.animation = "none"; 
+              break;
+            }
             nodeElement.style.backgroundColor = "#f7ffa1ff";
             nodeElement.disabled = false;
             nodeElement.style.animation = "pulse 2s infinite";
             break;
           default:
             nodeElement.style.backgroundColor = "#f5f5f5ff"
+            nodeElement.disabled = true;
+            nodeElement.style.animation = "none"; 
             break;
         }
       }
@@ -320,15 +340,15 @@ export default {
      * Logs a warning if the node status is unhandled.
      */
     runQuestion: function (questionNumber) {
-      console.log("POLLVIEW: runQuestion was run");
+      this.setNodeStatus({ node: questionNumber-1, status: this.playerRole === "Player 1" ? 1 : 2 });
       this.questionNumber = questionNumber;
-      let nodeElement = document.getElementById('node-' + questionNumber);
-      if (!nodeElement) {
+      this.activeNodeElement = document.getElementById('node-' + questionNumber);
+      if (!this.activeNodeElement) {
         console.error(`Node element with ID 'node-${questionNumber}' not found.`);
         return;
       }
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
-     this.showQuestionComponent = true; 
+      this.showQuestionComponent = true;
     },
   }
 }

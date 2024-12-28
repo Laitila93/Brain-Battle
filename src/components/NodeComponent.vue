@@ -2,7 +2,7 @@
   <button 
     class="nodeButton" 
     :id="'node-' + questionId"
-    :disabled="disabled" 
+    :disabled="disabled"
     v-on:click="emitQuestionId">
   </button>
 </template>
@@ -11,12 +11,10 @@
 export default {
   name: 'NodeComponent',
   data: function () {
-    return {
-      disabled: true
-    }; 
+    return {disabled: true}; 
   },
   props: {
-    questionId: Number
+    questionId: Number,
   },
   emits:["questionId"],
 
