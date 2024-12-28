@@ -21,7 +21,7 @@ function Data() {
        }
       ],
       answers: [],
-      currentQuestion: 0,
+      currentQuestion: [],
       participants: [],
       nodeStatus: [],
       scores: {p1Score: 1, p2Score: 1}
@@ -65,7 +65,7 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
-    poll.currentQuestion = 0;
+    poll.currentQuestion = [];
     poll.nodeStatus = [];             
     this.polls[pollId] = poll;
     poll.counter = 0; //EMIL: for testing 
@@ -87,6 +87,7 @@ Data.prototype.participateInPoll = function (pollId, player) {
     const poll = this.polls[pollId];
     if (poll.participants.length < 2) {
       poll.participants.push(player);
+      poll.currentQuestion.push(0);
     }
   }
 }
@@ -106,21 +107,29 @@ Data.prototype.addQuestion = function(pollId, q) {
     let counter = this.polls[pollId].counter
     this.polls[pollId].questions.push(q);
     this.polls[pollId].nodeStatus.push(0);
-    console.log("DATA: question ", counter, " added"); //EMIL: testing stuff
     this.polls[pollId].answers.push({});
   }
 }
 
-Data.prototype.getQuestion = function(pollId, qId = null) {
-  console.log("DATA: getQuestion reached"); //EMIL: testing stuff
+Data.prototype.getQuestion = function(pollId, player = null, qId = null) {
+
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
     if (qId !== null) {
-      console.log("Found qId not null"); //EMIL: testing stuff
-      poll.currentQuestion = qId;
-      console.log("currentQuestion updated"); //EMIL: testing stuff
+      if (player === "Player 1") {
+        poll.currentQuestion [0] = qId;
+        return poll.questions[poll.currentQuestion[0]];
+      }
+      else if (player === "Player 2") {
+        poll.currentQuestion [1] = qId;
+        return poll.questions[poll.currentQuestion[1]];
+      }
+      else {
+        return poll.questions[qId];
+      }
+
     }
-    return poll.questions[poll.currentQuestion];
+    
   }
   return {}
 }
@@ -133,85 +142,40 @@ Data.prototype.getNumberOfQuestions = function(pollId) {
   return {}
 }
 
-Data.prototype.getSubmittedAnswers = function(pollId) {
+Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returnerar bara svar från spelare 1!!
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
-    const answers = poll.answers[poll.currentQuestion];
-    if (typeof poll.questions[poll.currentQuestion] !== 'undefined') {
+    const answers = poll.answers[poll.currentQuestion[0]];
+    if (typeof poll.questions[poll.currentQuestion[0]] !== 'undefined') {
       return answers;
     }
   }
   return {}
 }
 
-Data.prototype.submitAnswer = function(pollId, answer, playerRole) {
-  console.log('DATA: Answer arrived in data, processing and storing answer: ', answer, ' type: ', typeof(answer));
-  if (this.pollExists(pollId)) {
-    console.log('DATA: found poll ', pollId);
-    const poll = this.polls[pollId];
-    console.log('DATA: found value of currentQuestion: ', poll.currentQuestion);
-    let answers = poll.answers[poll.currentQuestion];
-    
-    Data.prototype.submitAnswer = function (pollId, answer, playerRole) {
-      console.log("Processing answer:", answer, "for player:", playerRole);
-    
-      if (this.pollExists(pollId)) {
-        const poll = this.polls[pollId];
-        const currentStatus = poll.nodeStatus[poll.currentQuestion];
-    
-        // Handle valid state transitions only
-        if (currentStatus === 1 || currentStatus === 2) {
-          console.log("Node already claimed by Player", currentStatus);
-          return; // Prevent changes if already claimed
-        }
-    
-        if (currentStatus > 3) {
-          if (answer) {
-            if (playerRole === "Player 1") {
-              poll.nodeStatus[poll.currentQuestion] = 1; // Player 1 claims
-              poll.scores.p1Score++;
-            } else {
-              poll.nodeStatus[poll.currentQuestion] = 2; // Player 2 claims
-              poll.scores.p2Score++;
-            }
-          } else {
-            if (playerRole === "Player 1") {
-              poll.nodeStatus[poll.currentQuestion] = 2; // Player 2 wins
-              poll.scores.p2Score++;
-            } else {
-              poll.nodeStatus[poll.currentQuestion] = 1; // Player 1 wins
-              poll.scores.p1Score++;
-            }
-          }
-        } else {
-          console.log("Node status is invalid or unclaimed.");
-        }
-      }
-    };
-    
-    
+Data.prototype.submitAnswer = function(d) { 
+  console.log('DATA: Answer arrived in data, processing and storing answer: ', d.answer, ' type: ', typeof(d.answer));
+  if (this.pollExists(d.pollId)) {
 
-    console.log('DATA: answers-array has length: ', poll.answers.length);
-    // create answers object if no answers have yet been submitted
-    if (typeof answers !== 'object') {
-      console.log("DATA: No 'answers' object found, creating new answers object")
-      answers = {};
-      answers[answer] = 1;
-      poll.answers.push(answers);
+    const poll = this.polls[d.pollId];
+    let answers = {};
+
+    if (d.playerRole === "Player 1"){    
+      console.log('DATA: found value of currentQuestion: ', poll.currentQuestion[0]);
+      answers = poll.answers[poll.currentQuestion[0]];
+      console.log("Processing answer:", d.answer, "for player:", d.playerRole);
+      poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
+      poll.scores.p1Score++;
     }
-    // create answer property if that specific answer has not yet been submitted
-    else if (typeof answers[answer] === 'undefined') {
-      console.log(`DATA: Found 'answers' but no earlier property of value ${answer} exists, creating new property` );
-      answers[answer] = 1;
+    if (d.playerRole === "Player 2"){
+      console.log('DATA: found value of currentQuestion: ', poll.currentQuestion[1]);
+      answers = poll.answers[poll.currentQuestion[1]];
+      console.log("Processing answer:", d.answer, "for player:", d.playerRole);
+      poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
+      poll.scores.p2Score++;
     }
-    // if the property already exists, increase the number
-    else
-      answers[answer] += 1;
-    console.log("DATA: Answers look like ", answers, " type: ", typeof(answers));
-    console.log("DATA: poll.answers looks like ", poll.answers, " type: ", typeof(poll.answers));
-  }
+  } 
 }
-
 export { Data };
 
 
