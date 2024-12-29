@@ -345,6 +345,7 @@ export default {
       else {
         console.log("wrong answer");
         this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
+        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         this.drawNodeColors();
         this.lastAnswer = "wrong";
 
