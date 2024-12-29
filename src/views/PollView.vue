@@ -358,6 +358,7 @@ export default {
         socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         this.drawNodeColors();
         this.lastAnswer = "wrong";
+      
 
       }
 
@@ -392,6 +393,16 @@ export default {
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
       this.setNodeStatus({ node: this.questionNumber-1, status: 0 });
+      let nodeElement = document.getElementById('node-' + (this.questionNumber));
+      if (this.playerRole === "Player 1") {
+        nodeElement.style.borderColor = "#32cd32";
+        console.log("should set orange")
+      }
+      else {
+        nodeElement.style.borderColor = "#ff8c00";
+        console.log("should set green")
+      }
+
     },
   }
 }
