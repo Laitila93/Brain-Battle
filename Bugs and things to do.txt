@@ -24,8 +24,10 @@
 3.  Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
 4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
 5.  (Sulle)Ändra createView till radioknappar? eller liknande.
+6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
 
 --Result--
-1.  (Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) - Halvvägs
+1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 
+1b. lägg till och implementera rematch button bredvid back to home page
 
 --Nodes--

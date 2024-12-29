@@ -31,7 +31,9 @@
       </div>
       <div v-else>
         <div>Game over!</div>
-        <div>{{ winner }} wins!</div>
+        <div v-if="winner === playerRole">YOU WIN!!!</div>
+        <div v-else>YOU LOOSE!</div>
+        <button onclick="location.href='/';">Back to home page</button>
       </div>
       
   </div>
@@ -151,6 +153,7 @@ export default {
     handleAnswered() {
       this.showQuestionComponent = false; // Hide the QuestionComponent
     },
+
 
     //Exempel på gameOver funktion
     checkIsGameOver: function(){
