@@ -71,7 +71,6 @@ export default {
     startPoll: function () {
       if (this.participants.length > 0){
         socket.emit("startPoll", this.pollId)
-        socket.emit("getNumberOfQuestions", this.pollId)
       }
     }
   }

@@ -20,6 +20,7 @@ export default {
 
   methods: {
     emitQuestionId: function () {
+      console.log("Emitting questionId: " + this.questionId);
       this.$emit("questionId", this.questionId);
     },
   }
