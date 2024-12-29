@@ -2,20 +2,17 @@
   <div class="wrapper">
     <header>
       <div class="logo">
-        <div class="img-wrapper">
-          <img src="../assets/swords.png">
-        </div>
+        <img src="../assets/swords.png" class="logo-image">
         Brain Battle
-        <div class="img-wrapper">
-          <img src="../assets/brain.png">
-        </div>
+        <img src="../assets/brain.png" class="logo-image">
       </div>
+
     </header>
     <nav class="main-menu">
       <p v-if="!pollExists && pollIsChecked" id="error-message">
           {{ uiLabels.invalidGameId }}
       </p>
-      <div class="menu-item">
+      <div class="text-join-section">
         <input 
         class="id-input" 
         type="text" 
@@ -27,11 +24,10 @@
         {{ uiLabels.participatePoll }}
         </router-link>
       </div>
-      <div class="menu-item">
-        <div class="or">
-          {{ uiLabels.or }}
-        </div>
+      <div class="or">
+        {{ uiLabels.or }}
       </div>
+        
       <div class="menu-item">
         <router-link to="/create/" class="create-game">
           {{ uiLabels.createPoll }}
@@ -39,18 +35,18 @@
       </div>
     </nav>
 
-    <nav class="temp-menu">
+    <nav class="footer-menu">
 
-      <a class="temp-menu-item" href="">
+      <a class="about-page" href="">
         {{ uiLabels.about }}
       </a>
-      <a class="temp-menu-item" href="">
+      <a class="rules-page" href="">
         {{ uiLabels.rules }}
       </a>
     </nav>
-    <div class="lang-wrapper">
+    <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'}]">
+      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
     </div>
   </div>
@@ -60,7 +56,7 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-localStorage.setItem("serverIP", "192.168.50.97:3000");
+localStorage.setItem("serverIP", "192.168.0.101:3000");
 const socket = io(localStorage.getItem("serverIP"));
 
 export default {
@@ -135,21 +131,14 @@ export default {
     padding: 5px;
 
   }
-  .img-wrapper {
+  .logo img {
     height: 70px;
-    min-width: 70px; /*NEED TO REVISIT THIS! I DON'T KNOW WHAT I'M DOING /Emil*/
+    min-width: 70px; 
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .logo img {
-    height:100%;
-    width:100%;
-    vertical-align: bottom;
-    margin-right: 0.5rem; 
-  }
-
-  .menu-item {
+  .text-join-section{
     text-transform: uppercase;
     display: flex;
     height: 3em;
@@ -162,7 +151,7 @@ export default {
     font-size: 1rem;
     text-transform: none;
   }
-  .temp-menu {
+  .footer-menu {
     position: fixed;
     background-color: #1e1e2f;
     bottom: 2px;
@@ -173,8 +162,8 @@ export default {
     grid-template-columns: repeat(auto-fit, 10em);
     text-transform: uppercase;
   }
-  .temp-menu-item {
-    font-size: 0.8rem;
+  .about-page, .rules-page {
+    font-size: 1rem;
     text-decoration: none;
     letter-spacing: 0.1em;
     display: grid;
@@ -184,6 +173,7 @@ export default {
     border-right: 1px solid white;
     color: white;
   }
+    
   .id-input {
     font-size: 1.2rem;
     max-width: 40%;
@@ -215,55 +205,56 @@ export default {
     pointer-events: none;
   }
   .create-game {
-    background-color: #ff8c00;
-    color:black;
-    width: 60%;
-    font-size: 0.8rem;
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    display: grid;
-    align-items: center;
-  }
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 3em; 
+    width: 60%; 
+    background-color: #ff8c00; 
+    color: black; 
+    font-size: 0.8rem; 
+    text-decoration: none; 
+    letter-spacing: 0.1em; 
+    margin: 0 auto; 
+}
+
   .or {
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    font-size: 2rem;
-    color: #007bff;
+    border-radius: 5px; 
+    font-size: 1.5rem;
+    color: #ffffff;
   }
+  .lang-switcher {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  color:white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
 
-  
-  .lang-wrapper {
-    position:fixed;
-    bottom: 10px;
-    right: 20px;
-    color:#007bff;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
-    font-size: 1em;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-  }
+.lang-btn {
+  height: 3em;
+  width: 5em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-size: cover;
+  background-position: center;
+}
 
-  .button-sv {
-    height: 3em;
-    width: 5em;
-    cursor: pointer;
-    border-radius: 1em;
-    background-image: url("../assets/swedish-flag.png");
-    background-size: cover;
-    background-position: center;
-  }
+.button-sv {
+  background-image: url("../assets/swedish-flag.png");
+}
 
-  .button-en {
-    height: 3em;
-    width: 5em;
-    cursor: pointer;
-    border-radius: 1em;
-    background-image: url("../assets/uk-flag.png");
-    background-size: cover;
-    background-position: center;
-  }
+.button-en {
+  background-image: url("../assets/uk-flag.png");
+}
+
 
 </style>

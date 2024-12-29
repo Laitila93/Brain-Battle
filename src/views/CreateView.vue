@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper" >
-    CREATE GAME
-    <nav class="main-menu">
-      <div class="logo">Poll ID: {{ pollId }}</div>
+    <div class="poll-id">Poll ID: {{ pollId }}</div>
+    <nav class="option-menu">
         <div>
           <form id="createForm" @submit="createAndStart">
+            
             <p>
-              <label for="formOperator">Operator: </label>
+              <label for="formOperator">Choose A Math Operator: </label>
                 <select id="formOperator" v-model="formOperator" name="formOperator" required>
                   <option>+</option>
                   <option>-</option>
@@ -14,8 +14,9 @@
                   <option>/</option>
                 </select>
             </p>
+    
             <p>
-              <label for="numberOfQuestions">Number Of Questions: </label>
+              <label for="numberOfQuestions">Select the Number Of Questions: </label>
                 <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
                   <option>16</option>
                   <option>25</option>
@@ -24,7 +25,7 @@
                 </select>
             </p>
             <p>
-              <label for="formMin">Min: </label>
+              <label for="formMin">Minimum of questions: </label>
                 <input
                   id="formMin"
                   v-model="formMin"
@@ -36,7 +37,7 @@
                 >
             </p>
             <p>
-              <label for="formMax">Max: </label>
+              <label for="formMax">Maximum of questions: </label>
                 <input
                   id="formMax"
                   v-model="formMax"
@@ -55,11 +56,12 @@
           </form>
         </div>
     </nav>
-    <div class="lang-wrapper">
+    <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'}]">
+      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
     </div>
+    <button class="back-button" @click="goToStartView">{{ uiLabels.backToMenu || "Back to Menu"}}</button>
   </div>
 </template>
 
@@ -107,7 +109,6 @@ export default {
   methods: {
     generatePollId: function () {
       this.pollId = Math.floor(1000 + Math.random() * 9000);
-      console.log(this.pollId) //Remove? /Emil 21dec
     },
 
     shuffle: function (array) {
@@ -200,7 +201,9 @@ export default {
 
       
     },
-  
+    addQuestions: function () {
+
+    },
     startPoll: function () {
       socket.emit("startPoll", this.pollId)
       socket.emit("getNumberOfQuestions", this.pollId)
@@ -223,7 +226,10 @@ export default {
       }
       localStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
-    }
+    },
+    goToStartView: function() {
+  this.$router.push('/'); 
+},
     
   }
 }
@@ -232,40 +238,66 @@ export default {
 
 <style>
 /*"wrapper" and "main-menu" classes are styled in main.css */
+.option-menu{
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 26em;
+  color: #ff8c00;
+}
+.poll-id{
+  font-size: 20pt;
+  font-family:'Times New Roman', Times, serif;
+  font-family: 'Agbalumo';
+  color:#ff8c00;
+}
+#createForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  background-color:#1e1e2f;
+}
+#createForm select,
+#createForm input[type="number"] {
+  background-color: rgb(99, 55, 2);
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ff8c00;
+  border-radius: 10px;
+}
+#createForm button[type="submit"] {
+  width: 80%;
+  padding: 10px;
+  background-color: #ff8c00;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-.lang-wrapper {
-    position:fixed;
-    bottom: 10px;
-    right: 20px;
-    color:#007bff;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
-    font-size: 1em;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-  }
+#createForm select option {
+  background-color: #1e1e2f; 
+}
+.back-button {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 4px;
+  left: 50px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
 
-  .button-sv {
-    height: 3em;
-    width: 5em;
-    cursor: pointer;
-    border-radius: 1em;
-    background-image: url("../assets/swedish-flag.png");
-    background-size: cover;
-    background-position: center;
-  }
-
-  .button-en {
-    height: 3em;
-    width: 5em;
-    cursor: pointer;
-    border-radius: 1em;
-    background-image: url("../assets/uk-flag.png");
-    background-size: cover;
-    background-position: center;
-  }
-
+.back-button:hover {
+  background-color: #e67e00;
+  cursor: pointer;
+}
 
 </style>
