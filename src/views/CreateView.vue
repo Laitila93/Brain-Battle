@@ -1,12 +1,13 @@
 <template>
   <div class="wrapper" >
-    <div class="poll-id">Poll ID: {{ pollId }}</div>
-    <nav class="option-menu">
+    {{uiLabels.header}}
+    <nav class="main-menu">
+      <div class="logo">{{uiLabels.whichGame}}: {{ pollId }}</div>
         <div>
           <form id="createForm" @submit="createAndStart">
             
             <p>
-              <label for="formOperator">Choose A Math Operator: </label>
+              <label for="formOperator">{{uiLabels.chooseOperator}} </label>
                 <select id="formOperator" v-model="formOperator" name="formOperator" required>
                   <option>+</option>
                   <option>-</option>
@@ -16,12 +17,14 @@
             </p>
     
             <p>
-              <label for="numberOfQuestions">Select the Number Of Questions: </label>
+              <label for="numberOfQuestions">{{uiLabels.chooseNumberOfQuestions}}</label>
                 <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
                   <option>16</option>
                   <option>25</option>
                   <option>36</option>
                   <option>49</option>
+                  <option>64</option>
+                  <option>81</option>
                 </select>
             </p>
             <p>
@@ -50,7 +53,7 @@
             </p>
             <p>
               <button type="submit">
-                {{uiLabels.createPoll}}
+                {{uiLabels.createGame}}
               </button>
             </p>
           </form>
@@ -97,7 +100,7 @@ export default {
   },
   created: function () {
     
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
     socket.on( "pollData", data => this.pollData = data );
     this.generatePollId();
     socket.on( "participantsUpdate", p => this.pollData.participants = p );
@@ -155,12 +158,13 @@ export default {
           this.shuffle(this.questions.a);
           break;
         case '/':
-
-          if (num2 === 0) {
+          //Avoids division by zero, decimals and answer = 1
+          if (num2 === 0 || num2 === 1 || num1%num2 !== 0 || num1 === num2) {
             return this.generateRandomQuestion();
           }
+          
           this.questions.q = `${num1} / ${num2}`;
-          this.questions.a[0] = {a: num1 + num2, c:true};
+          this.questions.a[0] = {a:num1 / num2, c:true};
           this.questions.a[1] = {a:num1 / num2 + 1, c:false};
           this.questions.a[2] = {a:num1 / num2 - 1, c:false};
           this.questions.a[3] = {a:num1 / num2 + 4, c:false};
@@ -188,7 +192,6 @@ export default {
         socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
         socket.emit("joinPoll", this.pollId);
         this.$router.push(('/lobby/' + this.pollId))
-        console.log(this.pollData)
       }
       else {
         console.log("Please fill in all fields.");
@@ -197,7 +200,6 @@ export default {
     createQuiz: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
       socket.emit("joinPoll", this.pollId);
-      console.log("first createQuiz")
 
       
     },
@@ -214,7 +216,7 @@ export default {
     addAnswer: function () {
       this.answers.push("");
     },
-    runQuestion: function () {
+    runQuestion: function () { //Är denna överflödig?
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     },
     switchLanguage: function() {

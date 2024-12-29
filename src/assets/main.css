@@ -105,6 +105,165 @@ button {
   width: 10em;
   cursor: pointer;
 } 
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  padding: 0px;
+  color: white;
+}
+
+.player {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+
+.player1 {
+  background-color: #32cd32; /* Player 1's color */
+}
+
+.player2 {
+  background-color: #ff8c00; /* Player 2's color */
+}
+
+.poll-id {
+  flex: 2;
+  text-align: center;
+  font-weight: bold;
+}
+/* Smartphones (portrait and landscape) ----------- */
+                                            @media only screen 
+                                            and (min-device-width : 320px) 
+                                            and (max-device-width : 480px) {
+                                              .node-grid {
+                                                max-width: 400px;
+                                                display: grid;
+                                                grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+                                                gap: 0.5em;
+                                                text-align: center;
+                                                margin:  auto;
+                                              } 
+                                              .nodeButton {
+                                                height: 0.5em;
+                                                width: 0.5em;
+                                                border-radius: 50%;
+                                                background-color: #007bff;
+                                                text-align: center;
+                                                margin: auto;
+                                              }
+                                            }
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+  .node-grid {
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.2em;
+    text-align: center;
+    margin:  auto;
+  } 
+  .nodeButton {
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+  }
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+  .node-grid {
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.5em;
+    text-align: center;
+    margin:  auto;
+  } 
+  .nodeButton {
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+  .node-grid {
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.7em;
+    text-align: center;
+    margin:  auto;
+  } 
+  .nodeButton {
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+
+  }
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+  .node-grid {
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.7em;
+    text-align: center;
+    margin:  auto;
+  } 
+  .nodeButton {
+    height: 4em;
+    width: 4em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+
+  }
+}
+
+
+.node-area {
+  padding-top: 5vw;
+  padding-bottom: 5vw;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .main-menu {
   position:fixed;
   top: 50%;
@@ -128,7 +287,7 @@ button {
   color: aqua;
   display: flex; 
   flex-wrap: wrap; 
-  gap: 100px;
+
 }
   
 .lang-wrapper {
@@ -165,12 +324,7 @@ button {
   background-position: center;
 }
 
-.nodeButton {
-  height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  background-color: #007bff;
-}
+
 
 .pollBody {
   width: 500px;

@@ -1,15 +1,39 @@
 {
-	"sales-pitch": "Simply. Great. Polling.",
-	"subHeading": "A simple polling tool",
-	"invite": "Invite participants with this link:",
-	"createPoll": "Create new game",
-	"participatePoll": "Join game",
-	"question": "Question",
-	"changeLanguage": "Byt språk:",
-	"about": "About",
-	"participateInPoll": "Participate in poll",
-	"enterprompt": "Enter game ID",
-	"rules": "Rules",
-	"or": "Or",
-	"invalidGameId": "Please enter a valid ID, 4 numbers"
+	"StartViewLabels": {
+		"createPoll": "Create new game",
+		"participatePoll": "Join game",
+		"question": "Question",
+		"changeLanguage": "Byt språk:",
+		"about": "About",
+		"participateInPoll": "Participate in poll",
+		"enterprompt": "Enter game ID",
+		"rules": "Rules",
+		"or": "Or",
+		"invalidGameId": "Please enter a valid ID, 4 numbers"
+	},
+
+	"CreateViewLabels": {
+		"header": "Create New Game",
+		"whichGame": "Poll ID",
+		"chooseOperator": "Operator: ",
+		"chooseNumberOfQuestions": "Number of questions: ",
+		"createGame": "Create new game",
+		"changeLanguage": "Byt språk: "
+	},
+
+	"LobbyViewLabels": {
+		"youAre": "You are: ",
+		"participateInGame": "Join",
+		"waitingForOthers": "Waiting for other player to join...",
+		"changeLanguage": "Byt språk: "
+	},
+
+	"PollViewLabels": {
+		"yourScore": "Your score",
+		"opponentScore": "Opponent's score: ",
+		"correctAnswer": "Correct answer!",
+		"wrongAnswer": "Wrong answer!",
+		"clickNodePrompt": "Click a glowing node!"
+	}
+
 }

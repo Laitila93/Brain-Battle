@@ -77,7 +77,7 @@ export default {
   },
   created: function () {
     socket.emit( "getUILabels", this.lang );
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.StartViewLabels );
   },
   methods: {
     switchLanguage: function() {
@@ -97,16 +97,13 @@ export default {
       clearTimeout(this.checkTimeout);
       if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
         this.pollIsChecked = false
-        console.log(this.pollExists, this.pollIsChecked)
       }
       if (this.newPollId.length === 4) {
         socket.emit('validatePollId', this.newPollId, (exists) => {
           this.pollExists = exists;
           this.pollIsChecked = true;
-          console.log(this.pollExists, this.pollIsChecked)
           });
         };
-        console.log(this.pollExists, this.pollIsChecked)
     }
   }
 }

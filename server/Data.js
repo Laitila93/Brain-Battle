@@ -21,9 +21,10 @@ function Data() {
        }
       ],
       answers: [],
-      currentQuestion: 0,
+      currentQuestion: [],
       participants: [],
-      nodeStatus: []
+      nodeStatus: [],
+      scores: {p1Score: 1, p2Score: 1}
     }
   }
 
@@ -39,6 +40,11 @@ Data.prototype.pollExists = function (pollId) {
 
 Data.prototype.getNodeStatus = function (pollId) {
   return this.polls[pollId].nodeStatus;
+}
+
+
+Data.prototype.getScores = function (pollId) {
+  return this.polls[pollId].scores;
 }
 
 Data.prototype.nodeStatusUpdate = function (pollId,d) {
@@ -60,11 +66,12 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.questions = [];
     poll.answers = [];
     poll.participants = [];
-    poll.currentQuestion = 0;
+    poll.currentQuestion = [];
     poll.nodeStatus = [];             
     this.polls[pollId] = poll;
+    poll.counter = 0; //EMIL: for testing 
+    poll.scores = {p1Score: 1, p2Score: 1};
     
-    console.log("poll created", pollId, poll);
   }
   return this.polls[pollId];
 }
@@ -81,13 +88,14 @@ Data.prototype.participateInPoll = function (pollId, player) {
     const poll = this.polls[pollId];
     if (poll.participants.length < 2) {
       poll.participants.push(player);
+      poll.currentQuestion.push(0);
     }
   }
 }
 
 Data.prototype.getParticipants = function(pollId) {
   const poll = this.polls[pollId];
-  console.log("participants requested for", pollId);
+  console.log("DATA: participants requested for", pollId);
   if (this.pollExists(pollId)) { 
     return this.polls[pollId].participants
   }
@@ -96,18 +104,33 @@ Data.prototype.getParticipants = function(pollId) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   if (this.pollExists(pollId)) {
+    this.polls[pollId].counter++;
+    let counter = this.polls[pollId].counter
     this.polls[pollId].questions.push(q);
     this.polls[pollId].nodeStatus.push(0);
+    this.polls[pollId].answers.push({});
   }
 }
 
-Data.prototype.getQuestion = function(pollId, qId = null) {
+Data.prototype.getQuestion = function(pollId, player = null, qId = null) {
+
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
     if (qId !== null) {
-      poll.currentQuestion = qId;
+      if (player === "Player 1") {
+        poll.currentQuestion [0] = qId;
+        return poll.questions[poll.currentQuestion[0]];
+      }
+      else if (player === "Player 2") {
+        poll.currentQuestion [1] = qId;
+        return poll.questions[poll.currentQuestion[1]];
+      }
+      else {
+        return poll.questions[qId];
+      }
+
     }
-    return poll.questions[poll.currentQuestion];
+    
   }
   return {}
 }
@@ -120,38 +143,55 @@ Data.prototype.getNumberOfQuestions = function(pollId) {
   return {}
 }
 
-Data.prototype.getSubmittedAnswers = function(pollId) {
+Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returnerar bara svar från spelare 1!!
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
-    const answers = poll.answers[poll.currentQuestion];
-    if (typeof poll.questions[poll.currentQuestion] !== 'undefined') {
+    const answers = poll.answers[poll.currentQuestion[0]];
+    if (typeof poll.questions[poll.currentQuestion[0]] !== 'undefined') {
       return answers;
     }
   }
   return {}
 }
 
-Data.prototype.submitAnswer = function(pollId, answer) {
-  if (this.pollExists(pollId)) {
-    const poll = this.polls[pollId];
-    let answers = poll.answers[poll.currentQuestion];
-    // create answers object if no answers have yet been submitted
-    if (typeof answers !== 'object') {
-      answers = {};
-      answers[answer] = 1;
-      poll.answers.push(answers);
+Data.prototype.submitAnswer = function(d) { 
+
+  if (this.pollExists(d.pollId)) {
+
+    const poll = this.polls[d.pollId];
+    let answers = {};
+    
+    if(d.correct){
+      if (d.playerRole === "Player 1"){ 
+        if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
+          answers = poll.answers[poll.currentQuestion[0]]; //behövs dessa answers????
+          poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
+          poll.scores.p1Score++;
+        }   
+      }
+      if (d.playerRole === "Player 2"){
+        if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
+          answers = poll.answers[poll.currentQuestion[1]];
+          poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
+          poll.scores.p2Score++;
+        }
+      }
+      
     }
-    // create answer property if that specific answer has not yet been submitted
-    else if (typeof answers[answer] === 'undefined') {
-      answers[answer] = 1;
-    }
-    // if the property already exists, increase the number
-    else
-      answers[answer] += 1
-    console.log("answers looks like ", answers, typeof answers);
+    else {
+      if (d.playerRole === "Player 1"){
+        if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
+          poll.nodeStatus[poll.currentQuestion[0]] = 3;
+        }
+      }
+      if (d.playerRole === "Player 2"){
+        if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
+          poll.nodeStatus[poll.currentQuestion[1]] = 3;
+        }
+      }
+    } 
   }
 }
-
 export { Data };
 
 

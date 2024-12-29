@@ -1,24 +1,23 @@
 <template>
-<p>{{question.q}}</p>
-<button v-for="a in question.a" v-on:click="answer(a)" v-bind:key="a">
-  {{ a.a }}
-  {{ a.c }}
-
-</button>
+  <p>{{question.q}}</p>
+  <button v-for="a in question.a" v-on:click="answer(a)" v-bind:key="a" >
+    {{ a.a }}
+  </button>
 </template>
+
 <script>
 export default {
   name: 'QuestionComponent',
+
   props: {
-    question: Object
+    question: Object,
   },
-  emits: ["answer"],
+  emits: ["answer", "answered"],
   methods: {
-    answer: function (answer) {
-      if (answer.c){
-        this.$emit("answer", answer);
-      }
-    } 
+    answer(answer) {
+      this.$emit("answer", answer);
+      this.$emit("answered"); // Emit an event to indicate the question has been answered
+    },
   }
 }
 </script>

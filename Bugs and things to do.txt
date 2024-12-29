@@ -1,39 +1,32 @@
 ----------------------BUGS----------------------
 
-1. Divition operatorn räknar inte ut korrekt när den skapar frågorna.
-
-
----MOBILE---
-
-1. Can not create poll or join poll from an other device
-2. Fix rezisable game area.
-
-
-
-
-
+1. KLAR-----------(Edvin)(VIKTIGT) Divition operatorn räknar inte ut korrekt när den skapar frågorna.
+2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
+3. KLAR-----------(Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
+4. (Emil)(VIKTIGT) Fortfarande strul med att ladda score och registrera knapptryck i PollView
 
 ------------------Things to do------------------
 
 --Style--
+1.  Städa och ordna alla klass- ,id- och variabelnamn.
+2.  Kontrollera att alla views använder rätt klasser och ser likadana ut.
+3.  flytta CSS kod till Main.css
+4.  rename all "poll" to "Quiz".
+5.  (Emil)Fixa så att all text hämtas från language filen.
+6.  Fixa så allt ser bra ut på mindre skärmar.
 
-1. Städa och ordna alla klass- ,id- och variabelnamn.
-2. Kontrollera att alla views använder rätt klasser och ser likadana ut.
-3. flytta CSS kod till Main.css
-4. rename all "poll" to "Quiz".
+--Game--
+1.  Eventuellt problem om man skulle få ett pollId som redan använts.
+2.  Skapa gameField komponent och sätt noder med grid samt tillhörande metoder i den. 
+    Denna ska emita det som pollView behöver för att fungera som den ska.
+3.  Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
+4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
+5.  (Sulle)Ändra createView till radioknappar? eller liknande.
+6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
+7.  (Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3. om felsvar funkar samma som rätt i Data borde problem försvinna.
 
-5. I lobbyView, är tanken att det ska stå både att man väntar på "host" och på 
-"other player"? Dessutom står det att man väntar på "host" även när det är host som
-klickat att hen är redo. /Emil 
-
---Poll--
-1. Eventuellt problem om man skulle få ett pollId som redan använts.
+--Result--
+1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 
+1b. lägg till och implementera rematch button bredvid back to home page
 
 --Nodes--
-
-1. Dynamiska node färger.
-
-2. Räkna ut och byt färg på angränsande noder.
-
-3. Separate runQuestion by player to be able to get different questions.
-4. Make non valid nodes un-clickable.

@@ -8,10 +8,20 @@ function sockets(io, socket, data) {
     socket.emit("sendNodeStatus", data.getNodeStatus(pollId));
   });
 
-  socket.on("nodeStatusUpdate", function(pollId, d) {
-    data.nodeStatusUpdate(pollId,d);
-    socket.emit("sendNodeStatus", data.getNodeStatus(pollId));
+  socket.on("nodeStatusUpdate", function (pollId, d) {
+    const currentStatus = data.getNodeStatus(pollId)[d.node];
+  
+    // Prevent overwriting status 1 or 2
+    if (currentStatus === 1 || currentStatus === 2) {
+      console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
+      return;
+    }
+  
+    // Allow valid updates
+    data.nodeStatusUpdate(pollId, d);
+    io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
   });
+  
 
   socket.on('createPoll', function(d) {
     data.createPoll(d.pollId, d.lang)
@@ -29,8 +39,8 @@ function sockets(io, socket, data) {
   });
 
   socket.on('joinPoll', function(pollId) {
-    socket.join(pollId);
-    socket.emit('questionUpdate', {q:(data.getQuestion(pollId)), player:""})
+    socket.join(pollId); // Add the client to the poll's room
+    socket.emit('questionUpdate', { q: data.getQuestion(pollId), player: "" });
     socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
   });
 
@@ -65,14 +75,15 @@ function sockets(io, socket, data) {
     io.to(pollId).emit('startPoll');
   })
   socket.on('runQuestion', function(d) {
-    let question = data.getQuestion(d.pollId, d.questionNumber);
+    let question = data.getQuestion(d.pollId, d.playerRole, d.questionNumber);
     io.to(d.pollId).emit('questionUpdate', {q:question, playerRole:d.playerRole});
-    io.to(d.pollId).emit('submittedAnswersUpdate', data.getSubmittedAnswers(d.pollId)); // May need to add player handling
+  
   });
 
   socket.on('submitAnswer', function(d) {
-    data.submitAnswer(d.pollId, d.answer);
-    io.to(d.pollId).emit('submittedAnswersUpdate', data.getSubmittedAnswers(d.pollId));
+    data.submitAnswer(d);                    
+    io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
+    io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
   }); 
 
   socket.on('validatePollId', (pollId, callback) => {
