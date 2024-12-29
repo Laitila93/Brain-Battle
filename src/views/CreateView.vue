@@ -155,12 +155,13 @@ export default {
           this.shuffle(this.questions.a);
           break;
         case '/':
-
-          if (num2 === 0) {
+          //Avoids division by zero, decimals and answer = 1
+          if (num2 === 0 || num2 === 1 || num1%num2 !== 0 || num1 === num2) {
             return this.generateRandomQuestion();
           }
+          
           this.questions.q = `${num1} / ${num2}`;
-          this.questions.a[0] = {a: num1 + num2, c:true};
+          this.questions.a[0] = {a:num1 / num2, c:true};
           this.questions.a[1] = {a:num1 / num2 + 1, c:false};
           this.questions.a[2] = {a:num1 / num2 - 1, c:false};
           this.questions.a[3] = {a:num1 / num2 + 4, c:false};

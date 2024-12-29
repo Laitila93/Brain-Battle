@@ -178,6 +178,13 @@ export default {
         this.winner = "Player 1";
         this.showQuestionComponent = true;
       }
+      if (this.isGameOver){
+        for (let i = 1; i <= this.totalQuestions; i++) {
+        let nodeElement = document.getElementById('node-' + i);
+        nodeElement.disabled = true;
+        console.log(nodeElement,"disabled")
+        }
+      }
     },
 
     /**
