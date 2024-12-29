@@ -9,11 +9,16 @@
         <button v-if="!joined" @click="participateInPoll">
         Participate in Poll
         </button>
-        <p v-if="waitingForPlayers">Waiting for other player to join...</p>
+        <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
       </div>
       <div v-if="joined">
         <p>Waiting for host to start poll</p>
       </div>
+    </div>
+    <div class="lang-wrapper">
+      {{ uiLabels.changeLanguage }}
+      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'}]">
+      </button>
     </div>
   </div>
 </template>
@@ -44,7 +49,10 @@ export default {
       this.joined = true;
     });
 
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", (labels) => {
+      this.uiLabels = labels.LobbyViewLabels
+      console.log(this.uiLabels);
+    });
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;
@@ -66,6 +74,7 @@ export default {
   },
   methods: {
     participateInPoll() {
+      console.log("participateInPoll ", this.pollId, this.uiLabels.waitingForPlayer)
       socket.emit("participateInPoll", { pollId: this.pollId });
     },
     startPoll: function () {
@@ -73,7 +82,54 @@ export default {
         socket.emit("startPoll", this.pollId)
         socket.emit("getNumberOfQuestions", this.pollId)
       }
+    },
+    switchLanguage: function() {
+      if (this.lang === "en") {
+        this.lang = "sv"
+      }
+      else {
+        this.lang = "en"
+      }
+      localStorage.setItem( "lang", this.lang );
+      socket.emit( "getUILabels", this.lang );
     }
   }
 }
 </script>
+
+<style>
+/*To be placed in main.css */
+.lang-wrapper {
+    position:fixed;
+    bottom: 10px;
+    right: 20px;
+    color:#007bff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    font-size: 1em;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+
+  .button-sv {
+    height: 3em;
+    width: 5em;
+    cursor: pointer;
+    border-radius: 1em;
+    background-image: url("../assets/swedish-flag.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .button-en {
+    height: 3em;
+    width: 5em;
+    cursor: pointer;
+    border-radius: 1em;
+    background-image: url("../assets/uk-flag.png");
+    background-size: cover;
+    background-position: center;
+  }
+</style>

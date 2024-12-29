@@ -60,7 +60,7 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-localStorage.setItem("serverIP", "192.168.0.5:3000");
+localStorage.setItem("serverIP", "192.168.10.149:3000");
 const socket = io(localStorage.getItem("serverIP"));
 
 export default {
@@ -81,7 +81,7 @@ export default {
   },
   created: function () {
     socket.emit( "getUILabels", this.lang );
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.StartViewLabels );
   },
   methods: {
     switchLanguage: function() {

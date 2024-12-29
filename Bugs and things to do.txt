@@ -2,7 +2,7 @@
 
 1. KLAR-----------(Edvin)(VIKTIGT) Divition operatorn räknar inte ut korrekt när den skapar frågorna.
 2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
-3. (Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
+3. KLAR-----------(Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
 
 ------------------Things to do------------------
 
@@ -11,11 +11,8 @@
 2.  Kontrollera att alla views använder rätt klasser och ser likadana ut.
 3.  flytta CSS kod till Main.css
 4.  rename all "poll" to "Quiz".
-5.  Fixa så att all text hämtas från language filen.
-6.  I lobbyView, är tanken att det ska stå både att man väntar på "host" och på 
-    "other player"? Dessutom står det att man väntar på "host" även när det är host som
-    klickat att hen är redo. /Emil 
-7.  Fixa så allt ser bra ut på mindre skärmar.
+5.  (Emil)Fixa så att all text hämtas från language filen.
+6.  Fixa så allt ser bra ut på mindre skärmar.
 
 --Game--
 1.  Eventuellt problem om man skulle få ett pollId som redan använts.

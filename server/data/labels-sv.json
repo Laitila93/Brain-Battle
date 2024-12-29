@@ -1,15 +1,31 @@
 {
-	"sales-pitch": "Svar. Helt. Enkelt.",
-	"subHeading": "Ett enkelt enkätverktyg",
-	"invite": "Bjud in deltagare med den här länken:",
-	"createPoll": "Skapa nytt spel",
-	"participatePoll": "Delta i spel",
-	"question": "Fråga",
-	"changeLanguage": "Change language:",
-	"about": "Om oss",
-	"participateInPoll": "Delta i enkäten",
-	"enterprompt": "Ange spel-ID",
-	"rules": "Spelregler",
-	"or": "Eller",
-	"invalidGameId": "ID existerar inte, ange korrekt ID, 4 siffror"
+	"StartViewLabels": {
+		"createPoll": "Skapa nytt spel",
+		"participatePoll": "Delta i spel",
+		"question": "Fråga",
+		"changeLanguage": "Change language:",
+		"about": "Om oss",
+		"participateInPoll": "Delta i enkäten",
+		"enterprompt": "Ange spel-ID",
+		"rules": "Spelregler",
+		"or": "Eller",
+		"invalidGameId": "ID existerar inte, ange korrekt ID, 4 siffror"
+	},
+
+	"CreateViewLabels": {
+		"header": "Skapa nytt spel",
+		"whichGame": "Spel-ID",
+		"chooseOperator": "Räknesätt: ",
+		"chooseNumberOfQuestions": "Antal frågor: ",
+		"createGame": "Skapa spel",
+		"changeLanguage": "Change language: "
+	},
+
+	"LobbyViewLabels": {
+		"waitingForOthers": "Väntar på motspelare...",
+		"changeLanguage": "Change language: "
+	},
+
+	"PollViewLabels": {}
+
 }
