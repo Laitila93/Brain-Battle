@@ -22,10 +22,18 @@
 	},
 
 	"LobbyViewLabels": {
+		"youAre": "Du är: ",
+		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
 		"changeLanguage": "Change language: "
 	},
 
-	"PollViewLabels": {}
+	"PollViewLabels": {
+		"yourScore": "Din poäng",
+		"opponentScore": "Motståndares poäng: ",
+		"correctAnswer": "Rätt svar!",
+		"wrongAnswer": "Fel svar!",
+		"clickNodePrompt": "Klicka på en glänsande nod!"
+	}
 
 }

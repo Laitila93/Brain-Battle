@@ -22,8 +22,18 @@
 	},
 
 	"LobbyViewLabels": {
+		"youAre": "You are: ",
+		"participateInGame": "Join",
 		"waitingForOthers": "Waiting for other player to join...",
 		"changeLanguage": "Byt språk: "
+	},
+
+	"PollViewLabels": {
+		"yourScore": "Your score",
+		"opponentScore": "Opponent's score: ",
+		"correctAnswer": "Correct answer!",
+		"wrongAnswer": "Wrong answer!",
+		"clickNodePrompt": "Click a glowing node!"
 	}
 
 }

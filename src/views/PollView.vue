@@ -28,14 +28,13 @@
               v-on:answered="handleAnswered"
             />
           </div>
-      </div>
-      <div v-else>
-        <div>Game over!</div>
-        <div v-if="winner === playerRole">YOU WIN!!!</div>
-        <div v-else>YOU LOOSE!</div>
-        <button onclick="location.href='/';">Back to home page</button>
-      </div>
-      
+    </div>
+    <div v-else>
+      <div>Game over!</div>
+      <div v-if="winner === playerRole">YOU WIN!!!</div>
+      <div v-else>YOU LOOSE!</div>
+      <button onclick="location.href='/';">Back to home page</button>
+    </div>
   </div>
 </template>
 
@@ -69,7 +68,7 @@ export default {
       firstCheck: true, // Guard variable
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
-      lastAnswer: "",
+      lastAnswer: "", //Should this be initialized to "Start"?
       isGameOver:false,
       winner: "",
     };

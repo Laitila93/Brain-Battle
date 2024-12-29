@@ -5,14 +5,11 @@
         {{pollId}}
       </div>
       <div>
-        <p v-if="playerRole">You are: <strong>{{ playerRole }}</strong></p>
+        <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
         <button v-if="!joined" @click="participateInPoll">
-        Participate in Poll
+        {{uiLabels.participateInGame}}
         </button>
         <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
-      </div>
-      <div v-if="joined">
-        <p>Waiting for host to start poll</p>
       </div>
     </div>
     <div class="lang-wrapper">
