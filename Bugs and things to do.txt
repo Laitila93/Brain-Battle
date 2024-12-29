@@ -1,7 +1,7 @@
 ----------------------BUGS----------------------
 
 1. (Edvin)(VIKTIGT) Divition operatorn räknar inte ut korrekt när den skapar frågorna.
-2. (Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
+2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
 3. (Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
 
 ------------------Things to do------------------
@@ -17,7 +17,15 @@
     klickat att hen är redo. /Emil 
 7.  Fixa så allt ser bra ut på mindre skärmar.
 
---Poll--
-1. Eventuellt problem om man skulle få ett pollId som redan använts.
+--Game--
+1.  Eventuellt problem om man skulle få ett pollId som redan använts.
+2.  Skapa gameField komponent och sätt noder med grid samt tillhörande metoder i den. 
+    Denna ska emita det som pollView behöver för att fungera som den ska.
+3.  Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
+4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
+5.  (Sulle)Ändra createView till radioknappar? eller liknande.
+
+--Result--
+1.  (Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) - Halvvägs
 
 --Nodes--
