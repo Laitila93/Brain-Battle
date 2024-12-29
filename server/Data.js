@@ -154,30 +154,39 @@ Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returne
   return {}
 }
 
-Data.prototype.submitAnswer = function(d) { 
+Data.prototype.submitAnswer = function (d) {
+  if (!this.pollExists(d.pollId)) {
+    return;
+  }
 
-  if (this.pollExists(d.pollId)) {
+  const poll = this.polls[d.pollId];
+  const currentQuestionIndex = d.playerRole === "Player 1" ? 0 : 1;
 
-    const poll = this.polls[d.pollId];
-    let answers = {};
+  if (!poll || currentQuestionIndex === undefined) {
+    console.error("Invalid poll or player role.");
+    return;
+  }
+
+  const currentQuestion = poll.currentQuestion[currentQuestionIndex];
+  // Evaluate the answer correctness
+  console.log("DATA: currentQuestion", d.isCorrect);
+  if (!d.isCorrect) {
     
-    if (d.playerRole === "Player 1"){ 
-      if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
-        answers = poll.answers[poll.currentQuestion[0]]; //behövs dessa answers????
-        poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
-        poll.scores.p1Score++;
-      }   
-    }
-    if (d.playerRole === "Player 2"){
-      if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
-        answers = poll.answers[poll.currentQuestion[1]];
-        poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
-        poll.scores.p2Score++;
-      }
-    }
+    poll.nodeStatus[currentQuestion] = 3; // Mark as failed attempt
+    console.log("Incorrect answer.",poll.nodeStatus[currentQuestion] );
+  } else {
+    
+    poll.nodeStatus[currentQuestion] = d.playerRole === "Player 1" ? 1 : 2; // Mark as claimed
+    d.playerRole === "Player 1" ? poll.scores.p1Score++ : poll.scores.p2Score++;
+    console.log("Correct answer.",poll.nodeStatus[currentQuestion] );
+  }
 
-  } 
-}
+  // Store the answer for the current question
+  poll.answers[currentQuestion] = {answer: d.answer, player: d.playerRole};
+
+};
+
+
 export { Data };
 
 

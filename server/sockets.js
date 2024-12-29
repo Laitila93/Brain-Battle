@@ -81,9 +81,10 @@ function sockets(io, socket, data) {
   });
 
   socket.on('submitAnswer', function(d) {
+    console.log("submitAnswer", d.isCorrect);
     data.submitAnswer(d);                    
-    io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
-    io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
+    socket.emit("sendNodeStatus", data.getNodeStatus(d.pollId));
+    socket.emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
   }); 
 
   socket.on('validatePollId', (pollId, callback) => {

@@ -2,6 +2,7 @@
   <p>{{question.q}}</p>
   <button v-for="a in question.a" v-on:click="answer(a)" v-bind:key="a" >
     {{ a.a }}
+    {{a.c}}
   </button>
 </template>
 

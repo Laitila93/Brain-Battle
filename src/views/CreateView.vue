@@ -81,15 +81,15 @@ export default {
       pollData: {},
       uiLabels: {},
 
-      formOperator: null,
-      formMin: null,
-      formMax: null,
+      formOperator: "+",
+      formMin: 1,
+      formMax: 10,
 
       operator: null,
       min: null,
       max: null,
 
-      numberOfQuestions: 0,
+      numberOfQuestions: 81,
       questions:
       {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
       

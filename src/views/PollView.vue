@@ -21,7 +21,7 @@
       <div v-if="showQuestionComponent">
         <QuestionComponent 
           :question="question" 
-          @answer="submitAnswer"
+          @answer="setAnswer"
           @answered="handleAnswered"
         />
       </div>
@@ -106,15 +106,14 @@ export default {
     handleAnswered() {
       this.showQuestionComponent = false;
     },
-    submitAnswer(answer) {
+    setAnswer(answer) {
       if (answer.c) {
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: this.playerRole });
         this.lastAnswer = "correct";
       } else {
-        this.setNodeStatus({ node: this.questionNumber - 1, status: 3 });
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: this.playerRole });
         this.lastAnswer = "wrong";
       }
+      console.log("submitAnswer", answer);
+      socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, isCorrect: answer.c, playerRole: this.playerRole });
     },
     runQuestion() {
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
