@@ -81,7 +81,7 @@ export default {
   },
   created: function () {
     socket.emit( "getUILabels", this.lang );
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.StartViewLabels );
   },
   methods: {
     switchLanguage: function() {

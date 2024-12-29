@@ -1,12 +1,12 @@
 <template>
   <div class="wrapper" >
-    CREATE GAME
+    {{uiLabels.header}}
     <nav class="main-menu">
-      <div class="logo">Poll ID: {{ pollId }}</div>
+      <div class="logo">{{uiLabels.whichGame}}: {{ pollId }}</div>
         <div>
           <form id="createForm" @submit="createAndStart">
             <p>
-              <label for="formOperator">Operator: </label>
+              <label for="formOperator">{{uiLabels.chooseOperator}} </label>
                 <select id="formOperator" v-model="formOperator" name="formOperator" required>
                   <option>+</option>
                   <option>-</option>
@@ -15,7 +15,7 @@
                 </select>
             </p>
             <p>
-              <label for="numberOfQuestions">Number Of Questions: </label>
+              <label for="numberOfQuestions">{{uiLabels.chooseNumberOfQuestions}}</label>
                 <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
                   <option>16</option>
                   <option>25</option>
@@ -51,7 +51,7 @@
             </p>
             <p>
               <button type="submit">
-                {{uiLabels.createPoll}}
+                {{uiLabels.createGame}}
               </button>
             </p>
           </form>
@@ -97,7 +97,7 @@ export default {
   },
   created: function () {
     
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
     socket.on( "pollData", data => this.pollData = data );
     this.generatePollId();
     socket.on( "participantsUpdate", p => this.pollData.participants = p );
