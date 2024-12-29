@@ -1,6 +1,6 @@
 ----------------------BUGS----------------------
 
-1. (Edvin)(VIKTIGT) Divition operatorn räknar inte ut korrekt när den skapar frågorna.
+1. KLAR-----------(Edvin)(VIKTIGT) Divition operatorn räknar inte ut korrekt när den skapar frågorna.
 2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
 3. (Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
 
