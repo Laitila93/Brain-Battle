@@ -161,22 +161,36 @@ Data.prototype.submitAnswer = function(d) {
     const poll = this.polls[d.pollId];
     let answers = {};
     
-    if (d.playerRole === "Player 1"){ 
-      if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
-        answers = poll.answers[poll.currentQuestion[0]]; //behövs dessa answers????
-        poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
-        poll.scores.p1Score++;
-      }   
-    }
-    if (d.playerRole === "Player 2"){
-      if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
-        answers = poll.answers[poll.currentQuestion[1]];
-        poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
-        poll.scores.p2Score++;
+    if(d.correct){
+      if (d.playerRole === "Player 1"){ 
+        if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
+          answers = poll.answers[poll.currentQuestion[0]]; //behövs dessa answers????
+          poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
+          poll.scores.p1Score++;
+        }   
       }
+      if (d.playerRole === "Player 2"){
+        if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
+          answers = poll.answers[poll.currentQuestion[1]];
+          poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
+          poll.scores.p2Score++;
+        }
+      }
+      
     }
-
-  } 
+    else {
+      if (d.playerRole === "Player 1"){
+        if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
+          poll.nodeStatus[poll.currentQuestion[0]] = 3;
+        }
+      }
+      if (d.playerRole === "Player 2"){
+        if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
+          poll.nodeStatus[poll.currentQuestion[1]] = 3;
+        }
+      }
+    } 
+  }
 }
 export { Data };
 

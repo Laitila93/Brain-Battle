@@ -291,6 +291,7 @@ export default {
             break;
           case 3:
             nodeElement.style.backgroundColor = "#1e1e2f";
+            nodeElement.style.borderColor = "#1e1e2f";
             nodeElement.disabled = true;
             nodeElement.style.animation = "none"; 
             break;
@@ -348,16 +349,17 @@ export default {
 
     submitAnswer: function (answer, playerRole) {
       if (answer.c) {
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: playerRole }); 
+        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
         this.drawNodeColors();
         this.lastAnswer = "correct";
       }
       else {
         console.log("wrong answer");
-        this.setNodeStatus({ node: this.questionNumber-1, status: 3 });
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, playerRole: playerRole }); //la till för att kommunicera checkisgameover
+        //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
+        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         this.drawNodeColors();
         this.lastAnswer = "wrong";
+        
       
 
       }
@@ -395,12 +397,10 @@ export default {
       this.setNodeStatus({ node: this.questionNumber-1, status: 0 });
       let nodeElement = document.getElementById('node-' + (this.questionNumber));
       if (this.playerRole === "Player 1") {
-        nodeElement.style.borderColor = "#32cd32";
-        console.log("should set orange")
+        nodeElement.style.borderColor = "#32cd32"; //sets green marker
       }
       else {
-        nodeElement.style.borderColor = "#ff8c00";
-        console.log("should set green")
+        nodeElement.style.borderColor = "#ff8c00"; //sets orange marker
       }
 
     },
