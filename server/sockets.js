@@ -20,6 +20,8 @@ function sockets(io, socket, data) {
     // Allow valid updates
     data.nodeStatusUpdate(pollId, d);
     io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
+    io.to(pollId).emit("refreshGame", pollId); // Emit to the room
+    console.log("refreshGame emitted to room in nodestatusUpdate", pollId);
   });
   
 
@@ -82,9 +84,11 @@ function sockets(io, socket, data) {
 
   socket.on('submitAnswer', function(d) {
     console.log("submitAnswer", d.isCorrect);
-    data.submitAnswer(d);                    
+    data.submitAnswer(d);     
     socket.emit("sendNodeStatus", data.getNodeStatus(d.pollId));
     socket.emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
+    io.to(d.pollId).emit("refreshGame", d.pollId);
+    console.log("refreshGame emitted in submitAnswer", d.pollId);
   }); 
 
   socket.on('validatePollId', (pollId, callback) => {
@@ -105,6 +109,8 @@ function sockets(io, socket, data) {
       // Broadcast the updated status to all connected clients
       io.to(d.pollId).emit('nodeStatusUpdate', d);
     }
+    io.to(d.pollId).emit("refreshGame", d.pollId);
+    console.log("refreshGame emitted in nodeStatusChanged", d.pollId);
   });
 
 }

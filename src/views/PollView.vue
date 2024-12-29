@@ -8,6 +8,7 @@
       <div class="player player2" v-else>Opponents score: {{ scores.p2Score }}</div>
     </div>
     <DominationGameComponent
+      :key="refreshGame"
       :showQuestionComponent="showQuestionComponent"
       :lastAnswer="lastAnswer"
       @isGameOver="checkGameOver"
@@ -47,6 +48,7 @@ export default {
   },
   data() {
     return {
+      refreshGame: 0,
       question: { q: "", a: [] },
       playerRole: localStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
@@ -92,6 +94,12 @@ export default {
       socket.on("submittedAnswersUpdate", scores => {
         this.scores = scores;
       });
+      socket.on("refreshGame", (ID) => {
+        if (ID === this.pollId) {
+          this.refreshGame += 1;
+          console.log("refreshGame", this.refreshGame);
+        }
+      });
       socket.on("uiLabels", labels => {
         this.uiLabels = labels;
       });
@@ -102,7 +110,10 @@ export default {
           this.question = d.q;
         }
       });
+      socket.emit("refreshGame", this.pollId);
     },
+
+
     handleAnswered() {
       this.showQuestionComponent = false;
     },

@@ -98,9 +98,12 @@ export default {
           this.setNodeStatus({ node: this.questionNumber - 1, status: 2 });
         }
       }
+      this.getNodeStatus();
       this.drawNodeColors();
+      socket.emit("refreshGame", this.$route.params.id);
     });
   },
+  
   beforeUnmount() {
     if (socket) {
       socket.off("connect");
@@ -168,6 +171,7 @@ export default {
       } catch (error) {
         console.error("Error in checkAdjacentNodes method:", error);
       }
+      this.getNodeStatus();
     },
     to2DArray(arr, chunkSize) {
       const result = [];

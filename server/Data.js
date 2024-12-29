@@ -49,6 +49,7 @@ Data.prototype.getScores = function (pollId) {
 
 Data.prototype.nodeStatusUpdate = function (pollId,d) {
     this.polls[pollId].nodeStatus[d.node] = d.status;
+    
 }
 
 Data.prototype.getUILabels = function (lang) {
