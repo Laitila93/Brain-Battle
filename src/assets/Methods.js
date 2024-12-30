@@ -157,3 +157,77 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
       }
     }
   }
+
+  function shuffle(array) {
+    // Iterate over the array in reverse order
+    for (let i = array.length - 1; i > 0; i--) {
+      // Generate Random Index
+      const j = Math.floor(Math.random() * (i + 1));
+  
+      // Swap elements
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  
+  export function generateRandomQuestion({ min, max, operator, questions, socket, pollId }) {
+    const num1 = Math.floor(Math.random() * (max - min + 1)) + min;
+    const num2 = Math.floor(Math.random() * (max - min + 1)) + min;
+  
+    switch (operator) {
+      case '+':
+        questions.q = `${num1} + ${num2}`;
+        questions.a = [
+          { a: num1 + num2, c: true },
+          { a: num1 + num2 + 1, c: false },
+          { a: num1 + num2 - 1, c: false },
+          { a: num1 + num2 + 4, c: false },
+        ];
+        shuffle(questions.a);
+        break;
+      case '-':
+        questions.q = `${num1} - ${num2}`;
+        questions.a = [
+          { a: num1 - num2, c: true },
+          { a: num1 - num2 + 1, c: false },
+          { a: num1 - num2 - 1, c: false },
+          { a: num1 - num2 + 4, c: false },
+        ];
+        shuffle(questions.a);
+        break;
+      case '*':
+        questions.q = `${num1} * ${num2}`;
+        questions.a = [
+          { a: num1 * num2, c: true },
+          { a: num1 * num2 + 1, c: false },
+          { a: num1 * num2 - 1, c: false },
+          { a: num1 * num2 + 4, c: false },
+        ];
+        shuffle(questions.a);
+        break;
+      case '/':
+        // Avoid division by zero, decimals, and answer = 1
+        if (num2 === 0 || num2 === 1 || num1 % num2 !== 0 || num1 === num2) {
+          return generateRandomQuestion({ min, max, operator, questions, socket, pollId });
+        }
+        questions.q = `${num1} / ${num2}`;
+        questions.a = [
+          { a: num1 / num2, c: true },
+          { a: num1 / num2 + 1, c: false },
+          { a: num1 / num2 - 1, c: false },
+          { a: num1 / num2 + 4, c: false },
+        ];
+        shuffle(questions.a);
+        break;
+      default:
+        questions.q = "Not valid operator";
+        questions.a = [
+          { a: null, c: true },
+          { a: null, c: false },
+          { a: null, c: false },
+          { a: null, c: false },
+        ];
+    }
+    socket.emit("addQuestion", { pollId, q: questions.q, a: questions.a })
+  }
+  

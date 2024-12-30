@@ -104,11 +104,9 @@ export default {
       socket.on("sendNodeStatus", status => {
         console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
-        this.$nextTick(() => {  //la till detta
-          
+        this.$nextTick(() => {  //la till detta 
           if (this.firstCheck){ //EMIL: vad jag kan se så exekveras aldrig detta, checkAdjacent anropas från submittedAnswersUpdate innan exekveringen når hit.
                                 // kan dock vara värt att ha kvar som safety, om något skulle gå fel i submittedAnsers, iofs
-
             checkAdjacentNodes({
               nodeStatus: this.nodeStatus,
               columns: this.columns,
@@ -116,7 +114,6 @@ export default {
               pollId: this.$route.params.id,
               socket: socket, // Ensure socket is correctly passed here
             });
-
           }
         }); 
       });
@@ -127,11 +124,8 @@ export default {
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
         setNodeStatus({d:{ node: lastNode, status: 2 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
-     
       });
-      
       socket.emit("getNumberOfQuestions", this.pollId);
-
       socket.on("playerRoleAssigned", role => {
         console.log("Event playerRoleAssigned caught");
         this.playerRole = role;
@@ -150,37 +144,17 @@ export default {
         this.scores = scores; // EMIL: In first call "scores" is an empty object, leading to bug in scorekeeping
         this.checkIsGameOver();
       });
-
-      socket.on("uiLabels", labels => {
-      this.uiLabels = labels.PollViewLabels;
-      });
+      socket.on("uiLabels", labels => {this.uiLabels = labels.PollViewLabels;});
       socket.emit("getUILabels", this.lang);
-
       socket.emit("joinPoll", this.pollId); //EMIL: this socket emit leads to the first catch in "submittedAnswersUpdate"
-
-
-
-      socket.on("questionUpdate", d => {
-      if (d.playerRole === this.playerRole) {
-        this.question = d.q;
-      }
-      });
+      socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
-    },
-
-    to2DArray: function(arr, chunkSize) {
-      const result = [];
-      for (let i = 0; i < arr.length; i += chunkSize) {
-        result.push(arr.slice(i, i + chunkSize));
-      }
-      return result;
     },
 
     handleAnswered() {
       this.showQuestionComponent = false; // Hide the QuestionComponent
     },
 
-    //Exempel på gameOver funktion
     checkIsGameOver: function(){
       let isReachablePlayer1 = false;
       let isReachablePlayer2 = false;

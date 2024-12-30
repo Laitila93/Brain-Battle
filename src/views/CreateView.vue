@@ -100,6 +100,7 @@
 <script>
 import io from 'socket.io-client';
 const socket = io(localStorage.getItem("serverIP"));
+import { generateRandomQuestion } from "@/assets/Methods.js";
 
 export default {
   name: 'CreateView',
@@ -134,77 +135,14 @@ export default {
     this.generatePollId();
     socket.on( "participantsUpdate", p => this.pollData.participants = p );
     socket.emit( "getUILabels", this.lang );
-    
-    this.createQuiz();
+    socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
+    socket.emit("joinPoll", this.pollId);
+
 
   },
   methods: {
     generatePollId: function () {
       this.pollId = Math.floor(1000 + Math.random() * 9000);
-    },
-
-    shuffle: function (array) {
-
-      // Iterate over the array in reverse order
-      for (let i = array.length - 1; i > 0; i--) {
-
-      // Generate Random Index
-      const j = Math.floor(Math.random() * (i + 1));
-
-      // Swap elements
-      [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    },
-    generateRandomQuestion: function () {
-      const num1 = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
-      const num2 = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
-
-      switch (this.operator) {
-        case '+':
-          this.questions.q = `${num1} + ${num2}`;
-          this.questions.a[0] = {a: num1 + num2, c:true};
-          this.questions.a[1] = {a:num1 + num2 + 1, c:false};
-          this.questions.a[2] = {a:num1 + num2 - 1, c:false};
-          this.questions.a[3] = {a:num1 + num2 + 4, c:false};
-          this.shuffle(this.questions.a);
-          
-          break;
-        case '-':
-          this.questions.q = `${num1} - ${num2}`;
-          this.questions.a[0] = {a: num1 - num2, c:true};
-          this.questions.a[1] = {a:num1 - num2 + 1, c:false};
-          this.questions.a[2] = {a:num1 - num2 - 1, c:false};
-          this.questions.a[3] = {a:num1 - num2 + 4, c:false};
-          this.shuffle(this.questions.a);
-          break;
-        case '*':
-          this.questions.q = `${num1} * ${num2}`;
-          this.questions.a[0] = {a: num1 * num2, c:true};
-          this.questions.a[1] = {a:num1 * num2 + 1, c:false};
-          this.questions.a[2] = {a:num1 * num2 - 1, c:false};
-          this.questions.a[3] = {a:num1 * num2 + 4, c:false};
-          this.shuffle(this.questions.a);
-          break;
-        case '/':
-          //Avoids division by zero, decimals and answer = 1
-          if (num2 === 0 || num2 === 1 || num1%num2 !== 0 || num1 === num2) {
-            return this.generateRandomQuestion();
-          }
-          this.questions.q = `${num1} / ${num2}`;
-          this.questions.a[0] = {a: num1 / num2, c:true};
-          this.questions.a[1] = {a:num1 / num2 + 1, c:false};
-          this.questions.a[2] = {a:num1 / num2 - 1, c:false};
-          this.questions.a[3] = {a:num1 / num2 + 4, c:false};
-          this.shuffle(this.questions.a);
-          break;
-        default:
-          this.questions.q = "Not valid operator";
-          this.questions.a[0] = {a:null, c:true};
-          this.questions.a[1] = {a:null, c:false};
-          this.questions.a[2] = {a:null, c:false};
-          this.questions.a[3] = {a:null, c:false};
-      }
     },
 
     createAndStart: function (e) {
@@ -214,8 +152,7 @@ export default {
         this.min = this.formMin;
         this.max = this.formMax;
         for (let i = 0; i < this.numberOfQuestions; i++){
-          this.generateRandomQuestion();
-          this.addQuestion(); 
+          generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, pollId: this.pollId} );
         }
         socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
         socket.emit("joinPoll", this.pollId);
@@ -225,26 +162,7 @@ export default {
         console.log("Please fill in all fields.");
       }
     },
-    createQuiz: function () {
-      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
-      socket.emit("joinPoll", this.pollId);
 
-      
-    },
-  
-    startPoll: function () {
-      socket.emit("startPoll", this.pollId)
-      socket.emit("getNumberOfQuestions", this.pollId)
-    },
-    addQuestion: function () {
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.questions.q, a: this.questions.a } )
-    },
-    addAnswer: function () {
-      this.answers.push("");
-    },
-    runQuestion: function () { //Är denna överflödig?
-      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
-    },
     switchLanguage: function() {
       if (this.lang === "en") {
         this.lang = "sv"
