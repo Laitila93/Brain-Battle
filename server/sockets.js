@@ -12,7 +12,7 @@ function sockets(io, socket, data) {
     const currentStatus = data.getNodeStatus(pollId)[d.node];
   
     // Prevent overwriting status 1 or 2
-    if (currentStatus === 1 || currentStatus === 2 || currentStatus === 3) {
+    if (currentStatus === 1 || currentStatus === 2) {
       console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
       return;
     }
@@ -41,7 +41,7 @@ function sockets(io, socket, data) {
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId); // Add the client to the poll's room
     socket.emit('questionUpdate', { q: data.getQuestion(pollId), player: "" });
-    //socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
+    socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
   });
 
   socket.on("participateInPoll", function (d) {
@@ -71,7 +71,7 @@ function sockets(io, socket, data) {
     }
   });
   
-  socket.on('startPoll', function(pollId) { //EMIL: används aldrig?
+  socket.on('startPoll', function(pollId) {
     io.to(pollId).emit('startPoll');
   })
   socket.on('runQuestion', function(d) {
@@ -81,13 +81,9 @@ function sockets(io, socket, data) {
   });
 
   socket.on('submitAnswer', function(d) {
-     
-    data.submitAnswer(d);
-    console.log("now executing emit")
-    process.nextTick(() => {
-      io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
-      io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId));
-    });
+    data.submitAnswer(d);                    
+    io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
+    io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
   }); 
 
   socket.on('validatePollId', (pollId, callback) => {
@@ -97,8 +93,6 @@ function sockets(io, socket, data) {
     const pollExists = data.pollExists(pollId);
     callback(pollExists);
   });
-
-  //Används ej (?)
   socket.on('nodeStatusChanged', function(d) {
     const poll = data.getPoll(d.pollId);
 

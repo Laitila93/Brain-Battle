@@ -87,7 +87,6 @@ export default {
   },
   watch: {
     nodeStatus: function () {
-        console.log("In watch, calling drawNodeColors");
         this.drawNodeColors();
       }
   },
@@ -95,15 +94,11 @@ export default {
   methods: {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
-        console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
         this.$nextTick(() => {  //la till detta
           
-          if (this.firstCheck){ //EMIL: vad jag kan se så exekveras aldrig detta, checkAdjacent anropas från submittedAnswersUpdate innan exekveringen når hit.
-                                // kan dock vara värt att ha kvar som safety, om något skulle gå fel i submittedAnsers, iofs
-
-            this.checkAdjacentNodes(); 
-
+          if (this.firstCheck){
+            this.checkAdjacentNodes();
           }
         }); 
       });
@@ -113,22 +108,19 @@ export default {
         this.setNodeStatus({ node: 0, status: 1 });
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
-        this.setNodeStatus({ node: lastNode, status: 2 });
-     
+        this.setNodeStatus({ node: lastNode, status: 2 });       
       });
       
       socket.emit("getNumberOfQuestions", this.pollId);
 
       socket.on("playerRoleAssigned", role => {
-        console.log("Event playerRoleAssigned caught");
         this.playerRole = role;
         localStorage.setItem("playerRole", role); // Update locally just in case
       });
 
       socket.on("submittedAnswersUpdate", scores => {
-        console.log("submittedAnswersUpdate event caught, calling checkAdjacent");
         this.checkAdjacentNodes();                            
-        this.scores = scores; // EMIL: In first call "scores" is an empty object, leading to bug in scorekeeping
+        this.scores = scores;
         this.checkIsGameOver();
       });
 
@@ -137,7 +129,7 @@ export default {
       });
       socket.emit("getUILabels", this.lang);
 
-      socket.emit("joinPoll", this.pollId); //EMIL: this socket emit leads to the first catch in "submittedAnswersUpdate"
+      socket.emit("joinPoll", this.pollId);
 
 
 
@@ -207,7 +199,6 @@ export default {
      * @method checkAdjacentNodes
      */
     checkAdjacentNodes: function () {
-      console.log("In checkAdjacent");
       this.firstCheck = false;
       let Nodestatus2D = this.to2DArray(this.nodeStatus, this.columns);
 
@@ -215,11 +206,9 @@ export default {
         const currentStatus = Nodestatus2D[adjacentIndex.row][adjacentIndex.col];
         if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3) {
           if ((newStatus === 4 && currentStatus === 5) || (newStatus === 5 && currentStatus === 4)) {
-            console.log("In checkAdjacent, call to setNodeStatus", this.nodeStatus);
             this.setNodeStatus({ node: adjacentIndex.index, status: 6 });
             Nodestatus2D[adjacentIndex.row][adjacentIndex.col] = 6;
           } else if (currentStatus !== 4 && currentStatus !== 5 && currentStatus !== 6) {
-            console.log("In checkAdjacent, call to setNodeStatus", this.nodeStatus)
             this.setNodeStatus({ node: adjacentIndex.index, status: newStatus });
             Nodestatus2D[adjacentIndex.row][adjacentIndex.col] = newStatus;
           }
@@ -279,7 +268,6 @@ export default {
      * Logs an error if a node element with the expected ID is not found.
      */
     drawNodeColors: function () {
-      console.log("In drawNodeColors");
 
       for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
@@ -349,17 +337,12 @@ export default {
       }
     },
     getNodeStatus: function() {
-      socket.emit("getNodeStatus", this.pollId); //EMIL: suggestion: this method is only called from "setNodeStatus". 
-                                                  // Should we remove it and replace with a socket.emit("getNodeStatus") in "setNodeStatus"?
+      socket.emit("getNodeStatus", this.pollId);
     },
     setNodeStatus: function(d) {
-      console.log("In setNodeStatus");
-      console.log("In setNodeStatus, nodeStatus updated, emitting nodeStatusUpdate event");
       this.nodeStatus[d.node] = d.status;
       socket.emit("nodeStatusUpdate", this.pollId, d);
-      console.log("In setNodeStatus, calling getNodeStatus");
-      this.getNodeStatus(); //EMIL: on closer look, it seems like a "sendNodeStatus" is already emitted from server in every server update of nodeStatus. 
-                            // if I'm not mistaken, this would mean that we don't need the getNodeStatus at all
+      this.getNodeStatus();
       
     },
 

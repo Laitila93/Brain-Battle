@@ -3,8 +3,7 @@
 1. KLAR-----------(Edvin)(VIKTIGT) Divition operatorn räknar inte ut korrekt när den skapar frågorna.
 2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
 3. KLAR-----------(Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
-4. KLAR-----------(Emil)(VIKTIGT) Fortfarande strul med att ladda score och registrera knapptryck i PollView
-5. Score-div:arna ändrar storlek när score uppdateras. 
+4. (Emil)(VIKTIGT) Fortfarande strul med att ladda score och registrera knapptryck i PollView
 
 ------------------Things to do------------------
 
@@ -24,12 +23,10 @@
 4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
 5.  (Sulle)Ändra createView till radioknappar? eller liknande.
 6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
-7.  KLAR --------(Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3.
-8.  Ändra så man kan ha svenska även i spelet??
+7.  (Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3. om felsvar funkar samma som rätt i Data borde problem försvinna.
 
 --Result--
 1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 
-    1b. lägg till och implementera rematch button bredvid back to home page
-2. Ska vi använda oss av ResultView?
+1b. lägg till och implementera rematch button bredvid back to home page
 
 --Nodes--
