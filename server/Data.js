@@ -160,7 +160,7 @@ Data.prototype.submitAnswer = function(d) {
 
     const poll = this.polls[d.pollId];
     let answers = {};
-    
+    console.log("checks submitted answer data")
     if(d.correct){
       if (d.playerRole === "Player 1"){ 
         if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
@@ -176,7 +176,6 @@ Data.prototype.submitAnswer = function(d) {
           poll.scores.p2Score++;
         }
       }
-      
     }
     else {
       if (d.playerRole === "Player 1"){
@@ -189,7 +188,8 @@ Data.prototype.submitAnswer = function(d) {
           poll.nodeStatus[poll.currentQuestion[1]] = 3;
         }
       }
-    } 
+    }
+    console.log("Data changed") 
   }
 }
 export { Data };

@@ -12,7 +12,7 @@ function sockets(io, socket, data) {
     const currentStatus = data.getNodeStatus(pollId)[d.node];
   
     // Prevent overwriting status 1 or 2
-    if (currentStatus === 1 || currentStatus === 2) {
+    if (currentStatus === 1 || currentStatus === 2 || currentStatus === 3) {
       console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
       return;
     }
@@ -81,9 +81,13 @@ function sockets(io, socket, data) {
   });
 
   socket.on('submitAnswer', function(d) {
-    data.submitAnswer(d);                    
-    io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
-    io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId)); //EDVIN: MÅSTE VARA KVAR
+     
+    data.submitAnswer(d);
+    console.log("now executing emit")
+    process.nextTick(() => {
+      io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
+      io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId));
+    });
   }); 
 
   socket.on('validatePollId', (pollId, callback) => {
@@ -93,6 +97,8 @@ function sockets(io, socket, data) {
     const pollExists = data.pollExists(pollId);
     callback(pollExists);
   });
+
+  //Används ej (?)
   socket.on('nodeStatusChanged', function(d) {
     const poll = data.getPoll(d.pollId);
 

@@ -23,7 +23,7 @@
 4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
 5.  (Sulle)Ändra createView till radioknappar? eller liknande.
 6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
-7.  (Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3. om felsvar funkar samma som rätt i Data borde problem försvinna.
+7.  KLAR --------(Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3.
 
 --Result--
 1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 
