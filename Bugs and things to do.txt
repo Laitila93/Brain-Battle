@@ -22,7 +22,7 @@
     Denna ska emita det som pollView behöver för att fungera som den ska.
 3.  Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
 4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
-5.  (Sulle)Ändra createView till radioknappar? eller liknande.
+5.  Klar --(Sulle)Ändra createView till radioknappar? eller liknande.
 6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
 7.  KLAR --------(Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3.
 8.  Ändra så man kan ha svenska även i spelet??
