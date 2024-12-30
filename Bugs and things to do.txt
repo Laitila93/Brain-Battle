@@ -4,6 +4,7 @@
 2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
 3. KLAR-----------(Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
 4. (Emil)(VIKTIGT) Fortfarande strul med att ladda score och registrera knapptryck i PollView
+5. Score-div:arna ändrar storlek när score uppdateras. 
 
 ------------------Things to do------------------
 
@@ -27,6 +28,7 @@
 
 --Result--
 1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 
-1b. lägg till och implementera rematch button bredvid back to home page
+    1b. lägg till och implementera rematch button bredvid back to home page
+2. Ska vi använda oss av ResultView?
 
 --Nodes--
