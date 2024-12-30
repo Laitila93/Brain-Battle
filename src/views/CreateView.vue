@@ -269,6 +269,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #252537;
   
   box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
 }
