@@ -152,7 +152,7 @@ export default {
       });
 
       socket.on("uiLabels", labels => {
-      this.uiLabels = labels;
+      this.uiLabels = labels.PollViewLabels;
       });
       socket.emit("getUILabels", this.lang);
 
