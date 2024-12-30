@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper"> 
     <div class="banner">
-      <div class="player player1" v-if="playerRole === 'Player 1'">Your score: {{ this.scores.p1Score }}</div>
-      <div class="player player1" v-else>Opponents score: {{ this.scores.p1Score }}</div>
+      <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
+      <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
       <div class="poll-id">Poll ID: {{ pollId }}</div>
-      <div class="player player2" v-if="playerRole === 'Player 2'">Your score: {{ this.scores.p2Score }}</div>
-      <div class="player player2" v-else>Opponents score: {{ this.scores.p2Score }}</div>
+      <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
+      <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
     </div>
     <div class="node-area">
       <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
@@ -18,9 +18,9 @@
       </div>
     </div>
     <div v-if="!isGameOver">
-      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">Correct answer!</div>
-      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">Wrong answer!</div>
-      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">Click a node</div>
+      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">{{ uiLabels.correctAnswer }}</div>
+      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">{{ uiLabels.wrongAnswer }}</div>
+      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">{{ uiLabels.clickNodePrompt }}</div>
           <div v-if="showQuestionComponent">
             <QuestionComponent 
               v-bind:question="question" 
@@ -30,10 +30,15 @@
           </div>
     </div>
     <div v-else>
-      <div>Game over!</div>
-      <div v-if="winner === playerRole">YOU WIN!!!</div>
-      <div v-else>YOU LOOSE!</div>
-      <button onclick="location.href='/';">Back to home page</button>
+      <div>{{ uiLabels.gameOver }}</div>
+      <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
+      <div v-else>{{ uiLabels.youLoose }}</div>
+      <button onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
+    </div>
+    <div class="lang-switcher">
+      {{ uiLabels.changeLanguage }}
+      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      </button>
     </div>
   </div>
 </template>
@@ -58,6 +63,8 @@ export default {
         q: "",
         a: []
       },
+      uiLabels: {},
+      lang: localStorage.getItem( "lang") || "en",
       playerRole: localStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
       submittedAnswers: {},
@@ -223,6 +230,22 @@ export default {
       }
 
     },
+
+    switchLanguage: function() {
+      console.log("Languagebutton clicked!");
+      if (this.lang === "en") {
+        this.lang = "sv"
+      }
+      else {
+        this.lang = "en"
+      }
+      console.log(this.lang);
+      localStorage.setItem( "lang", this.lang );
+      console.log("Language set");
+      socket.emit( "getUILabels", this.lang );
+      console.log("getUiLabels payload emitted");
+    }
+
   }
 }
 </script>
