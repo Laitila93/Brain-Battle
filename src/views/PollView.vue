@@ -87,6 +87,7 @@ export default {
   },
   watch: {
     nodeStatus: function () {
+        console.log("drawNodeColors called", this.nodeStatus, this.questionNumber);
         this.drawNodeColors();
       }
   },
@@ -95,6 +96,7 @@ export default {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
+        console.log("socket sendNodeStatus, nodeStatus updated");
         this.$nextTick(() => {  //la till detta
           
           if (this.firstCheck){
@@ -106,9 +108,11 @@ export default {
       socket.on("numberOfQuestions", number => {
         this.totalQuestions = number;
         this.setNodeStatus({ node: 0, status: 1 });
+        console.log("socket numberOfQuestions, nodeStatus updated");
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
-        this.setNodeStatus({ node: lastNode, status: 2 });       
+        this.setNodeStatus({ node: lastNode, status: 2 });
+        console.log("socket numberOfQuestions, nodeStatus updated");       
       });
       
       socket.emit("getNumberOfQuestions", this.pollId);
@@ -207,9 +211,11 @@ export default {
         if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3) {
           if ((newStatus === 4 && currentStatus === 5) || (newStatus === 5 && currentStatus === 4)) {
             this.setNodeStatus({ node: adjacentIndex.index, status: 6 });
+            console.log("checkAdjacent, nodeStatus updated");
             Nodestatus2D[adjacentIndex.row][adjacentIndex.col] = 6;
           } else if (currentStatus !== 4 && currentStatus !== 5 && currentStatus !== 6) {
             this.setNodeStatus({ node: adjacentIndex.index, status: newStatus });
+            console.log("checkAdjacent, nodeStatus updated");
             Nodestatus2D[adjacentIndex.row][adjacentIndex.col] = newStatus;
           }
         }
@@ -337,7 +343,8 @@ export default {
       }
     },
     getNodeStatus: function() {
-      socket.emit("getNodeStatus", this.pollId);
+      socket.emit("getNodeStatus", this.pollId); //EMIL: suggestion: this method is only called from "setNodeStatus". 
+                                                  // Should we remove it and replace with a socket.emit("getNodeStatus") in "setNodeStatus"?
     },
     setNodeStatus: function(d) {
       this.nodeStatus[d.node] = d.status;
