@@ -101,13 +101,20 @@ export default {
   name: 'CreateView',
   data: function () {
     return {
+      question: "",
+      answers: ["", ""],
+      questionNumber: 0,
+      pollData: {},
       lang: localStorage.getItem("lang") || "en",
       pollId: null,
       formOperator: null,
       numberOfQuestions: null,
       formMax: null,
       uiLabels: {},
-      errorMessage: ''
+      errorMessage: '',
+      questions:
+      {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
+      
     };
   },
   created: function () {
@@ -194,14 +201,10 @@ export default {
     createAndStart: function (e) {
       e.preventDefault();
       if (this.formOperator && this.numberOfQuestions && this.formMax) {
-        const pollData = {
-          pollId: this.pollId,
-          operator: this.formOperator,
-          questions: this.numberOfQuestions,
-          maxRange: this.formMax,
-          lang: this.lang
-        };
-        console.log("Poll created with data:", pollData);
+        for (let i = 0; i < this.numberOfQuestions; i++){
+          this.generateRandomQuestion();
+          this.addQuestion(); 
+        }
         socket.emit("createPoll", this.pollId);
         socket.emit("joinPoll", this.pollId);
         this.$router.push(('/lobby/' + this.pollId))
