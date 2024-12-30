@@ -25,6 +25,7 @@
 5.  (Sulle)Ändra createView till radioknappar? eller liknande.
 6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
 7.  KLAR --------(Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3.
+8.  Ändra så man kan ha svenska även i spelet??
 
 --Result--
 1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 

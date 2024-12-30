@@ -41,7 +41,7 @@ function sockets(io, socket, data) {
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId); // Add the client to the poll's room
     socket.emit('questionUpdate', { q: data.getQuestion(pollId), player: "" });
-    socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
+    //socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
   });
 
   socket.on("participateInPoll", function (d) {
