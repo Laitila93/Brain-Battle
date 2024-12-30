@@ -1,7 +1,6 @@
 <template>
   <div class="centered-container"> 
   <div class="wrapper">
-  {{ uiLabels.header }}
   <nav>
     <div class="poll-id">{{ uiLabels.whichGame }}: {{ pollId }}</div>
     <div>
@@ -208,7 +207,7 @@ export default {
         this.$router.push(('/lobby/' + this.pollId))
       }
       else {
-        this.errorMessage ="Please fill in all fields before continuing.";
+        this.errorMessage = this.uiLabels.errorMessage;
       }
     },
     createQuiz: function () {
@@ -247,53 +246,51 @@ export default {
     
   }
 }
-
 </script>
 
 <style>
 /*"wrapper" and "main-menu" classes are styled in main.css */
-
+/*To be placed in main.css */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   gap: 50px; 
   width:65%;
   position:fixed;
-  bottom: 115px;
+  bottom: 135px;
   right:250px;
-
-  border: 2px solid blue; 
-    
 }
 
 .operator-section,.questions-section,
 .range-section {
-  background-color: darkorange;
   padding: 20px;
   border-radius: 10px;
   height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 2px solid white; 
+  
+  box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
 }
 .operator-section label, .questions-section label, .range-section label{
   font-size: 1.1em; 
   font-weight: bold; 
-  color: black; 
+  color: #ff8c00; 
   padding: 3px;
+  font-family:'Times New Roman', Times, serif;
 }
 .radio-item {
   display: flex;
-  align-items: center;  /* Align radio buttons and labels */
-  gap: 5px;  /* Space between radio button and label */
-  border: 2px solid red; 
+  align-items: center; 
+  gap: 5px;  
+  
 }
 .radio-group label {
   font-size: 1.1em;
   font-weight: bold;
-  color: black;  /* Ensure readability */
-  border: 2px solid pink;
+  color: #ff8c00;  /* Ensure readability */
+  font-family:'Times New Roman', Times, serif;
+  
 }
 
 .poll-id{
@@ -305,26 +302,21 @@ export default {
 
 .radio-group {
   display: flex;
-  flex-direction: column; /* Arrange items vertically */
-  gap: 15px; /* Space between items */
-  width: auto;  /* Adjust width to fit content */
-  border: 2px solid rgb(0, 128, 60);
+  flex-direction: column; 
+  gap: 15px; 
+  width: auto;  
+ 
 }
 .create-game {
   position: fixed; 
-    bottom: 70px;    
-    left: 50%;       
-    transform: translateX(-50%); /* Center it precisely */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 3em;
-    width: 60%;
-    background-color: #ff8c00;
-    color: black;
-    font-size: 0.8rem;
-    text-decoration: none;
-    letter-spacing: 0.1em;
+  bottom: 70px;    
+  left: 50%;       
+  transform: translateX(-50%); 
+  height: 2em;
+  width: 20%;
+  background-color: #ff8c00;
+  color: black;
+  font-size: 1.2rem;
 }
 .error-message {
     color: red;

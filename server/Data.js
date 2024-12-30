@@ -82,15 +82,17 @@ Data.prototype.getPoll = function(pollId) {
   }
   return {};
 }
-
-Data.prototype.participateInPoll = function (pollId, player) {
+//Lägger till playerName
+Data.prototype.participateInPoll = function (pollId, player,playerName) {
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
     if (poll.participants.length < 2) {
-      poll.participants.push(player);
+      poll.participants.push({ player, name: playerName });
       poll.currentQuestion.push(0);
+      return true;
     }
   }
+  return false;
 }
 
 Data.prototype.getParticipants = function(pollId) {
@@ -100,6 +102,14 @@ Data.prototype.getParticipants = function(pollId) {
     return this.polls[pollId].participants
   }
   return [];
+}
+//Lagt till detta
+Data.prototype.getPlayerName = function(pollId, player) {
+  if (this.pollExists(pollId)) {
+    const participant = this.polls[pollId].participants.find(p => p.player === player);
+    return participant ? participant.name : null;
+  }
+  return null;
 }
 
 Data.prototype.addQuestion = function(pollId, q) {

@@ -19,14 +19,18 @@
 		"chooseNumberOfQuestions": "Välj antal frågor: ",
 		"createGame": "Skapa spel",
 		"changeLanguage": "Change language: ",
-		"chooseRange": "Välj nummerintervall: "
+		"chooseRange": "Välj nummerintervall: ",
+		"errorMessage": "Fyll i alla fält innan du fortsätter."
 	},
 
 	"LobbyViewLabels": {
+		"whichGame":"Spel-ID",
+		"enterName": "Ange namn: ",
 		"youAre": "Du är: ",
 		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
-		"changeLanguage": "Change language: "
+		"changeLanguage": "Change language: ",
+		"enterNameFirst": "Vänligen ange ett namn först"
 	},
 
 	"PollViewLabels": {
