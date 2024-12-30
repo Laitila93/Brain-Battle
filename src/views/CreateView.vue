@@ -1,64 +1,90 @@
 <template>
-  <div class="wrapper" >
-    {{uiLabels.header}}
-    <nav class="main-menu">
-      <div class="logo">{{uiLabels.whichGame}}: {{ pollId }}</div>
-        <div>
-          <form id="createForm" @submit="createAndStart">
-            
-            <p>
-              <label for="formOperator">{{uiLabels.chooseOperator}} </label>
-                <select id="formOperator" v-model="formOperator" name="formOperator" required>
-                  <option>+</option>
-                  <option>-</option>
-                  <option>*</option>
-                  <option>/</option>
-                </select>
-            </p>
-    
-            <p>
-              <label for="numberOfQuestions">{{uiLabels.chooseNumberOfQuestions}}</label>
-                <select id="numberOfQuestions" v-model="numberOfQuestions" name="numberOfQuestions" required>
-                  <option>16</option>
-                  <option>25</option>
-                  <option>36</option>
-                  <option>49</option>
-                  <option>64</option>
-                  <option>81</option>
-                </select>
-            </p>
-            <p>
-              <label for="formMin">Minimum of questions: </label>
-                <input
-                  id="formMin"
-                  v-model="formMin"
-                  type="number"
-                  name="formMin"
-                  min="1"
-                  max="100"
-                  required
-                >
-            </p>
-            <p>
-              <label for="formMax">Maximum of questions: </label>
-                <input
-                  id="formMax"
-                  v-model="formMax"
-                  type="number"
-                  name="formMax"
-                  max="100"
-                  min="1"
-                  required
-                >
-            </p>
-            <p>
-              <button type="submit">
-                {{uiLabels.createGame}}
-              </button>
-            </p>
-          </form>
+  <div class="centered-container"> 
+  <div class="wrapper">
+  {{ uiLabels.header }}
+  <nav>
+    <div class="poll-id">{{ uiLabels.whichGame }}: {{ pollId }}</div>
+    <div>
+      <form id="createForm" @submit="createAndStart">
+        <div class="form-grid">
+          <div class="operator-section">
+            <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
+            <div class="radio-group">
+              <div class="radio-item">
+                <input type="radio" id="add" name="operator" value="+" v-model="formOperator">
+                <label for="add">+</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="subtract" name="operator" value="-" v-model="formOperator">
+                <label for="subtract">-</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="multiply" name="operator" value="*" v-model="formOperator">
+                <label for="multiply">*</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="divide" name="operator" value="/" v-model="formOperator">
+                <label for="divide">/</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="questions-section">
+            <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
+            <div class="radio-group">
+              <div class="radio-item">
+                <input type="radio" id="q16" name="questions" value="16" v-model="numberOfQuestions">
+                <label for="q16">16</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="q25" name="questions" value="25" v-model="numberOfQuestions">
+                <label for="q25">25</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="q36" name="questions" value="36" v-model="numberOfQuestions">
+                <label for="q36">36</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="q49" name="questions" value="49" v-model="numberOfQuestions">
+                <label for="q49">49</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="range-section">
+            <label for="formMax">{{ uiLabels.chooseRange }}</label>
+            <div class="radio-group">
+              <div class="radio-item">
+                <input type="radio" id="range1-10" name="range" value="10" v-model="formMax">
+                <label for="range1-10">1-10</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="range1-20" name="range" value="20" v-model="formMax">
+                <label for="range1-20">1-20</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="range1-30" name="range" value="30" v-model="formMax">
+                <label for="range1-30">1-30</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="range1-40" name="range" value="40" v-model="formMax">
+                <label for="range1-40">1-40</label>
+              </div>
+            </div>
+          </div>
+
         </div>
-    </nav>
+
+        <div class="menu-item">
+          <button type="submit" class="create-game">
+            {{ uiLabels.header }}
+          </button>
+        </div>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </form>
+    </div>
+  </nav>
+</div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
@@ -78,25 +104,12 @@ export default {
     return {
       lang: localStorage.getItem("lang") || "en",
       pollId: null,
-      question: "",
-      answers: ["", ""],
-      questionNumber: 0,
-      pollData: {},
-      uiLabels: {},
-
       formOperator: null,
-      formMin: null,
+      numberOfQuestions: null,
       formMax: null,
-
-      operator: null,
-      min: null,
-      max: null,
-
-      numberOfQuestions: 0,
-      questions:
-      {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
-      
-    }
+      uiLabels: {},
+      errorMessage: ''
+    };
   },
   created: function () {
     
@@ -181,27 +194,26 @@ export default {
 
     createAndStart: function (e) {
       e.preventDefault();
-      if (this.formOperator && this.formMin && this.formMax){
-        this.operator = this.formOperator;
-        this.min = this.formMin;
-        this.max = this.formMax;
-        for (let i = 0; i < this.numberOfQuestions; i++){
-          this.generateRandomQuestion();
-          this.addQuestion(); 
-        }
-        socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
+      if (this.formOperator && this.numberOfQuestions && this.formMax) {
+        const pollData = {
+          pollId: this.pollId,
+          operator: this.formOperator,
+          questions: this.numberOfQuestions,
+          maxRange: this.formMax,
+          lang: this.lang
+        };
+        console.log("Poll created with data:", pollData);
+        socket.emit("createPoll", this.pollId);
         socket.emit("joinPoll", this.pollId);
         this.$router.push(('/lobby/' + this.pollId))
       }
       else {
-        console.log("Please fill in all fields.");
+        this.errorMessage ="Please fill in all fields before continuing.";
       }
     },
     createQuiz: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
       socket.emit("joinPoll", this.pollId);
-
-      
     },
     addQuestions: function () {
 
@@ -240,51 +252,86 @@ export default {
 
 <style>
 /*"wrapper" and "main-menu" classes are styled in main.css */
-.option-menu{
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 50px; 
+  width:65%;
   position:fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  bottom: 115px;
+  right:250px;
+
+  border: 2px solid blue; 
+    
+}
+
+.operator-section,.questions-section,
+.range-section {
+  background-color: darkorange;
+  padding: 20px;
+  border-radius: 10px;
+  height: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2em;
-  width: 26em;
-  color: #ff8c00;
+  border: 2px solid white; 
 }
+.operator-section label, .questions-section label, .range-section label{
+  font-size: 1.1em; 
+  font-weight: bold; 
+  color: black; 
+  padding: 3px;
+}
+.radio-item {
+  display: flex;
+  align-items: center;  /* Align radio buttons and labels */
+  gap: 5px;  /* Space between radio button and label */
+  border: 2px solid red; 
+}
+.radio-group label {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: black;  /* Ensure readability */
+  border: 2px solid pink;
+}
+
 .poll-id{
   font-size: 20pt;
   font-family:'Times New Roman', Times, serif;
   font-family: 'Agbalumo';
   color:#ff8c00;
 }
-#createForm label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  background-color:#1e1e2f;
-}
-#createForm select,
-#createForm input[type="number"] {
-  background-color: rgb(99, 55, 2);
-  width: 80%;
-  padding: 8px;
-  border: 1px solid #ff8c00;
-  border-radius: 10px;
-}
-#createForm button[type="submit"] {
-  width: 80%;
-  padding: 10px;
-  background-color: #ff8c00;
-  color: black;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
-#createForm select option {
-  background-color: #1e1e2f; 
+.radio-group {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  gap: 15px; /* Space between items */
+  width: auto;  /* Adjust width to fit content */
+  border: 2px solid rgb(0, 128, 60);
 }
+.create-game {
+  position: fixed; 
+    bottom: 70px;    
+    left: 50%;       
+    transform: translateX(-50%); /* Center it precisely */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3em;
+    width: 60%;
+    background-color: #ff8c00;
+    color: black;
+    font-size: 0.8rem;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+}
+.error-message {
+    color: red;
+    font-size: 1.2rem;
+    font: bold;
+    text-transform: none;
+  }
 .back-button {
   position: fixed;
   background-color: #1e1e2f;
@@ -300,6 +347,35 @@ export default {
 .back-button:hover {
   background-color: #e67e00;
   cursor: pointer;
+}
+.lang-switcher {
+  position:fixed;
+  bottom: 10px;
+  right: 20px;
+  color:#007bff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+.lang-btn {
+  height: 3em;
+  width: 5em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-size: cover;
+  background-position: center;
+}
+
+.button-sv {
+  background-image: url("../assets/swedish-flag.png");
+}
+
+.button-en {
+  background-image: url("../assets/uk-flag.png");
 }
 
 </style>

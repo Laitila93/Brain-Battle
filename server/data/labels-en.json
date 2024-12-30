@@ -15,10 +15,11 @@
 	"CreateViewLabels": {
 		"header": "Create New Game",
 		"whichGame": "Poll ID",
-		"chooseOperator": "Operator: ",
-		"chooseNumberOfQuestions": "Number of questions: ",
+		"chooseOperator": "Choose a Math Operator: ",
+		"chooseNumberOfQuestions": "Select the number of questions: ",
 		"createGame": "Create new game",
-		"changeLanguage": "Byt språk: "
+		"changeLanguage": "Byt språk: ",
+		"chooseRange": "Choose the range of numbers: "
 	},
 
 	"LobbyViewLabels": {

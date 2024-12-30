@@ -15,10 +15,11 @@
 	"CreateViewLabels": {
 		"header": "Skapa nytt spel",
 		"whichGame": "Spel-ID",
-		"chooseOperator": "Räknesätt: ",
-		"chooseNumberOfQuestions": "Antal frågor: ",
+		"chooseOperator": "Välj ett räknesätt: ",
+		"chooseNumberOfQuestions": "Välj antal frågor: ",
 		"createGame": "Skapa spel",
-		"changeLanguage": "Change language: "
+		"changeLanguage": "Change language: ",
+		"chooseRange": "Välj nummerintervall: "
 	},
 
 	"LobbyViewLabels": {
