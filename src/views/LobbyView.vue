@@ -49,13 +49,11 @@ export default {
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
       localStorage.setItem("playerRole", role);
+      console.log("LOBBY: Player role assigned: ", role);
       this.joined = true;
     });
 
-    socket.on( "uiLabels", (labels) => {
-      this.uiLabels = labels.LobbyViewLabels
-      console.log(this.uiLabels);
-    });
+    socket.on( "uiLabels", labels => this.uiLabels = labels );
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;
@@ -75,6 +73,7 @@ export default {
     socket.emit( "joinPoll", this.pollId );
     socket.emit( "getUILabels", this.lang );
   },
+
   methods: {
     participateInPoll() {
       console.log("participateInPoll ", this.pollId, this.uiLabels.waitingForPlayer)

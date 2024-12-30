@@ -83,16 +83,14 @@ Data.prototype.getPoll = function(pollId) {
   return {};
 }
 //Lägger till playerName
-Data.prototype.participateInPoll = function (pollId, player,playerName) {
+Data.prototype.participateInPoll = function (pollId, player) {
   if (this.pollExists(pollId)) {
     const poll = this.polls[pollId];
     if (poll.participants.length < 2) {
-      poll.participants.push({ player, name: playerName });
+      poll.participants.push(player);
       poll.currentQuestion.push(0);
-      return true;
     }
   }
-  return false;
 }
 
 Data.prototype.getParticipants = function(pollId) {
