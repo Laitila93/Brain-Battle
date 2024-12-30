@@ -71,7 +71,7 @@ function sockets(io, socket, data) {
     }
   });
   
-  socket.on('startPoll', function(pollId) {
+  socket.on('startPoll', function(pollId) { //EMIL: används aldrig?
     io.to(pollId).emit('startPoll');
   })
   socket.on('runQuestion', function(d) {
