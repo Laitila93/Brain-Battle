@@ -53,7 +53,7 @@ export default {
       this.joined = true;
     });
 
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.LobbyViewLabels );
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;

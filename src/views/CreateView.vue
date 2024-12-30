@@ -129,7 +129,7 @@ export default {
   },
   created: function () {
     
-    socket.on( "uiLabels", labels => this.uiLabels = labels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
     socket.on( "pollData", data => this.pollData = data );
     this.generatePollId();
     socket.on( "participantsUpdate", p => this.pollData.participants = p );
