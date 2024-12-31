@@ -20,6 +20,7 @@
 		"createGame": "Skapa spel",
 		"changeLanguage": "Change language: ",
 		"chooseRange": "Välj nummerintervall: ",
+		"returnHome": "Till startsidan",
 		"errorMessage": "Fyll i alla fält innan du fortsätter."
 	},
 
@@ -30,6 +31,7 @@
 		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
 		"changeLanguage": "Change language: ",
+		"returnHome": "Till startsidan",
 		"enterNameFirst": "Vänligen ange ett namn först"
 	},
 

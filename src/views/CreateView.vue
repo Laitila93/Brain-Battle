@@ -92,8 +92,8 @@
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
-    </div>
-    <button class="back-button" @click="goToStartView">{{ uiLabels.backToMenu || "Back to Menu"}}</button>
+    </div> 
+    <button class="back-button" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
   </div>
 </template>
 

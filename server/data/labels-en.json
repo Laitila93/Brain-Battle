@@ -20,6 +20,7 @@
 		"createGame": "Create new game",
 		"changeLanguage": "Byt språk: ",
 		"chooseRange": "Choose the range of numbers: ",
+		"returnHome": "Back to home page",
 		"errorMessage":"Please fill in all fields before continuing."
 	},
 
@@ -29,6 +30,7 @@
 		"participateInGame": "Join",
 		"waitingForOthers": "Waiting for other player to join...",
 		"changeLanguage": "Byt språk: ",
+		"returnHome": "Back to home page",
 		"enterNameFirst": "Please enter a name first"
 	},
 

@@ -27,7 +27,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     socket,
   }) {
     let Nodestatus2D = to2DArray(nodeStatus, columns);
-
+    console.log("checkAdjacentNodes");
     const updateNodeStatus = (adjacentIndex, newStatus) => {
       const currentStatus = Nodestatus2D[adjacentIndex.row][adjacentIndex.col];
       if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3) {
@@ -126,8 +126,8 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
           break;
   
         case 4:
-          if (showQuestionComponent) break;
           nodeElement.style.backgroundColor = "#9cca9cff";
+          if (showQuestionComponent) break;
           if (playerRole === "Player 1") {
             nodeElement.disabled = false;
             nodeElement.style.animation = "pulse 2s infinite";
@@ -135,8 +135,8 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
           break;
   
         case 5:
-          if (showQuestionComponent) break;
           nodeElement.style.backgroundColor = "#ffc379ff";
+          if (showQuestionComponent) break;
           if (playerRole === "Player 2") {
             nodeElement.disabled = false;
             nodeElement.style.animation = "pulse 2s infinite";

@@ -98,6 +98,7 @@ export default {
   },
   watch: {
     nodeStatus: function () {
+      console.log("NodeStatus changed, calling drawNodeColors", this.nodeStatus[3]);
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -112,16 +113,6 @@ export default {
         console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
         this.$nextTick(() => {  //la till detta 
-          if (this.firstCheck){ //EMIL: vad jag kan se så exekveras aldrig detta, checkAdjacent anropas från submittedAnswersUpdate innan exekveringen når hit.
-                                // kan dock vara värt att ha kvar som safety, om något skulle gå fel i submittedAnsers, iofs
-            checkAdjacentNodes({
-              nodeStatus: this.nodeStatus,
-              columns: this.columns,
-              totalQuestions: this.totalQuestions,
-              pollId: this.$route.params.id,
-              socket: socket, // Ensure socket is correctly passed here
-            });
-          }
         }); 
       });
       this.pollId = this.$route.params.id;
@@ -131,6 +122,13 @@ export default {
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
         setNodeStatus({d:{ node: lastNode, status: 2 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        checkAdjacentNodes({
+            nodeStatus: this.nodeStatus,
+            columns: this.columns,
+            totalQuestions: this.totalQuestions,
+            pollId: this.$route.params.id,
+            socket: socket, // Ensure socket is correctly passed here
+          }); 
       });
       socket.emit("getNumberOfQuestions", this.pollId);
       socket.on("playerRoleAssigned", role => {
@@ -150,6 +148,7 @@ export default {
           });                            
         this.scores = scores; // EMIL: In first call "scores" is an empty object, leading to bug in scorekeeping
         this.checkIsGameOver();
+
       });
       socket.on("uiLabels", labels => {this.uiLabels = labels.PollViewLabels;});
       socket.emit("getUILabels", this.lang);
