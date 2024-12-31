@@ -33,20 +33,20 @@
             <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
             <div class="radio-group">
               <div class="radio-item">
-                <input type="radio" id="q16" name="questions" value="16" v-model="numberOfQuestions">
-                <label for="q16">16</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="q25" name="questions" value="25" v-model="numberOfQuestions">
-                <label for="q25">25</label>
-              </div>
-              <div class="radio-item">
                 <input type="radio" id="q36" name="questions" value="36" v-model="numberOfQuestions">
                 <label for="q36">36</label>
               </div>
               <div class="radio-item">
                 <input type="radio" id="q49" name="questions" value="49" v-model="numberOfQuestions">
                 <label for="q49">49</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="q64" name="questions" value="64" v-model="numberOfQuestions">
+                <label for="q64">64</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="q81" name="questions" value="81" v-model="numberOfQuestions">
+                <label for="q81">81</label>
               </div>
             </div>
           </div>
