@@ -28,7 +28,6 @@
             </div>
           </div>
 
-
           <div class="questions-section">
             <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
             <div class="radio-group">
@@ -50,7 +49,6 @@
               </div>
             </div>
           </div>
-
 
           <div class="range-section">
             <label for="formMax">{{ uiLabels.chooseRange }}</label>
@@ -114,15 +112,17 @@ export default {
       pollData: {},
       uiLabels: {},
 
-      formOperator: "+",
+      formOperator: null,
       formMin: 1,
-      formMax: 10,
+      formMax: null,
+
+      errorMessage: '',
 
       operator: null,
       min: null,
       max: null,
 
-      numberOfQuestions: 81,
+      numberOfQuestions: null,
       questions:
       {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
       
@@ -147,10 +147,13 @@ export default {
 
     createAndStart: function (e) {
       e.preventDefault();
+      this.errorMessage = '';
+
       if (this.formOperator && this.formMin && this.formMax){
+        
         this.operator = this.formOperator;
-        this.min = this.formMin;
-        this.max = this.formMax;
+        this.min = 1; 
+        this.max = parseInt(this.formMax); 
         for (let i = 0; i < this.numberOfQuestions; i++){
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, pollId: this.pollId} );
         }
@@ -159,7 +162,7 @@ export default {
         this.$router.push(('/lobby/' + this.pollId))
       }
       else {
-        console.log("Please fill in all fields.");
+      this.errorMessage = this.uiLabels.errorMessage;
       }
     },
 

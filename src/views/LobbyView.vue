@@ -3,7 +3,7 @@
     <div class="main-menu">
       <div class="card">
       <div class="poll-id">
-        Lobby ID: {{pollId}}
+        {{ uiLabels.whichGame }} : {{pollId}}
       </div>
       <div>
         <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
@@ -20,8 +20,8 @@
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
-    </div>
-    <button class="back-button" @click="goToStartView">{{ uiLabels.backToMenu || "Back to Menu" }}</button>
+    </div> 
+    <button class="back-button" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
   </div>
 </template>
 
