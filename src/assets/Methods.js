@@ -123,6 +123,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
   
         case 3:
           nodeElement.style.backgroundColor = "#1e1e2f";
+          nodeElement.style.borderColor = "#1e1e2f"; 
           break;
   
         case 4:
