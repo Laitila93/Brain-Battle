@@ -56,7 +56,7 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-const serverIP = process.env.VUE_APP_SERVER_IP || "brainbattle-b2p0.onrender.com:10000";
+const serverIP = import.meta.env.VUE_APP_SERVER_IP || "brainbattle-b2p0.onrender.com:10000";
 sessionStorage.setItem("serverIP", serverIP);
 const socket = io(sessionStorage.getItem("serverIP"));
 
