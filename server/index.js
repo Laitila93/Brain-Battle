@@ -11,7 +11,8 @@ const io = new Server(httpServer, {
     credentials: true,
   },
 });
-
+console.log("Server started". io);
+console.log("Server started". httpServer);
 let data = new Data();
 
 io.on("connection", (socket) => {
