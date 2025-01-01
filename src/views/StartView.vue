@@ -77,6 +77,13 @@ export default {
   created: function () {
     socket.emit( "getUILabels", this.lang );
     socket.on( "uiLabels", labels => this.uiLabels = labels.StartViewLabels );
+    socket.on("connect", () => {
+      console.log("Connected to the server:", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from the server.");
+    });
   },
   methods: {
     switchLanguage: function() {
