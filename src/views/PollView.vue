@@ -76,7 +76,7 @@ export default {
       firstCheck: true, // Guard variable
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
-      lastAnswer: "start", //Should this be initialized to "Start"?
+      lastAnswer: "start", 
       isGameOver:false,
       winner: "",
     };

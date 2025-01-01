@@ -8,7 +8,7 @@
       <div>
         <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
         <div class="menu-item">
-        <button v-if="!joined" @click="participateInPoll" class="join-game">
+        <button v-if="!joined" @click="participateInPoll" class="join-game-lobby">
           {{uiLabels.participateInGame}}
         </button>
       </div>
@@ -101,81 +101,6 @@ export default {
 
 <style>
 /*To be placed in main.css */
-.card {
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
-  background-color: #252537;
-  width: 65%;
-  position:fixed;
-  top: 50%; /* Vertically center */
-  left: 50%; /* Horizontally center */
-  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
-}
-.poll-id{
-  font-size: 20pt;
-  font-family:'Times New Roman', Times, serif;
-  color:#007bff;
-}
-.lang-switcher {
-    position:fixed;
-    bottom: 10px;
-    right: 20px;
-    color:#007bff;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
-    font-size: 1em;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-  }
 
-  .card label{
-    color:white;
-    padding: 3px;
-  }
-
-  .lang-btn {
-  height: 3em;
-  width: 5em;
-  cursor: pointer;
-  border-radius: 1em;
-  background-size: cover;
-  background-position: center;
-}
-.button-sv {
-  background-image: url("../assets/swedish-flag.png");
-}
-.button-en {
-  background-image: url("../assets/uk-flag.png");
-}
-.join-game {
-    background-color: #32cd32;
-    color:black;
-    font-size: 0.8rem;
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    display: grid;
-    align-items: center;
-    height: 3em;
-    width: 55%;
-  }
-.back-button {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 4px;
-  left: 50px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-
-.back-button:hover {
-  background-color:#007bff;
-  cursor: pointer;
-}
 
 </style>

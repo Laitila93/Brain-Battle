@@ -331,8 +331,6 @@ and (min-width : 1824px) {
   background-position: center;
 }
 
-
-
 .pollBody {
   width: 500px;
   text-align: center;
@@ -340,6 +338,355 @@ and (min-width : 1824px) {
 
 #createForm {
   font-size: 1.2rem;
+}
 
+/* create view*/
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  width:65%;
+  position:fixed;
+  bottom: 135px;
+  right:250px;
+}
+
+
+.operator-section,.questions-section,
+.range-section {
+  padding: 20px;
+  border-radius: 10px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #252537;
+ 
+  box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+}
+.operator-section label, .questions-section label, .range-section label{
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #ff8c00;
+  padding: 3px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;  
+ 
+}
+.radio-group label {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #ff8c00;  /* Ensure readability */
+  font-family: Helvetica, Arial, sans-serif;
+ 
+}
+
+
+.poll-id{
+  font-size: 20pt;
+  font-family: Helvetica, Arial, sans-serif;
+  color:#ff8c00;
+}
+
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: auto;  
+ 
+}
+.create-game {
+  position: fixed;
+  bottom: 70px;    
+  left: 50%;      
+  transform: translateX(-50%);
+  height: 2em;
+  width: 20%;
+  background-color: #ff8c00;
+  color: black;
+  font-size: 1.2rem;
+}
+.error-message {
+    color: red;
+    font-size: 1.2rem;
+    font: bold;
+    text-transform: none;
+  }
+.back-button {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 4px;
+  left: 50px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
+
+
+.back-button:hover {
+  background-color: #e67e00;
+  cursor: pointer;
+}
+.lang-switcher {
+  position:fixed;
+  bottom: 10px;
+  right: 20px;
+  color:#007bff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+.lang-btn {
+  height: 3em;
+  width: 5em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.button-sv {
+  background-image: url("../assets/swedish-flag.png");
+}
+
+
+.button-en {
+  background-image: url("../assets/uk-flag.png");
+}
+
+/*lobbyview*/
+.card {
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
+  background-color: #252537;
+  width: 65%;
+  position:fixed;
+  top: 50%; /* Vertically center */
+  left: 50%; /* Horizontally center */
+  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
+}
+.poll-id{
+  font-size: 20pt;
+  font-family: Helvetica, Arial, sans-serif;
+  color:#007bff;
+}
+.lang-switcher {
+    position:fixed;
+    bottom: 10px;
+    right: 20px;
+    color:#007bff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    font-size: 1em;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+  }
+
+  .card label{
+    color:white;
+    padding: 3px;
+  }
+
+  .lang-btn {
+  height: 3em;
+  width: 5em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-size: cover;
+  background-position: center;
+}
+.button-sv {
+  background-image: url("../assets/swedish-flag.png");
+}
+.button-en {
+  background-image: url("../assets/uk-flag.png");
+}
+.join-game-lobby {
+    background-color: #32cd32;
+    color:black;
+    font-size: 0.8rem;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    display: grid;
+    align-items: center;
+    height: 3em;
+    width: 55%;
+    text-transform: uppercase;
+  }
+.back-button {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 4px;
+  left: 50px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
+
+.back-button:hover {
+  background-color:#007bff;
+  cursor: pointer;
+}
+
+/*Startview*/
+
+header {
+  background-color:#1e1e2f;
+  width: 100%;
+}
+.logo {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 2.5rem;
+  color: #007bff;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
 
 }
+.logo img {
+  height: 70px;
+  min-width: 70px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-join-section{
+  text-transform: uppercase;
+  display: flex;
+  height: 3em;
+  width: 100%;
+  justify-content: center;
+}
+
+#error-message {
+  color: red;
+  font-size: 1rem;
+  text-transform: none;
+}
+.footer-menu {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 2px;
+  left: 50px;
+  width: 20em;
+  height: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 10em);
+  text-transform: uppercase;
+}
+.about-page, .rules-page {
+  font-size: 1rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  color: white;
+}
+  
+.id-input {
+  font-size: 1.2rem;
+  max-width: 40%;
+}
+.id-input::placeholder {
+  text-transform: uppercase;
+  color: gray;
+  opacity: 0.75;
+}
+.join-game {
+  background-color: #32cd32;
+  color:black;
+  font-size: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  display: grid;
+  align-items: center;
+  width: 55%;
+}
+.hidden {
+  background-color: gray;
+  color:black;
+  width: 55%;
+  font-size: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  display: grid;
+  align-items: center;
+  pointer-events: none;
+}
+.create-game-start {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 3em; 
+  width: 60%; 
+  background-color: #ff8c00; 
+  color: black; 
+  font-size: 0.8rem; 
+  text-decoration: none; 
+  letter-spacing: 0.1em; 
+  margin: 0 auto; 
+}
+
+.or {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 5px; 
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+.lang-switcher {
+position: fixed;
+bottom: 10px;
+right: 20px;
+color:white;
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 1em;
+font-size: 1em;
+letter-spacing: 0.1rem;
+text-transform: uppercase;
+}
+
+.lang-btn {
+height: 3em;
+width: 5em;
+cursor: pointer;
+border-radius: 1em;
+background-size: cover;
+background-position: center;
+}
+
+.button-sv {
+background-image: url("../assets/swedish-flag.png");
+}
+
+.button-en {
+background-image: url("../assets/uk-flag.png");
+}
+
