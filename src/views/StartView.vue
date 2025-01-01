@@ -57,8 +57,8 @@
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
 const serverIP = import.meta.env.VUE_APP_SERVER_IP || "https://brainbattle-b2p0.onrender.com";
-sessionStorage.setItem("serverIP", serverIP);
-const socket = io(sessionStorage.getItem("serverIP"));
+localStorage.setItem("serverIP", serverIP);
+const socket = io(serverIP);
 
 socket.on('connect_error', (err) => {
   console.error('Connection Error:', err);
