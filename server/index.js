@@ -7,7 +7,7 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
     origin: "*", // Replace with your frontend's Render URL
-    methods: ["GET"],
+    methods: ["GET", "POST"],
     credentials: true,
   },
 });
