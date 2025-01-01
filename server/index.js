@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 const httpServer = createServer();
 const io = new Server(httpServer, {
     cors: {
-      origin: "*",
+      origin: "https://brainbattle-b2p0.onrender.com/",
       methods: ["GET"],
       credentials: true
   }
@@ -25,6 +25,6 @@ io.on('connection', function (socket) {
 });
 
 const PORT = process.env.PORT || 3000;
-httpServer.listen(PORT, function() {
-    console.log("Socket.io server running on http://localhost:" + PORT);
+httpServer.listen(PORT, () => {
+  console.log(`Socket.io server running on port ${PORT}`);
 });
