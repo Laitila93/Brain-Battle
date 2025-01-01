@@ -13,7 +13,7 @@
 2.  Kontrollera att alla views använder rätt klasser och ser likadana ut.
 3.  flytta CSS kod till Main.css
 4.  rename all "poll" to "Quiz".
-5.  (Emil)Fixa så att all text hämtas från language filen.
+5.  KLAR-----------(Emil)Fixa så att all text hämtas från language filen.
 6.  Fixa så allt ser bra ut på mindre skärmar.
 
 --Game--
@@ -22,10 +22,11 @@
     Denna ska emita det som pollView behöver för att fungera som den ska.
 3.  Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
 4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
-5.  Klar --(Sulle)Ändra createView till radioknappar? eller liknande.
+5.  KLAR-----------(Sulle)Ändra createView till radioknappar? eller liknande.
 6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
-7.  KLAR --------(Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3.
-8.  Ändra så man kan ha svenska även i spelet??
+7.  KLAR-----------(Edvin)(VIKTIGT) bugg så att om man refreshar efter svarat fel så försvinner status 3.
+8.  KLAR-----------(EMIL)Ändra så man kan ha svenska även i spelet??
+9.  (Emil)Fixa så att ett meddelande visas om spelet slutar oavgjort
 
 --Result--
 1.  KLAR---------(Edvin)(VIKTIGT) fixa någon typ av victory- / result-screen. (Lägg till i fältet där frågorna kommer upp) 
@@ -33,3 +34,6 @@
 2. Ska vi använda oss av ResultView?
 
 --Nodes--
+
+--Code readability--
+1. (Emil)Rensa/kolla bland sockets i server och se om något kan tas bort/ändras 
