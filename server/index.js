@@ -2,6 +2,9 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { Data } from "./Data.js";
 import { sockets } from "./sockets.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
@@ -22,7 +25,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = import.meta.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
   console.log(`Socket.io server running on port ${PORT}`);
 });
