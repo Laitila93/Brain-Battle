@@ -30,7 +30,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     console.log("checkAdjacentNodes");
     const updateNodeStatus = (adjacentIndex, newStatus) => {
       const currentStatus = Nodestatus2D[adjacentIndex.row][adjacentIndex.col];
-      if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3) {
+      if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3 && currentStatus !== 7) { //added status 7 check
         if ((newStatus === 4 && currentStatus === 5) || (newStatus === 5 && currentStatus === 4)) {
           setNodeStatus({
             d: { node: adjacentIndex.index, status: 6 },
@@ -150,6 +150,10 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
             nodeElement.disabled = false;
             nodeElement.style.animation = "pulse 2s infinite";
           }
+          break;
+        //case 7 for locking a question
+        case 7:
+          nodeElement.style.backgroundColor = "#f5f5f5ff";
           break;
   
         default:

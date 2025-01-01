@@ -40,7 +40,7 @@
 		"opponentScore": "Motståndares poäng: ",
 		"correctAnswer": "Rätt svar!",
 		"wrongAnswer": "Fel svar!",
-		"clickNodePrompt": "Klicka på en glänsande nod!",
+		"clickNodePrompt": "Klicka på en blinkande nod!",
 		"gameOver": "Spelet slut",
 		"youWin": "Du vann!",
 		"youLoose": "Du förlorade!",

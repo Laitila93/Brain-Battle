@@ -76,7 +76,7 @@ export default {
       firstCheck: true, // Guard variable
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
-      lastAnswer: "", //Should this be initialized to "Start"?
+      lastAnswer: "start", //Should this be initialized to "Start"?
       isGameOver:false,
       winner: "",
     };
@@ -219,7 +219,7 @@ export default {
       this.questionNumber = questionNumber;
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
-      setNodeStatus({d:{ node: this.questionNumber-1, status: 0 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+      setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       let nodeElement = document.getElementById('node-' + (this.questionNumber));
       if (this.playerRole === "Player 1") {
         nodeElement.style.borderColor = "#32cd32"; //sets green marker
