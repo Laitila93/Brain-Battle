@@ -219,7 +219,7 @@ export default {
       this.questionNumber = questionNumber;
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
-      setNodeStatus({d:{ node: this.questionNumber-1, status: 0 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+      setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       let nodeElement = document.getElementById('node-' + (this.questionNumber));
       if (this.playerRole === "Player 1") {
         nodeElement.style.borderColor = "#32cd32"; //sets green marker
