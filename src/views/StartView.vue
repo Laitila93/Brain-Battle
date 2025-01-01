@@ -56,7 +56,7 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-localStorage.setItem("serverIP", "https://brainbattle-b2p0.onrender.com/:3000");
+localStorage.setItem("serverIP", "https://brainbattle-b2p0.onrender.com/");
 const socket = io(localStorage.getItem("serverIP"));
 
 export default {
