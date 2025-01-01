@@ -97,7 +97,7 @@
 
 <script>
 import io from 'socket.io-client';
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io("https://brainbattle-b2p0.onrender.com");
 import { generateRandomQuestion } from "@/assets/Methods.js";
 
 export default {

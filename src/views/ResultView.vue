@@ -12,7 +12,7 @@
 // @ is an alias to /src
 import BarsComponent from '@/components/BarsComponent.vue';
 import io from 'socket.io-client';
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io("https://brainbattle-b2p0.onrender.com");
 
 export default {
   name: 'ResultView',
