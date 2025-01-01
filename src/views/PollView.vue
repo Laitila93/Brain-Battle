@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
-      <div class="poll-id">Poll ID: {{ pollId }}</div>
+      <div class="poll-id">{{ uiLabels.whichGame }}: {{ pollId }}</div>
       <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
       <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
     </div>
@@ -32,7 +32,7 @@
     <div v-else>
       <div>{{ uiLabels.gameOver }}</div>
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
-      <div v-else-if="winner === ''">{{uiLabels.draw}}!</div>
+      <div v-if="winner === ''">{{uiLabels.draw}}!</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
       <button onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
     </div>

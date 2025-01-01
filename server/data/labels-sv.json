@@ -36,8 +36,9 @@
 	},
 
 	"PollViewLabels": {
+		"whichGame": "Spel-ID",
 		"yourScore": "Din poäng",
-		"opponentScore": "Motståndares poäng: ",
+		"opponentScore": "Motståndares poäng",
 		"correctAnswer": "Rätt svar!",
 		"wrongAnswer": "Fel svar!",
 		"clickNodePrompt": "Klicka på en blinkande nod!",

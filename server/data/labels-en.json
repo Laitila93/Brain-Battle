@@ -35,8 +35,9 @@
 	},
 
 	"PollViewLabels": {
+		"whichGame": "Game ID",
 		"yourScore": "Your score",
-		"opponentScore": "Opponent's score: ",
+		"opponentScore": "Opponent's score",
 		"correctAnswer": "Correct answer!",
 		"wrongAnswer": "Wrong answer!",
 		"clickNodePrompt": "Click a glowing node!",
