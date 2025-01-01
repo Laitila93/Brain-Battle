@@ -6,7 +6,7 @@ import { sockets } from "./sockets.js";
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://brainbattle-b2p0.onrender.com", // Replace with your frontend's Render URL
+    origin: "*", // Replace with your frontend's Render URL
     methods: ["GET"],
     credentials: true,
   },
