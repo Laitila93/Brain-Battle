@@ -48,7 +48,7 @@ import QuestionComponent from '@/components/QuestionComponent.vue';
 import io from 'socket.io-client';
 import NodeComponent from '../components/NodeComponent.vue';
 import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Methods.js";
-const socket = io("https://brainbattle-b2p0.onrender.com");
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'PollView',

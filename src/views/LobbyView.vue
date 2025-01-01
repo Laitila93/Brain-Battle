@@ -28,7 +28,7 @@
 
 <script>
 import io from 'socket.io-client';
-const socket = io("https://brainbattle-b2p0.onrender.com");
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'LobbyView',

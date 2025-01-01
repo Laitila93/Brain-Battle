@@ -56,7 +56,8 @@
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
-const socket = io("https://brainbattle-b2p0.onrender.com/");
+sessionStorage.setItem("serverIP", "brainbattle-b2p0.onrender.com");
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'StartView',
