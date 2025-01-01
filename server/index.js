@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 httpServer.listen(PORT, () => {
   console.log(`Socket.io server running on port ${PORT}`);
 });
