@@ -44,6 +44,7 @@
 		"gameOver": "Spelet slut",
 		"youWin": "Du vann!",
 		"youLoose": "Du förlorade!",
+		"draw": "Oavgjort",
 		"returnHome": "Till startsidan",
 		"changeLanguage": "Change language: "
 	}
