@@ -32,7 +32,7 @@
     <div v-else>
       <div>{{ uiLabels.gameOver }}</div>
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
-      <div v-if="winner === ''">{{uiLabels.draw}}!</div>
+      <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
       <button onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
     </div>
