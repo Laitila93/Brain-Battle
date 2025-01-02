@@ -79,12 +79,12 @@ export default {
       console.log("participateInPoll ", this.pollId, this.uiLabels.waitingForPlayer)
       socket.emit("participateInPoll", { pollId: this.pollId });
     },
-    startPoll: function () {
+    /* startPoll: function () {
       if (this.participants.length > 0){
         socket.emit("startPoll", this.pollId)
         socket.emit("getNumberOfQuestions", this.pollId)
       }
-    },
+    },*/
     switchLanguage: function() {
       if (this.lang === "en") {
         this.lang = "sv"
