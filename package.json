@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "concurrently 'npm:dev:frontend' 'npm:dev:backend'",
     "dev:frontend": "vite",
     "dev:frontendhost": "vite --host",
     "dev:backend": "nodemon server/index.js",
+    "dev": "concurrently 'npm:dev:frontend' 'npm:dev:backend'",
     "host": "concurrently 'npm:dev:frontendhost' 'npm:dev:backend'",
     "build": "vite build",
     "preview": "vite preview",
