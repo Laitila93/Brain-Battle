@@ -27,7 +27,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     socket,
   }) {
     let Nodestatus2D = to2DArray(nodeStatus, columns);
-    console.log("checkAdjacentNodes");
+    console.log("in checkAdjacentNodes");
     const updateNodeStatus = (adjacentIndex, newStatus) => {
       const currentStatus = Nodestatus2D[adjacentIndex.row][adjacentIndex.col];
       if (currentStatus !== 1 && currentStatus !== 2 && currentStatus !== 3 && currentStatus !== 7) { //added status 7 check
