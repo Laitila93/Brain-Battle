@@ -111,7 +111,7 @@ export default {
   methods: {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
-        console.log("SendNodeStatus event caught, nodeStatus updated");
+        console.log("SendNodeStatus event caught, updating nodeStatus");
         this.nodeStatus = status;
         this.$nextTick(() => {  //la till detta 
         }); 
@@ -119,10 +119,20 @@ export default {
       this.pollId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
         this.totalQuestions = number;
-        setNodeStatus({d:{ node: 0, status: 1 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({
+            d:{ node: 0, status: 1 },
+            pollId: this.$route.params.id, 
+            nodeStatus: this.nodeStatus, 
+            socket: socket 
+        });
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
-        setNodeStatus({d:{ node: lastNode, status: 2 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({
+            d:{ node: lastNode, status: 2 }, 
+            pollId: this.$route.params.id, 
+            nodeStatus: this.nodeStatus, 
+            socket: socket 
+        });
         checkAdjacentNodes({
             nodeStatus: this.nodeStatus,
             columns: this.columns,
@@ -133,26 +143,27 @@ export default {
       });
       socket.emit("getNumberOfQuestions", this.pollId);
       socket.on("playerRoleAssigned", role => {
+        console.log("Player role assigned");
         this.playerRole = role;
         localStorage.setItem("playerRole", role); // Update locally just in case
       });
 
       socket.on("submittedAnswersUpdate", scores => {
-        console.log("submittedAnswersUpdate event caught, calling checkAdjacent");
+        console.log("submittedAnswersUpdate event caught, updating scores and calling checkAdjacent");
         checkAdjacentNodes({
             nodeStatus: this.nodeStatus,
             columns: this.columns,
             totalQuestions: this.totalQuestions,
             pollId: this.$route.params.id,
             socket: socket, // Ensure socket is correctly passed here
-          });                            
-        this.scores = scores; // EMIL: In first call "scores" is an empty object, leading to bug in scorekeeping
+          });                              
+        this.scores = scores;
         this.checkIsGameOver();
 
       });
       socket.on("uiLabels", labels => {this.uiLabels = labels.PollViewLabels;});
       socket.emit("getUILabels", this.lang);
-      socket.emit("joinPoll", this.pollId); //EMIL: this socket emit leads to the first catch in "submittedAnswersUpdate"
+      socket.emit("joinPoll", this.pollId);
       socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
     },
@@ -197,8 +208,11 @@ export default {
     },
 
     submitAnswer: function (answer, playerRole) {
+      console.log("in submitAnswer");
       if (answer.c) {
+        console.log("in submitAnswer, answer correct, sending update to server");
         socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
+        console.log("in submitAnswer, calling drawNodeColors");
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -207,9 +221,10 @@ export default {
         this.lastAnswer = "correct";
       }
       else {
-        console.log("wrong answer");
+        console.log("in submitAnswer, answer incorrect, sending update to server");
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
         socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
+        console.log("in submitAnswer, calling drawNodeColors");
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -223,7 +238,12 @@ export default {
       this.questionNumber = questionNumber;
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
-      setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+      setNodeStatus({
+        d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, 
+        pollId: this.$route.params.id, 
+        nodeStatus: this.nodeStatus, 
+        socket: socket 
+      });
       let nodeElement = document.getElementById('node-' + (this.questionNumber));
       if (this.playerRole === "Player 1") {
         nodeElement.style.borderColor = "#32cd32"; //sets green marker

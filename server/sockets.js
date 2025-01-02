@@ -83,7 +83,7 @@ function sockets(io, socket, data) {
   socket.on('submitAnswer', function(d) {
      
     data.submitAnswer(d);
-    console.log("now executing emit")
+    console.log("In submitAnser, now executing emit sendNodeStatus and submittedAnswersUpdate");
     process.nextTick(() => {
       io.to(d.pollId).emit("sendNodeStatus", data.getNodeStatus(d.pollId));
       io.to(d.pollId).emit('submittedAnswersUpdate', data.getScores(d.pollId));
