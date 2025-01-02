@@ -70,10 +70,7 @@ function sockets(io, socket, data) {
       io.to(d.pollId).emit("startPoll");
     }
   });
-  
-  socket.on('startPoll', function(pollId) { //EMIL: används aldrig?
-    io.to(pollId).emit('startPoll');
-  })
+
   socket.on('runQuestion', function(d) {
     let question = data.getQuestion(d.pollId, d.playerRole, d.questionNumber);
     io.to(d.pollId).emit('questionUpdate', {q:question, playerRole:d.playerRole});
