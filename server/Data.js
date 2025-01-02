@@ -69,7 +69,6 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.currentQuestion = [];
     poll.nodeStatus = [];             
     this.polls[pollId] = poll;
-    poll.counter = 0; //EMIL: for testing 
     poll.scores = {p1Score: 1, p2Score: 1};
     
   }
@@ -112,8 +111,6 @@ Data.prototype.getPlayerName = function(pollId, player) {
 
 Data.prototype.addQuestion = function(pollId, q) {
   if (this.pollExists(pollId)) {
-    this.polls[pollId].counter++;
-    let counter = this.polls[pollId].counter
     this.polls[pollId].questions.push(q);
     this.polls[pollId].nodeStatus.push(0);
     this.polls[pollId].answers.push({});
