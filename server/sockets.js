@@ -13,7 +13,7 @@ function sockets(io, socket, data) {
   
     // Prevent overwriting status 1 or 2
     if (currentStatus === 1 || currentStatus === 2 || currentStatus === 3) {
-      console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
+      //console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
       return;
     }
   

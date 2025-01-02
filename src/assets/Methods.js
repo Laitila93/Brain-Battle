@@ -2,6 +2,7 @@
 
 export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     try {
+      console.log("in setNodeStatus");
       nodeStatus[d.node] = d.status;
       socket.emit("nodeStatusUpdate", pollId, d);
       getNodeStatus(pollId, socket);
