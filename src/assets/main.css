@@ -481,6 +481,11 @@ and (min-width : 1824px) {
   font-family: Helvetica, Arial, sans-serif;
   color:#007bff;
 }
+.poll-id-game {
+  padding-top: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .lang-switcher {
     position:fixed;
     bottom: 10px;

@@ -11,6 +11,7 @@
               <label :for="operator.id">{{ operator.label }}</label>
             </div>
           </div>
+          formOperator: {{ formOperator }}
         </div>
 
         <div class="questions-section">
@@ -21,6 +22,7 @@
               <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
             </div>
           </div>
+          numberOfQuestions: {{ numberOfQuestions }}
         </div>
       
         <div class="range-section">
@@ -31,6 +33,7 @@
                 <label :for="range.id">{{ range.label }}</label>
               </div>
             </div>
+            formMax: {{ formMax }}
         </div>
 
         <div class="menu-item">
