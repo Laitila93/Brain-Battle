@@ -129,11 +129,7 @@ button {
   background-color: #ff8c00; /* Player 2's color */
 }
 
-.poll-id {
-  flex: 2;
-  text-align: center;
-  font-weight: bold;
-}
+
 /* Smartphones (portrait and landscape) ----------- */
                                             @media only screen 
                                             and (min-device-width : 320px) 
@@ -337,7 +333,7 @@ and (min-width : 1824px) {
 }
 
 #createForm {
-  font-size: 1.2rem;
+  padding: 20px;
 }
 
 /* create view*/
@@ -349,6 +345,13 @@ and (min-width : 1824px) {
   position:fixed;
   bottom: 135px;
   right:250px;
+}
+.centered-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 
@@ -385,12 +388,6 @@ and (min-width : 1824px) {
  
 }
 
-
-.poll-id{
-  font-size: 20pt;
-  font-family: Helvetica, Arial, sans-serif;
-  color:#ff8c00;
-}
 
 
 .radio-group {
@@ -479,6 +476,7 @@ and (min-width : 1824px) {
   transform: translate(-50%, -50%); /* Adjust to perfectly center it */
 }
 .poll-id{
+  padding-top: 10vh;
   font-size: 20pt;
   font-family: Helvetica, Arial, sans-serif;
   color:#007bff;

@@ -1,80 +1,37 @@
 <template>
-  <div class="centered-container">
   <div class="wrapper">
-  <nav>
     <div class="poll-id">{{ uiLabels.whichGame }}: {{ pollId }}</div>
-    <div>
-      <form id="createForm" @submit="createAndStart">
-        <div class="form-grid">
-          <div class="operator-section">
-            <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
-            <div class="radio-group">
-              <div class="radio-item">
-                <input type="radio" id="add" name="operator" value="+" v-model="formOperator">
-                <label for="add">+</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="subtract" name="operator" value="-" v-model="formOperator">
-                <label for="subtract">-</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="multiply" name="operator" value="*" v-model="formOperator">
-                <label for="multiply">*</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="divide" name="operator" value="/" v-model="formOperator">
-                <label for="divide">/</label>
-              </div>
+      <form id="createForm" class="form-grid" @submit="createAndStart">
+
+        <div class="operator-section">
+        <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
+          <div class="radio-group">
+            <div class="radio-item" v-for="operator in operators" :key="operator.id">
+              <input type="radio" :id="operator.id" name="operator" :value="operator.value" v-model="formOperator">
+              <label :for="operator.id">{{ operator.label }}</label>
             </div>
           </div>
-
-          <div class="questions-section">
-            <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
-            <div class="radio-group">
-              <div class="radio-item">
-                <input type="radio" id="q36" name="questions" value="36" v-model="numberOfQuestions">
-                <label for="q36">36</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="q49" name="questions" value="49" v-model="numberOfQuestions">
-                <label for="q49">49</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="q64" name="questions" value="64" v-model="numberOfQuestions">
-                <label for="q64">64</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="q81" name="questions" value="81" v-model="numberOfQuestions">
-                <label for="q81">81</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="range-section">
-            <label for="formMax">{{ uiLabels.chooseRange }}</label>
-            <div class="radio-group">
-              <div class="radio-item">
-                <input type="radio" id="range1-10" name="range" value="10" v-model="formMax">
-                <label for="range1-10">1-10</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="range1-20" name="range" value="20" v-model="formMax">
-                <label for="range1-20">1-20</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="range1-30" name="range" value="30" v-model="formMax">
-                <label for="range1-30">1-30</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="range1-40" name="range" value="40" v-model="formMax">
-                <label for="range1-40">1-40</label>
-              </div>
-            </div>
-          </div>
-
-
         </div>
 
+        <div class="questions-section">
+        <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
+          <div class="radio-group">
+            <div class="radio-item" v-for="amountOfQuestions in amountOfQuestions" :key="amountOfQuestions.id">
+              <input type="radio" :id="amountOfQuestions.id" name="questions" :value="amountOfQuestions.value" v-model="numberOfQuestions">
+              <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
+            </div>
+          </div>
+        </div>
+      
+        <div class="range-section">
+          <label for="formMax">{{ uiLabels.chooseRange }}</label>
+            <div class="radio-group">
+              <div class="radio-item" v-for="range in range" :key="range.id">
+                <input type="radio" :id="range.id" name="range" :value="range.value" v-model="formMax">
+                <label :for="range.id">{{ range.label }}</label>
+              </div>
+            </div>
+        </div>
 
         <div class="menu-item">
           <button type="submit" class="create-game">
@@ -84,14 +41,17 @@
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </form>
     </div>
-  </nav>
-</div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      <button 
+      v-on:click="switchLanguage" 
+      v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
-    </div> 
-    <button class="back-button" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
+    <button 
+    class="back-button" 
+    onclick="location.href='/';">
+      {{ uiLabels.returnHome }}
+    </button>
   </div>
 </template>
 
@@ -99,6 +59,7 @@
 import io from 'socket.io-client';
 const socket = io(localStorage.getItem("serverIP"));
 import { generateRandomQuestion } from "@/assets/Methods.js";
+import options from "@/assets/options.json";
 
 export default {
   name: 'CreateView',
@@ -111,6 +72,9 @@ export default {
       questionNumber: 0,
       pollData: {},
       uiLabels: {},
+      operators: options.operators,
+      amountOfQuestions: options.amountOfQuestions,
+      range: options.range,
 
       formOperator: null,
       formMin: 1,

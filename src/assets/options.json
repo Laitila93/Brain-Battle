@@ -1,0 +1,21 @@
+{
+    "operators": [
+      { "id": "add", "value": "+", "label": "+" },
+      { "id": "subtract", "value": "-", "label": "-" },
+      { "id": "multiply", "value": "*", "label": "*" },
+      { "id": "divide", "value": "/", "label": "/" }
+    ],
+    "amountOfQuestions": [
+      { "id": "q36", "value": 36, "label": "36" },
+      { "id": "q49", "value": 49, "label": "49" },
+      { "id": "q64", "value": 64, "label": "64" },
+      { "id": "q81", "value": 81, "label": "81" },
+      { "id": "q100", "value": 100, "label": "100" }  
+    ],
+    "range": [
+      { "id": "r1", "value": 9, "label": "9" },
+      { "id": "r2", "value": 20, "label": "20" },
+      { "id": "r3", "value": 50, "label": "50" },
+      { "id": "r4", "value": 100, "label": "100" }
+    ]
+  }
