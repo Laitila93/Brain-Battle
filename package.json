@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server/index.js",
-    "dev": "vite",
+    "dev": "concurrently 'npm:dev:frontend' 'npm:dev:backend'",
     "dev:frontend": "vite",
     "dev:frontendhost": "vite --host",
     "dev:backend": "nodemon server/index.js",
