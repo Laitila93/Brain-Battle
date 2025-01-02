@@ -99,7 +99,7 @@ export default {
   },
   watch: {
     nodeStatus: function () {
-      console.log("NodeStatus changed, calling drawNodeColors", this.nodeStatus[3]);
+      console.log("In watch, nodeStatus changed, calling drawNodeColors", this.nodeStatus[3]);
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -111,7 +111,7 @@ export default {
   methods: {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
-        console.log("SendNodeStatus event caught, updating nodeStatus");
+        console.log("In sendNodeStatus socket, SendNodeStatus event caught, updating nodeStatus");
         this.nodeStatus = status;
         this.$nextTick(() => {  //la till detta 
         }); 
@@ -212,24 +212,22 @@ export default {
       if (answer.c) {
         console.log("in submitAnswer, answer correct, sending update to server");
         socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
-        console.log("in submitAnswer, calling drawNodeColors");
-        drawNodeColors({ 
+        /*drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
           totalQuestions: this.totalQuestions, 
-          playerRole: this.playerRole });
+          playerRole: this.playerRole });*/
         this.lastAnswer = "correct";
       }
       else {
         console.log("in submitAnswer, answer incorrect, sending update to server");
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
         socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
-        console.log("in submitAnswer, calling drawNodeColors");
-        drawNodeColors({ 
+        /*drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
           totalQuestions: this.totalQuestions, 
-          playerRole: this.playerRole });
+          playerRole: this.playerRole });*/
         this.lastAnswer = "wrong";
       
       } 
