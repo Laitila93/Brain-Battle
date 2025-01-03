@@ -67,8 +67,8 @@ export default {
       pollId: null,
       question: "",
       answers: ["", ""],
-      questionNumber: 0,
-      pollData: {},
+      questionNumber: 0, //Emil: verkar kunna tas bort av samma anledning som nedan
+      pollData: {}, //EmiL: den här tycker jag verkar onödig, har testat att ta bort den och allt verkar funka.
       uiLabels: {},
       operators: options.operators,
       amountOfQuestions: options.amountOfQuestions,
@@ -93,12 +93,13 @@ export default {
   created: function () {
     
     socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
-    socket.on( "pollData", data => this.pollData = data );
+    socket.on( "pollData", data => this.pollData = data ); //Emil: Även denna tkr jag vi kan ta bort, se ovan
     this.generatePollId();
-    socket.on( "participantsUpdate", p => this.pollData.participants = p );
+    socket.on( "participantsUpdate", p => this.pollData.participants = p ); //Emil: och denna
     socket.emit( "getUILabels", this.lang );
     socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
-    socket.emit("joinPoll", this.pollId);
+    socket.emit("joinPoll", this.pollId); //Emil: har kollat på joinPoll events som skapas i Create och Lobby. De verkar onödiga
+                                          //om jag inte missar något. Föreslår att vi testar att ta bort dem.
 
 
   },
@@ -120,7 +121,7 @@ export default {
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, pollId: this.pollId} );
         }
         socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
-        socket.emit("joinPoll", this.pollId);
+        socket.emit("joinPoll", this.pollId); //Emil: joinPoll event som verkar kunna tas bort
         this.$router.push(('/lobby/' + this.pollId))
       }
       else {

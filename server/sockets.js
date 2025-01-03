@@ -20,6 +20,15 @@ function sockets(io, socket, data) {
     // Allow valid updates
     data.nodeStatusUpdate(pollId, d);
     io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
+
+    /*Emil: om man ändrar raden ovan till:
+    process.nextTick(() => {
+    io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
+    });
+    Verkar man kunna ta bort användningen av getNodeStatus helt. Personligen tkr jag det blir mer cleant,
+    blir mindre kommunikation mellan server och client.
+     */
+
   });
   
 

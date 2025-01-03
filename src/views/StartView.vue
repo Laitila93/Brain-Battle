@@ -68,7 +68,6 @@ export default {
       uiLabels: {},
       newPollId: "",
       lang: localStorage.getItem( "lang") || "en",
-      hideNav: true,
       pollExists: false,
       pollIsChecked: false
     }
@@ -88,9 +87,7 @@ export default {
       localStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     },
-    toggleNav: function () { //Emil: ta bort?
-      this.hideNav = ! this.hideNav;
-    },
+    
     checkPollID() {
       if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
         this.pollIsChecked = false

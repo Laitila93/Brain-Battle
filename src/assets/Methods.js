@@ -4,7 +4,8 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     try {
       nodeStatus[d.node] = d.status;
       socket.emit("nodeStatusUpdate", pollId, d);
-      getNodeStatus(pollId, socket);
+      getNodeStatus(pollId, socket); //Emil: har ett förslag på hur man verkar kunna ändra så att 
+                                      // getNodeStatus blir överflödig. Se nodeStatusUpdate i sockets.js
     } catch (error) {
       console.error("Error in setNodeStatus method:", error);
     }
