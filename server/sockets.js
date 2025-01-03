@@ -19,7 +19,9 @@ function sockets(io, socket, data) {
   
     // Allow valid updates
     data.nodeStatusUpdate(pollId, d);
-    io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
+    process.nextTick(() => {
+      io.to(pollId).emit("sendNodeStatus", data.getNodeStatus(pollId));
+    });
   });
   
 

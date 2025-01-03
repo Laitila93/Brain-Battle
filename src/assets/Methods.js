@@ -5,7 +5,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
       console.log("in setNodeStatus");
       nodeStatus[d.node] = d.status;
       socket.emit("nodeStatusUpdate", pollId, d);
-      getNodeStatus(pollId, socket);
+      //getNodeStatus(pollId, socket);
     } catch (error) {
       console.error("Error in setNodeStatus method:", error);
     }
