@@ -13,7 +13,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #1e1e2f;
-  color: #007bff;
+  color: #007bff; /*necessary?*/
 }
 
 .error-message {
@@ -95,7 +95,6 @@ header {
 }
 
 .menu-join-section{
-  text-transform: uppercase;
   display: flex;
   height: 3em;
   width: 100%;
@@ -109,7 +108,6 @@ header {
 
 .id-input::placeholder {
   text-transform: uppercase;
-  color: gray;
   opacity: 0.75;
 }
 
@@ -126,28 +124,13 @@ header {
 
 .join-disabled {
   background-color: gray;
-  color:black;
-  width: 55%;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
   pointer-events: none;
 }
 
 .or {
   letter-spacing: 0.15em;
-  border-radius: 5px; 
   font-size: 1.5rem;
   color: white;
-}
-
-.menu-item {
-  display: flex;
-  height: 3em;
-  width: 100%;
-  justify-content: center;
 }
 
 .create-game-start {
