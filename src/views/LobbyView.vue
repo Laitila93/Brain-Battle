@@ -68,7 +68,7 @@ export default {
 
     socket.on("error", (message) => {
     alert(message);
-  });
+    });
     
     socket.emit( "joinPoll", this.pollId );
     socket.emit( "getUILabels", this.lang );

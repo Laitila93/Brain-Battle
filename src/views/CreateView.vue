@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div>
     <div class="poll-id">{{ uiLabels.whichGame }}: {{ pollId }}</div>
       <form id="createForm" class="form-grid" @submit="createAndStart">
 
@@ -11,7 +11,6 @@
               <label :for="operator.id">{{ operator.label }}</label>
             </div>
           </div>
-          formOperator: {{ formOperator }}
         </div>
 
         <div class="questions-section">
@@ -22,7 +21,6 @@
               <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
             </div>
           </div>
-          numberOfQuestions: {{ numberOfQuestions }}
         </div>
       
         <div class="range-section">
@@ -33,14 +31,11 @@
                 <label :for="range.id">{{ range.label }}</label>
               </div>
             </div>
-            formMax: {{ formMax }}
         </div>
-
-        <div class="menu-item">
-          <button type="submit" class="create-game">
+        <div></div>
+          <button type="submit" class="create-game-start">
             {{ uiLabels.header }}
           </button>
-        </div>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </form>
     </div>
