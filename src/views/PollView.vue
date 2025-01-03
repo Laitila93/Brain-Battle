@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
-      <div class="poll-id">Poll ID: {{ pollId }}</div>
+      <div class="poll-id-game">{{ uiLabels.whichGame }}: {{ pollId }}</div>
       <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
       <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
     </div>
@@ -32,6 +32,7 @@
     <div v-else>
       <div>{{ uiLabels.gameOver }}</div>
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
+      <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
       <button onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
     </div>
@@ -76,7 +77,7 @@ export default {
       firstCheck: true, // Guard variable
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
-      lastAnswer: "start", //Should this be initialized to "Start"?
+      lastAnswer: "start", 
       isGameOver:false,
       winner: "",
     };
@@ -132,7 +133,6 @@ export default {
       });
       socket.emit("getNumberOfQuestions", this.pollId);
       socket.on("playerRoleAssigned", role => {
-        console.log("Event playerRoleAssigned caught");
         this.playerRole = role;
         localStorage.setItem("playerRole", role); // Update locally just in case
       });
@@ -183,6 +183,10 @@ export default {
         this.winner = "Player 1";
         this.showQuestionComponent = true;
       }
+      if (!isReachablePlayer2 && !isReachablePlayer1 && this.scores.p1Score === this.scores.p2Score){
+        this.isGameOver = true;
+        this.winner = ""
+      }
       if (this.isGameOver){
         for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
@@ -231,18 +235,14 @@ export default {
     },
 
     switchLanguage: function() {
-      console.log("Languagebutton clicked!");
       if (this.lang === "en") {
         this.lang = "sv"
       }
       else {
         this.lang = "en"
       }
-      console.log(this.lang);
       localStorage.setItem( "lang", this.lang );
-      console.log("Language set");
       socket.emit( "getUILabels", this.lang );
-      console.log("getUiLabels payload emitted");
     }
 
   }

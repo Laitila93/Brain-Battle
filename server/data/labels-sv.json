@@ -36,14 +36,16 @@
 	},
 
 	"PollViewLabels": {
+		"whichGame": "Spel-ID",
 		"yourScore": "Din poäng",
-		"opponentScore": "Motståndares poäng: ",
+		"opponentScore": "Motståndares poäng",
 		"correctAnswer": "Rätt svar!",
 		"wrongAnswer": "Fel svar!",
 		"clickNodePrompt": "Klicka på en blinkande nod!",
 		"gameOver": "Spelet slut",
 		"youWin": "Du vann!",
 		"youLoose": "Du förlorade!",
+		"draw": "Oavgjort",
 		"returnHome": "Till startsidan",
 		"changeLanguage": "Change language: "
 	}

@@ -30,7 +30,6 @@ function sockets(io, socket, data) {
 
   socket.on('addQuestion', function(d) {
     data.addQuestion(d.pollId, {q: d.q, a: d.a});
-    socket.emit('questionUpdate', {q:data.getQuestion(d.pollId), player:""});
   });
 
   socket.on('getNumberOfQuestions', function(pollId) {
@@ -40,7 +39,6 @@ function sockets(io, socket, data) {
 
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId); // Add the client to the poll's room
-    socket.emit('questionUpdate', { q: data.getQuestion(pollId), player: "" });
     //socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(pollId));
   });
 
@@ -70,10 +68,7 @@ function sockets(io, socket, data) {
       io.to(d.pollId).emit("startPoll");
     }
   });
-  
-  socket.on('startPoll', function(pollId) { //EMIL: används aldrig?
-    io.to(pollId).emit('startPoll');
-  })
+
   socket.on('runQuestion', function(d) {
     let question = data.getQuestion(d.pollId, d.playerRole, d.questionNumber);
     io.to(d.pollId).emit('questionUpdate', {q:question, playerRole:d.playerRole});
@@ -98,19 +93,6 @@ function sockets(io, socket, data) {
     callback(pollExists);
   });
 
-  //Används ej (?)
-  socket.on('nodeStatusChanged', function(d) {
-    const poll = data.getPoll(d.pollId);
-
-    if (poll) {
-      // Update the node status for the specific question
-      if (!poll.nodeStatusMap) poll.nodeStatusMap = {};
-      poll.nodeStatusMap[d.questionId] = d.nodeStatus;
-
-      // Broadcast the updated status to all connected clients
-      io.to(d.pollId).emit('nodeStatusUpdate', d);
-    }
-  });
 
 }
 

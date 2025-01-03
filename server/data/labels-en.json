@@ -35,14 +35,16 @@
 	},
 
 	"PollViewLabels": {
+		"whichGame": "Game ID",
 		"yourScore": "Your score",
-		"opponentScore": "Opponent's score: ",
+		"opponentScore": "Opponent's score",
 		"correctAnswer": "Correct answer!",
 		"wrongAnswer": "Wrong answer!",
 		"clickNodePrompt": "Click a glowing node!",
 		"gameOver": "Game over",
 		"youWin": "You win!",
 		"youLoose": "You loose!",
+		"draw": "Draw",
 		"returnHome": "Back to home page",
 		"changeLanguage": "Byt språk: "
 	}
