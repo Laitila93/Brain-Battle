@@ -11,7 +11,7 @@
               <label :for="operator.id">{{ operator.label }}</label>
             </div>
           </div>
-          formOperator: {{ formOperator }}
+          <!--formOperator: {{ formOperator }} varför syntes dessa?-->
         </div>
 
         <div class="questions-section">
@@ -22,7 +22,7 @@
               <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
             </div>
           </div>
-          numberOfQuestions: {{ numberOfQuestions }}
+          <!-- numberOfQuestions: {{ numberOfQuestions }} -->
         </div>
       
         <div class="range-section">
@@ -33,7 +33,7 @@
                 <label :for="range.id">{{ range.label }}</label>
               </div>
             </div>
-            formMax: {{ formMax }}
+            <!-- formMax: {{ formMax }} -->
         </div>
 
         <div class="menu-item">
