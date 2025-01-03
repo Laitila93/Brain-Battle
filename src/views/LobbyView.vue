@@ -70,7 +70,8 @@ export default {
     alert(message);
     });
     
-    socket.emit( "joinPoll", this.pollId );
+    socket.emit( "joinPoll", this.pollId ); //Emil: se CreateView, vi verkar kunna ta bort denna tack vare
+                                            //uppdateringar i servern i particpateInPoll.
     socket.emit( "getUILabels", this.lang );
   },
 
