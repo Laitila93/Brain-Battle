@@ -1,10 +1,7 @@
-
-import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import express from "express";
 
-dotenv.config();
 let httpServer;
 let io;
 
