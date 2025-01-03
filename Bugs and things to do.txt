@@ -9,8 +9,8 @@
 ------------------Things to do------------------
 
 --Style--
-1.  Städa och ordna alla klass- ,id- och variabelnamn.
-2.  Kontrollera att alla views använder rätt klasser och ser likadana ut.
+1.  (Emil)Städa och ordna alla klass- ,id- och variabelnamn.
+2.  (Emil)Kontrollera att alla views använder rätt klasser och ser likadana ut.
 3.  flytta CSS kod till Main.css
 4.  rename all "poll" to "Quiz".
 5.  KLAR-----------(Emil)Fixa så att all text hämtas från language filen.
@@ -36,4 +36,4 @@
 --Nodes--
 
 --Code readability--
-1. (Emil)Rensa/kolla bland sockets i server och se om något kan tas bort/ändras 
+1. KLAR-----------(Emil)Rensa/kolla bland sockets i server och se om något kan tas bort/ändras 
