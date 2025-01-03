@@ -146,13 +146,13 @@ export default {
             pollId: this.$route.params.id,
             socket: socket, // Ensure socket is correctly passed here
           });                            
-        this.scores = scores; // EMIL: In first call "scores" is an empty object, leading to bug in scorekeeping
+        this.scores = scores;
         this.checkIsGameOver();
 
       });
       socket.on("uiLabels", labels => {this.uiLabels = labels.PollViewLabels;});
       socket.emit("getUILabels", this.lang);
-      socket.emit("joinPoll", this.pollId); //EMIL: this socket emit leads to the first catch in "submittedAnswersUpdate"
+      socket.emit("joinPoll", this.pollId);
       socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
     },
