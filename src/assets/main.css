@@ -1,12 +1,12 @@
 @import './base.css';
 
+/* General -----------*/
 #app {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  text-transform: uppercase;
-  
+  text-transform: uppercase;  
 }
 
 body {
@@ -15,60 +15,74 @@ body {
   background-color: #1e1e2f;
   color: #007bff;
 }
-header {
-  background-color:#1e1e2f;
-  width: 100%;
-  padding-top: 0.2em;
+
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  font: bold;
+  text-transform: none;
 }
+
+
+/* StartView -----------*/
+header {
+  background-color:#1e1e2f; /*Emil: this class is unnecessary, 
+                                but we still might want to keep it, maybe ask Mikael.*/
+  width: 100%;
+}
+
 .logo {
-  text-transform: uppercase;
   letter-spacing: 0.25em;
   font-size: 2.5rem;
   color: #007bff;
-  padding-top:0.2em;
-}
-.logo img {
-  height:2.5rem;
-  vertical-align: bottom;
-  margin-right: 0.5rem; 
+  width:100%;
+  padding:5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
-.menu-item {
+.logo-image {
+  height: 70px;
+  min-width: 70px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-menu {
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 26em;
+}
+
+.menu-join-section{
+  text-transform: uppercase;
   display: flex;
   height: 3em;
   width: 100%;
   justify-content: center;
 }
-.temp-menu {
-  position: fixed;
-  background-color: lightgray;
-  bottom: 2px;
-  left: 50px;
-  width: 30em;
-  height: 2em;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 10em);
-  text-transform: uppercase;
-}
-.temp-menu-item {
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid gray;
-}
+
 .id-input {
   font-size: 1.2rem;
   max-width: 40%;
 }
+
 .id-input::placeholder {
   text-transform: uppercase;
   color: gray;
-  opacity: 0.5;
+  opacity: 0.75;
 }
-.join-game {
+
+.join-visible {
   background-color: #32cd32;
   color:black;
   font-size: 0.8rem;
@@ -78,7 +92,8 @@ header {
   align-items: center;
   width: 55%;
 }
-.hidden {
+
+.join-disabled {
   background-color: gray;
   color:black;
   width: 55%;
@@ -89,22 +104,91 @@ header {
   align-items: center;
   pointer-events: none;
 }
-.create-game {
-  background-color: #ff8c00;
-  color:black;
-  width: 60%;
-  font-size: 0.8rem;
+
+.or {
+  letter-spacing: 0.15em;
+  border-radius: 5px; 
+  font-size: 1.5rem;
+  color: white;
+}
+
+.menu-item {
+  display: flex;
+  height: 3em;
+  width: 100%;
+  justify-content: center;
+}
+
+.create-game-start {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 3em; 
+  width: 60%; 
+  background-color: #ff8c00; 
+  color: black; 
+  font-size: 0.8rem; 
+  text-decoration: none; 
+  letter-spacing: 0.1em; 
+  margin: 0 auto; 
+}
+
+.footer-menu {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 2px;
+  left: 50px;
+  width: 20em;
+  height: 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 10em);
+  text-transform: uppercase;
+}
+
+.about-page, .rules-page {
+  font-size: 1rem;
   text-decoration: none;
   letter-spacing: 0.1em;
   display: grid;
   align-items: center;
+  justify-content: center;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  color: white;
 }
-.or {
+
+.lang-switcher {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  color:white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-size: 2rem;
-  color: #007bff;
-}
+  }
+  
+  .lang-btn {
+  height: 3em;
+  width: 5em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-size: cover;
+  background-position: center;
+  }
+  
+  .button-sv {
+  background-image: url("../assets/swedish-flag.png");
+  }
+  
+  .button-en {
+  background-image: url("../assets/uk-flag.png");
+  }
+
+
 button {
   height: 2em;
   width: 10em;
@@ -383,67 +467,14 @@ and (min-width : 1824px) {
 }
 
 
-.main-menu {
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-  width: 26em;
-}
-
-.wrapper{
-  width:100%;
-  height:100vh;
-  background-color: #1e1e2f;
-  color: #007bff;
-}
 
 
 .node {
-
   color: aqua;
   display: flex; 
   flex-wrap: wrap; 
-
 }
   
-.lang-wrapper {
-  position:fixed;
-  bottom: 10px;
-  right: 20px;
-  color:#007bff;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
-  font-size: 1em;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-}
-
-.lang-sv {
-  height: 3em;
-  width: 5em;
-  cursor: pointer;
-  border-radius: 1em;
-  background-image: url("../assets/swedish-flag.png");
-  background-size: cover;
-  background-position: center;
-}
-
-.lang-en {
-  height: 3em;
-  width: 5em;
-  cursor: pointer;
-  border-radius: 1em;
-  background-image: url("../assets/uk-flag.png");
-  background-size: cover;
-  background-position: center;
-}
-
 .pollBody {
   width: 500px;
   text-align: center;
@@ -487,12 +518,7 @@ and (min-width : 1824px) {
   color: black;
   font-size: 1.2rem;
 }
-.error-message {
-    color: red;
-    font-size: 1.2rem;
-    font: bold;
-    text-transform: none;
-  }
+
 .back-button {
   position: fixed;
   background-color: #1e1e2f;
@@ -642,6 +668,7 @@ and (min-width : 1824px) {
     width: 55%;
     text-transform: uppercase;
   }
+
 .back-button {
   position: fixed;
   background-color: #1e1e2f;
@@ -658,149 +685,3 @@ and (min-width : 1824px) {
   background-color:#007bff;
   cursor: pointer;
 }
-
-/*Startview*/
-
-header {
-  background-color:#1e1e2f;
-  width: 100%;
-}
-.logo {
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-size: 2.5rem;
-  color: #007bff;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 5px;
-
-}
-.logo img {
-  height: 70px;
-  min-width: 70px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.text-join-section{
-  text-transform: uppercase;
-  display: flex;
-  height: 3em;
-  width: 100%;
-  justify-content: center;
-}
-
-#error-message {
-  color: red;
-  font-size: 1rem;
-  text-transform: none;
-}
-.footer-menu {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 2px;
-  left: 50px;
-  width: 20em;
-  height: 2em;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 10em);
-  text-transform: uppercase;
-}
-.about-page, .rules-page {
-  font-size: 1rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  color: white;
-}
-  
-.id-input {
-  font-size: 1.2rem;
-  max-width: 40%;
-}
-.id-input::placeholder {
-  text-transform: uppercase;
-  color: gray;
-  opacity: 0.75;
-}
-.join-game {
-  background-color: #32cd32;
-  color:black;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  width: 55%;
-}
-.hidden {
-  background-color: gray;
-  color:black;
-  width: 55%;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  pointer-events: none;
-}
-.create-game-start {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  height: 3em; 
-  width: 60%; 
-  background-color: #ff8c00; 
-  color: black; 
-  font-size: 0.8rem; 
-  text-decoration: none; 
-  letter-spacing: 0.1em; 
-  margin: 0 auto; 
-}
-
-.or {
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-radius: 5px; 
-  font-size: 1.5rem;
-  color: #ffffff;
-}
-.lang-switcher {
-position: fixed;
-bottom: 10px;
-right: 20px;
-color:white;
-display: flex;
-flex-direction: row;
-align-items: center;
-gap: 1em;
-font-size: 1em;
-letter-spacing: 0.1rem;
-text-transform: uppercase;
-}
-
-.lang-btn {
-height: 3em;
-width: 5em;
-cursor: pointer;
-border-radius: 1em;
-background-size: cover;
-background-position: center;
-}
-
-.button-sv {
-background-image: url("../assets/swedish-flag.png");
-}
-
-.button-en {
-background-image: url("../assets/uk-flag.png");
-}
-

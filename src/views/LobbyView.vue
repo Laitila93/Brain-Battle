@@ -1,20 +1,20 @@
 <template>
-  <div class="wrapper">
+  <div>
     <div class="main-menu">
       <div class="card">
-      <div class="poll-id">
+        <div class="poll-id">
         {{ uiLabels.whichGame }} : {{pollId}}
+        </div>
+        <div>
+          <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
+          <div class="menu-item">
+            <button v-if="!joined" @click="participateInPoll" class="join-game-lobby">
+            {{uiLabels.participateInGame}}
+            </button>
+          </div>
+          <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
+        </div>
       </div>
-      <div>
-        <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
-        <div class="menu-item">
-        <button v-if="!joined" @click="participateInPoll" class="join-game-lobby">
-          {{uiLabels.participateInGame}}
-        </button>
-      </div>
-        <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
-      </div>
-    </div>
     </div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
@@ -94,9 +94,3 @@ export default {
   }
 }
 </script>
-
-<style>
-/*To be placed in main.css */
-
-
-</style>

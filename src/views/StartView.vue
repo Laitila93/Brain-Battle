@@ -1,54 +1,51 @@
 <template>
-  <div class="wrapper">
-    <header>
-      <div class="logo">
-        <img src="../assets/swords.png" class="logo-image">
-        Brain Battle
-        <img src="../assets/brain.png" class="logo-image">
-      </div>
-
-    </header>
-    <nav class="main-menu">
-      <p v-if="!pollExists && pollIsChecked" id="error-message">
-          {{ uiLabels.invalidGameId }}
-      </p>
-      <div class="text-join-section">
-        <input 
-        class="id-input" 
-        type="text" 
-        maxlength="4"
-        v-on:input="checkPollID" 
-        v-model="newPollId" 
-        :placeholder="uiLabels.enterprompt">
-        <router-link v-bind:class="['join-game', {'hidden':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
-        {{ uiLabels.participatePoll }}
-        </router-link>
-      </div>
-      <div class="or">
-        {{ uiLabels.or }}
-      </div>
-        
-      <div class="menu-item">
-        <router-link to="/create/" class="create-game-start">
-          {{ uiLabels.createPoll }}
-        </router-link>
-      </div>
-    </nav>
-
-    <nav class="footer-menu">
-
-      <a class="about-page" href="">
-        {{ uiLabels.about }}
-      </a>
-      <a class="rules-page" href="">
-        {{ uiLabels.rules }}
-      </a>
-    </nav>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-      </button>
+  <!--Emil: the header element is not necessary for the resulting layout. Should it
+  still be kept for readability reasons?-->
+  <header>
+    <div class="logo">
+      <img src="../assets/swords.png" class="logo-image">
+      Brain Battle
+      <img src="../assets/brain.png" class="logo-image">
     </div>
+  </header>
+  <nav class="main-menu">
+    <p v-if="!pollExists && pollIsChecked" class="error-message">
+        {{ uiLabels.invalidGameId }}
+    </p>
+    <div class="menu-join-section">
+      <input 
+      class="id-input" 
+      type="text" 
+      maxlength="4"
+      v-on:input="checkPollID" 
+      v-model="newPollId" 
+      :placeholder="uiLabels.enterprompt">
+      <router-link v-bind:class="['join-visible', {'join-disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
+      {{ uiLabels.participatePoll }}
+      </router-link>
+    </div>
+    <div class="or">
+      {{ uiLabels.or }}
+    </div>        
+    <div class="menu-item">
+      <router-link to="/create/" class="create-game-start">
+        {{ uiLabels.createPoll }}
+      </router-link>
+    </div>
+  </nav>
+  <nav class="footer-menu">
+    <a class="about-page" href="">
+      {{ uiLabels.about }}
+    </a>
+    <a class="rules-page" href="">
+      {{ uiLabels.rules }}
+    </a>
+  </nav>
+  <div class="lang-switcher">
+    {{ uiLabels.changeLanguage }}
+    <button 
+      v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+    </button>
   </div>
 </template>
 
@@ -57,7 +54,7 @@
 
 import io from 'socket.io-client';
 
-localStorage.setItem("serverIP", "172.20.10.2:3000");
+localStorage.setItem("serverIP", "192.168.10.149:3000");
 
 const socket = io(localStorage.getItem("serverIP"));
 
@@ -102,7 +99,4 @@ export default {
   }
 }
 </script>
-<style scoped>
 
-
-</style>

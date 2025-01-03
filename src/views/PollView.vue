@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper"> 
+  <div> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
