@@ -94,6 +94,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
     4 = nåbar för spelare 1
     5 = nåbar för spelare 2
     6 = nåbar för 1 och 2
+    7 = paxad
 */
   export function drawNodeColors({
     totalQuestions,

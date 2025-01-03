@@ -504,11 +504,43 @@ and (min-width : 1824px) {
   color: white;
   text-transform: uppercase;
 }
-
-
 .back-button:hover {
   background-color: #e67e00;
   cursor: pointer;
+}
+.back-button-game {
+  position:relative;
+  background-color: #1e1e2f;
+  margin: auto;
+  top: 12px;
+  bottom: 4px;
+  left: 0px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
+
+.back-button-game:hover {
+  background-color: #e67e00;
+  cursor: pointer;
+}
+.answer-button-p1 {
+  background-color: #32cd32;
+  color: white;
+}
+.answer-button-p1:hover {
+  background-color: #9cca9cff;
+  color: white;
+}
+.answer-button-p2 {
+  background-color:  #e67e00;
+  color: white;
+}
+.answer-button-p2:hover {
+  background-color: #ffc379ff;
+  color: white;
 }
 .lang-switcher {
   position:fixed;

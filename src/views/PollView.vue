@@ -22,7 +22,7 @@
       <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">{{ uiLabels.wrongAnswer }}</div>
       <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">{{ uiLabels.clickNodePrompt }}</div>
           <div v-if="showQuestionComponent">
-            <QuestionComponent 
+            <QuestionComponent
               v-bind:question="question" 
               v-on:answer="submitAnswer($event, this.playerRole)"
               v-on:answered="handleAnswered"
@@ -34,7 +34,11 @@
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
       <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
-      <button onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
+      <button 
+        class="back-button-game" 
+        onclick="location.href='/';">
+          {{ uiLabels.returnHome }}
+      </button>
     </div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
