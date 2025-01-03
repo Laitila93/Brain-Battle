@@ -52,9 +52,9 @@
   </div>
 </template>
 
+
 <script>
 
-import ResponsiveNav from '@/components/ResponsiveNav.vue';
 import io from 'socket.io-client';
 
 localStorage.setItem("serverIP", "192.168.10.149:3000");
@@ -63,17 +63,13 @@ const socket = io(localStorage.getItem("serverIP"));
 
 export default {
   name: 'StartView',
-  components: {
-    ResponsiveNav,
-  },
+
   data: function () {
     return {
       uiLabels: {},
       newPollId: "",
       lang: localStorage.getItem( "lang") || "en",
-      hideNav: true,
       pollExists: false,
-      checkTimeout: null,
       pollIsChecked: false
     }
   },
@@ -92,11 +88,8 @@ export default {
       localStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     },
-    toggleNav: function () {
-      this.hideNav = ! this.hideNav;
-    },
+
     checkPollID() {
-      clearTimeout(this.checkTimeout);
       if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
         this.pollIsChecked = false
       }
