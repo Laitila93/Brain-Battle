@@ -23,6 +23,37 @@ body {
   text-transform: none;
 }
 
+.lang-switcher {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  color:white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.lang-btn {
+  height: 3em;
+  width: 5em;
+  cursor: pointer;
+  border-radius: 1em;
+  background-size: cover;
+  background-position: center;
+}
+
+.button-sv {
+  background-image: url("../assets/swedish-flag.png");
+}
+
+.button-en {
+  background-image: url("../assets/uk-flag.png");
+}
+
 
 /* StartView -----------*/
 header {
@@ -157,43 +188,153 @@ header {
   color: white;
 }
 
-.lang-switcher {
-  position: fixed;
-  bottom: 10px;
-  right: 20px;
-  color:white;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
-  font-size: 1em;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-  }
-  
-  .lang-btn {
-  height: 3em;
-  width: 5em;
-  cursor: pointer;
-  border-radius: 1em;
-  background-size: cover;
-  background-position: center;
-  }
-  
-  .button-sv {
-  background-image: url("../assets/swedish-flag.png");
-  }
-  
-  .button-en {
-  background-image: url("../assets/uk-flag.png");
-  }
 
+/*Unknown */
 
 button {
   height: 2em;
   width: 10em;
   cursor: pointer;
-} 
+}
+
+.node {
+  color: aqua;
+  display: flex; 
+  flex-wrap: wrap; 
+}
+  
+.pollBody {
+  width: 500px;
+  text-align: center;
+}
+
+
+
+/*CreateView-----------*/
+
+.centered-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.operator-section label, .questions-section label, .range-section label{
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #ff8c00;
+  padding: 3px;
+}
+
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;  
+}
+
+.back-button {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 4px;
+  left: 50px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
+
+.back-button:hover {
+  background-color: #e67e00;
+  cursor: pointer;
+}
+
+.back-button-game {
+  position:relative;
+  background-color: #1e1e2f;
+  margin: auto;
+  top: 12px;
+  bottom: 4px;
+  left: 0px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
+
+.back-button-game:hover {
+  background-color: #e67e00;
+  cursor: pointer;
+}
+
+
+/*LobbyView-----------*/
+
+.card {
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
+  background-color: #252537;
+  width: 65%;
+  position:fixed;
+  top: 50%; /* Vertically center */
+  left: 50%; /* Horizontally center */
+  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
+}
+
+.poll-id{
+  padding-top: 10vh;
+  padding-bottom: 2vh;
+  font-size: 20pt;
+  color:#007bff;
+}
+
+.poll-id-game {
+  padding-top: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.card label{
+  color:white;
+  padding: 3px;
+}
+
+.join-game-lobby {
+  background-color: #32cd32;
+  color:black;
+  font-size: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  display: grid;
+  align-items: center;
+  height: 3em;
+  width: 55%;
+  text-transform: uppercase;
+}
+
+.back-button {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 4px;
+  left: 50px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  color: white;
+  text-transform: uppercase;
+}
+
+.back-button:hover {
+  background-color:#007bff;
+  cursor: pointer;
+}
+
+
+/*PollView-----------*/
+
 .banner {
   display: flex;
   justify-content: space-between;
@@ -201,7 +342,6 @@ button {
   background-color: #007bff;
   padding: 0px;
   color: white;
-
 }
 
 .player {
@@ -209,19 +349,23 @@ button {
   text-align: center;
   padding: 10px;
   color: white;
-
 }
 
 .player1 {
   background-color: #32cd32; /* Player 1's color */
-
 }
 
 .player2 {
   background-color: #ff8c00; /* Player 2's color */
-
 }
 
+.node-area {
+  padding-top: 5vw;
+  padding-bottom: 5vw;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
 
 
 /* Smartphones (portrait) ----------- */
@@ -249,39 +393,32 @@ and (max-width : 320px) {
     grid-template-columns: repeat(1, 1fr);
     gap: 10px;
   }
+
   .operator-section,.questions-section,
-.range-section {
-  padding: 5px;
-  border-radius: 10px;
-  height: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #252537;
- 
-  box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  .range-section {
+    padding: 5px;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #252537;
+    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  }
+
+  .radio-group label {
+    font-size: 1em;
+    font-weight: bold;
+    color: #ff8c00;  /* Ensure readability */  
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    width: auto;  
+  }
 }
-.radio-group label {
-  font-size: 1em;
-  font-weight: bold;
-  color: #ff8c00;  /* Ensure readability */
- 
-}
-
-
-
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  width: auto;  
- 
-}
-
-}
-
-
-
 
 
 /* Smartphones (landscape) -----------Joakims telefon */
@@ -295,6 +432,7 @@ and (min-width : 321px) {
     text-align: center;
     margin:  auto;
   } 
+
   .nodeButton {
     height: 2em;
     width: 2em;
@@ -303,49 +441,45 @@ and (min-width : 321px) {
     text-align: center;
     margin: auto;
   }
+
   .form-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 10px;
   }
+
   .operator-section,.questions-section,
-.range-section {
-  padding: 5px;
-  border-radius: 10px;
-  height: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #252537;
- 
-  box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  .range-section {
+    padding: 5px;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #252537;
+    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  }
+
+  .radio-group label {
+    font-size: 1em;
+    font-weight: bold;
+    color: #ff8c00;  /* Ensure readability */
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    width: auto;  
+  
+  }
 }
-.radio-group label {
-  font-size: 1em;
-  font-weight: bold;
-  color: #ff8c00;  /* Ensure readability */
- 
-}
-
-
-
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  width: auto;  
- 
-}
-}
-
-
-
-
 
 
 /* Desktops and laptops ----------- */
 @media only screen 
 and (min-width : 700px) {
+  
   .node-grid {
     max-width: 450px;
     display: grid;
@@ -354,6 +488,7 @@ and (min-width : 700px) {
     text-align: center;
     margin:  auto;
   } 
+
   .nodeButton {
     height: 3em;
     width: 3em;
@@ -361,8 +496,8 @@ and (min-width : 700px) {
     background-color: #007bff;
     text-align: center;
     margin: auto;
-
   }
+
   .form-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -370,36 +505,34 @@ and (min-width : 700px) {
     width:90%;
     padding-left: 2%;
     padding-top: 10%;
-
   }
+
   .operator-section,.questions-section,
-.range-section {
-  padding: 20px;
-  border-radius: 10px;
-  height: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #252537;
- 
-  box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
-}
-.radio-group label {
-  font-size: 1em;
-  font-weight: bold;
-  color: #ff8c00;  /* Ensure readability */
-}
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  width: auto;  
- 
-}
-}
+  .range-section {
+    padding: 20px;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #252537;
+    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  }
 
+  .radio-group label {
+    font-size: 1em;
+    font-weight: bold;
+    color: #ff8c00;  /* Ensure readability */
+  }
 
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: auto;  
+  }
 
+}
 
 
 /* Large screens ----------- */
@@ -432,26 +565,17 @@ and (min-width : 1824px) {
     right:250px;
   }
   .operator-section,.questions-section,
-.range-section {
-  padding: 20px;
-  border-radius: 10px;
-  height: auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #252537;
- 
-  box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
-}
-}
-
-
-.node-area {
-  padding-top: 5vw;
-  padding-bottom: 5vw;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  .range-section {
+    padding: 20px;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #252537;
+  
+    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  }
 }
 
 @keyframes pulse {
@@ -466,222 +590,24 @@ and (min-width : 1824px) {
   }
 }
 
+/*QuestionComponent-----------*/
 
-
-
-.node {
-  color: aqua;
-  display: flex; 
-  flex-wrap: wrap; 
-}
-  
-.pollBody {
-  width: 500px;
-  text-align: center;
-}
-
-
-
-/* create view*/
-
-.centered-container {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
-
-
-.operator-section label, .questions-section label, .range-section label{
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #ff8c00;
-  padding: 3px;
-}
-.radio-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;  
- 
-}
-
-.create-game {
-  position: fixed;
-  bottom: 70px;    
-  left: 50%;      
-  transform: translateX(-50%);
-  height: 2em;
-  width: 20%;
-  background-color: #ff8c00;
-  color: black;
-  font-size: 1.2rem;
-}
-
-.back-button {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 4px;
-  left: 50px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-.back-button:hover {
-  background-color: #e67e00;
-  cursor: pointer;
-}
-.back-button-game {
-  position:relative;
-  background-color: #1e1e2f;
-  margin: auto;
-  top: 12px;
-  bottom: 4px;
-  left: 0px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-
-.back-button-game:hover {
-  background-color: #e67e00;
-  cursor: pointer;
-}
 .answer-button-p1 {
   background-color: #32cd32;
   color: white;
 }
+
 .answer-button-p1:hover {
   background-color: #9cca9cff;
   color: white;
 }
+
 .answer-button-p2 {
   background-color:  #e67e00;
   color: white;
 }
+
 .answer-button-p2:hover {
   background-color: #ffc379ff;
   color: white;
-}
-.lang-switcher {
-  position:fixed;
-  bottom: 10px;
-  right: 20px;
-  color:#007bff;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
-  font-size: 1em;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-}
-.lang-btn {
-  height: 3em;
-  width: 5em;
-  cursor: pointer;
-  border-radius: 1em;
-  background-size: cover;
-  background-position: center;
-}
-
-
-.button-sv {
-  background-image: url("../assets/swedish-flag.png");
-}
-
-
-.button-en {
-  background-image: url("../assets/uk-flag.png");
-}
-
-/*lobbyview*/
-.card {
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
-  background-color: #252537;
-  width: 65%;
-  position:fixed;
-  top: 50%; /* Vertically center */
-  left: 50%; /* Horizontally center */
-  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
-}
-.poll-id{
-  padding-top: 10vh;
-  padding-bottom: 2vh;
-  font-size: 20pt;
-  color:#007bff;
-}
-.poll-id-game {
-  padding-top: 0;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.lang-switcher {
-    position:fixed;
-    bottom: 10px;
-    right: 20px;
-    color:#007bff;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
-    font-size: 1em;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-  }
-
-  .card label{
-    color:white;
-    padding: 3px;
-  }
-
-  .lang-btn {
-  height: 3em;
-  width: 5em;
-  cursor: pointer;
-  border-radius: 1em;
-  background-size: cover;
-  background-position: center;
-}
-.button-sv {
-  background-image: url("../assets/swedish-flag.png");
-}
-.button-en {
-  background-image: url("../assets/uk-flag.png");
-}
-.join-game-lobby {
-    background-color: #32cd32;
-    color:black;
-    font-size: 0.8rem;
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    display: grid;
-    align-items: center;
-    height: 3em;
-    width: 55%;
-    text-transform: uppercase;
-  }
-
-.back-button {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 4px;
-  left: 50px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-
-.back-button:hover {
-  background-color:#007bff;
-  cursor: pointer;
 }
