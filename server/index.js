@@ -1,31 +1,50 @@
+
+import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { Data } from "./Data.js";
-import { sockets } from "./sockets.js";
-import dotenv from "dotenv";
+import express from "express";
 
 dotenv.config();
+let httpServer;
+let io;
 
-const httpServer = createServer();
-const io = new Server(httpServer, {
+if (process.env.NODE_ENV === 'production') {
+  const app = express();
+  httpServer = createServer(app);
+  io = new Server(httpServer);
+  let path = import.meta.dirname.split("/");
+  path.pop();
+  app.use(express.static(path.join("/") + '/dist/'));
+  app.get('/', (req, res) => {
+    res.sendFile(path.join("/") +'/dist/index.html');
+});
+
+}
+else {
+httpServer = createServer();
+io = new Server(httpServer, {
     cors: {
       origin: "*",
       methods: ["GET"],
       credentials: true
   }
 });
+}
+// Read in the "class" to store all our data on the server side
+// If you need to change how data is handled, check the Data.js file!
+
+import { Data } from "./Data.js";
+
+//
+import { sockets } from "./sockets.js";
+
 let data = new Data();
 
-io.on("connection", (socket) => {
-  console.log("A client connected:", socket.id);
+io.on('connection', function (socket) {
   sockets(this, socket, data);
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected:", socket.id);
-  });
 });
 
-const port = process.env.PORT || 3000;
-httpServer.listen(port, () => {
-  console.log(`Socket.io server running on port ${port}`);
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, function() {
+    console.log("Socket.io server running on http://localhost:" + PORT);
 });
