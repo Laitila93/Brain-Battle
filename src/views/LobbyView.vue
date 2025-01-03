@@ -76,7 +76,7 @@ export default {
 
   methods: {
     participateInPoll() {
-      console.log("participateInPoll ", this.pollId, this.uiLabels.waitingForPlayer)
+      console.log("LOBBY: participateInPoll ", this.pollId, this.uiLabels.waitingForPlayer)
       socket.emit("participateInPoll", { pollId: this.pollId });
     },
     /* startPoll: function () {

@@ -108,8 +108,6 @@ export default {
       pollId: null,
       question: "",
       answers: ["", ""],
-      questionNumber: 0,
-      pollData: {},
       uiLabels: {},
 
       formOperator: null,
@@ -131,9 +129,7 @@ export default {
   created: function () {
     
     socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
-    socket.on( "pollData", data => this.pollData = data );
     this.generatePollId();
-    socket.on( "participantsUpdate", p => this.pollData.participants = p );
     socket.emit( "getUILabels", this.lang );
     socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
     socket.emit("joinPoll", this.pollId);
