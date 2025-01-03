@@ -132,7 +132,7 @@ export default {
     this.generatePollId();
     socket.emit( "getUILabels", this.lang );
     socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
-    socket.emit("joinPoll", this.pollId);
+    //socket.emit("joinPoll", this.pollId);
 
 
   },
@@ -154,7 +154,7 @@ export default {
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, pollId: this.pollId} );
         }
         socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
-        socket.emit("joinPoll", this.pollId);
+        //socket.emit("joinPoll", this.pollId);
         this.$router.push(('/lobby/' + this.pollId))
       }
       else {

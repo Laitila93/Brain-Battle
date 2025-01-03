@@ -70,7 +70,7 @@ export default {
     alert(message);
   });
     
-    socket.emit( "joinPoll", this.pollId );
+    //socket.emit( "joinPoll", this.pollId );
     socket.emit( "getUILabels", this.lang );
   },
 
