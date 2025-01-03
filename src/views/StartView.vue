@@ -52,6 +52,7 @@
   </div>
 </template>
 
+
 <script>
 
 import ResponsiveNav from '@/components/ResponsiveNav.vue';
