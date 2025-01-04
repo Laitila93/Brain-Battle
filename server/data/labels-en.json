@@ -11,6 +11,10 @@
 		"or": "Or",
 		"invalidGameId": "Please enter a valid ID, 4 numbers"
 	},
+	"RulesViewLabels": {
+		"returnHome": "Back to home page",
+		"changeLanguage": "Byt språk: "
+	},
 
 	"CreateViewLabels": {
 		"header": "Create New Game",

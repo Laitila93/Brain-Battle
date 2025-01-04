@@ -12,6 +12,11 @@
 		"invalidGameId": "ID existerar inte, ange korrekt ID, 4 siffror"
 	},
 
+	"RulesViewLabels": {
+		"returnHome": "Till startsidan",
+		"changeLanguage": "Change language: "
+	},
+
 	"CreateViewLabels": {
 		"header": "Skapa nytt spel",
 		"whichGame": "Spel-ID",

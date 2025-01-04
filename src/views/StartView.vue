@@ -14,13 +14,18 @@
     </p>
     <div class="menu-section">
       <input 
-      class="id-input" 
-      type="text" 
-      maxlength="4"
-      v-on:input="checkPollID" 
-      v-model="newPollId" 
-      :placeholder="uiLabels.enterprompt">
-      <router-link v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
+        class="id-input" 
+        type="text" 
+        maxlength="4"
+        v-on:input="checkPollID" 
+        v-model="newPollId" 
+        :placeholder="uiLabels.enterprompt">
+      <router-link 
+        v-bind:class="[
+          'menu-link join-link', 
+          {'menu-link join-link--disabled':!pollExists || !pollIsChecked}
+        ]" 
+        v-bind:to="'/lobby/' + newPollId">
         {{ uiLabels.participatePoll }}
       </router-link>
     </div>
@@ -37,14 +42,15 @@
     <a class="about-page" href="">
       {{ uiLabels.about }}
     </a>
-    <a class="rules-page" href="">
-      {{ uiLabels.rules }}
-    </a>
+    <router-link to="/rules/" class="rules-page">
+        {{ uiLabels.rules }}
+    </router-link>
   </nav>
   <div class="lang-switcher">
     {{ uiLabels.changeLanguage }}
     <button 
-      v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      v-on:click="switchLanguage" 
+      v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
     </button>
   </div>
 </template>

@@ -9,28 +9,12 @@
     </div>
   </header>
   <nav class="main-menu">
-    <p v-if="!pollExists && pollIsChecked" class="error-message">
-        {{ uiLabels.invalidGameId }}
-    </p>
+    This is the main menu
     <div class="menu-section">
-      <input 
-      class="id-input" 
-      type="text" 
-      maxlength="4"
-      v-on:input="checkPollID" 
-      v-model="newPollId" 
-      :placeholder="uiLabels.enterprompt">
-      <router-link v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
-        {{ uiLabels.participatePoll }}
-      </router-link>
+      This is a menu section
     </div>
-    <div class="content-separator">
-      {{ uiLabels.or }}
-    </div>
-    <div class="menu-section"> 
-      <router-link to="/create/" class="menu-link create-link" >
-        {{ uiLabels.createPoll }}
-      </router-link>
+    <div class="menu-section">
+      This is a menu section
     </div>
   </nav>
   <button
@@ -41,7 +25,8 @@
   <div class="lang-switcher">
     {{ uiLabels.changeLanguage }}
     <button 
-      v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']"
+      v-on:click="switchLanguage">
     </button>
   </div>
 </template>
@@ -66,7 +51,7 @@ export default {
 
   created: function () {
     socket.emit( "getUILabels", this.lang );
-    socket.on( "uiLabels", labels => this.uiLabels = labels.StartViewLabels );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.RulesViewLabels );
   },
 
   methods: {
