@@ -1,0 +1,88 @@
+<template>
+  <!--Emil: the header element is not necessary for the resulting layout. Should it
+  still be kept for readability reasons?-->
+  <header>
+    <div class="logo">
+      <img src="../assets/swords.png" class="logo-image">
+      The Rules
+      <img src="../assets/brain.png" class="logo-image">
+    </div>
+  </header>
+  <nav class="main-menu">
+    <p v-if="!pollExists && pollIsChecked" class="error-message">
+        {{ uiLabels.invalidGameId }}
+    </p>
+    <div class="menu-section">
+      <input 
+      class="id-input" 
+      type="text" 
+      maxlength="4"
+      v-on:input="checkPollID" 
+      v-model="newPollId" 
+      :placeholder="uiLabels.enterprompt">
+      <router-link v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
+        {{ uiLabels.participatePoll }}
+      </router-link>
+    </div>
+    <div class="content-separator">
+      {{ uiLabels.or }}
+    </div>
+    <div class="menu-section"> 
+      <router-link to="/create/" class="menu-link create-link" >
+        {{ uiLabels.createPoll }}
+      </router-link>
+    </div>
+  </nav>
+  <button
+    class="back-btn" 
+    onclick="location.href='/';">
+    {{ uiLabels.returnHome }}
+  </button>
+  <div class="lang-switcher">
+    {{ uiLabels.changeLanguage }}
+    <button 
+      v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+    </button>
+  </div>
+</template>
+
+
+<script>
+
+import io from 'socket.io-client';
+
+localStorage.setItem("serverIP", "192.168.10.149:3000");
+
+const socket = io(localStorage.getItem("serverIP"));
+
+export default {
+  name: 'RulesView',
+  data: function () {
+    return {
+      uiLabels: {},
+      lang: localStorage.getItem( "lang") || "en",
+    }
+  },
+
+  created: function () {
+    socket.emit( "getUILabels", this.lang );
+    socket.on( "uiLabels", labels => this.uiLabels = labels.StartViewLabels );
+  },
+
+  methods: {
+    switchLanguage: function() {
+      if (this.lang === "en") {
+        this.lang = "sv"
+      }
+      else {
+        this.lang = "en"
+      }
+      localStorage.setItem( "lang", this.lang );
+      socket.emit( "getUILabels", this.lang );
+    },
+    
+  }
+}
+
+</script>
+
