@@ -8,7 +8,7 @@
         <div>
           <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
           <div class="menu-section">
-            <button v-if="!joined" @click="participateInPoll" class="join-btn">
+            <button v-if="!joined" @click="participateInPoll" class="menu-btn join-btn">
             {{uiLabels.participateInGame}}
             </button>
           </div>
@@ -21,7 +21,7 @@
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
     </div> 
-    <button class="back-button" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
+    <button class="back-btn" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
   </div>
 </template>
 

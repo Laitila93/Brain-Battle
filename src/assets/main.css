@@ -16,9 +16,10 @@ body {
   color: #007bff; /*necessary?*/
 }
 
+
+/*Buttons and links that are often reused---------*/
 .menu-link, .menu-btn {
   height: 100%; 
-  width: 60%; 
   color: black; 
   font-size: 0.8rem; 
   text-transform: uppercase;
@@ -32,6 +33,7 @@ body {
 
 .create-link, .create-btn {
   background-color: #ff8c00;
+  width: 60%
 }
 
 .create-link:hover, .create-btn:hover {
@@ -42,6 +44,7 @@ body {
 
 .join-link, .join-btn {
   background-color: #32cd32;
+  width: 55%
 }
 
 .join-btn:hover, .join-link:hover {
@@ -60,6 +63,34 @@ body {
   font-size: 1.2rem;
   font: bold;
   text-transform: none;
+}
+
+.back-btn {
+  position: fixed;
+  background-color: #1e1e2f;
+  bottom: 4px;
+  left: 50px;
+  width: 13em;
+  height: 2em;
+  display: grid;
+  align-items: center;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.back-btn:hover {
+  background-color:#2a2a45;
+  box-shadow: 0 0 10px rgba(46, 46, 69, 0.8);
+}
+
+.back-btn-game {
+  position:relative;
+  margin: auto;
+  top: 12px;
+  bottom: 4px;
+  left: 10px;
 }
 
 .lang-switcher {
@@ -223,42 +254,6 @@ button {
   gap: 5px;  
 }
 
-.back-button {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 4px;
-  left: 50px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-
-.back-button:hover {
-  background-color: #e67e00;
-  cursor: pointer;
-}
-
-.back-button-game {
-  position:relative;
-  background-color: #1e1e2f;
-  margin: auto;
-  top: 12px;
-  bottom: 4px;
-  left: 0px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-
-.back-button-game:hover {
-  background-color: #e67e00;
-  cursor: pointer;
-}
-
 
 /*LobbyView-----------*/
 
@@ -290,23 +285,6 @@ button {
 .card label{
   color:white;
   padding: 3px;
-}
-
-.back-button {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 4px;
-  left: 50px;
-  width: 13em;
-  height: 2em;
-  display: grid;
-  color: white;
-  text-transform: uppercase;
-}
-
-.back-button:hover {
-  background-color:#007bff;
-  cursor: pointer;
 }
 
 
@@ -448,7 +426,6 @@ and (min-width : 321px) {
     flex-direction: column;
     gap: 0px;
     width: auto;  
-  
   }
 }
 

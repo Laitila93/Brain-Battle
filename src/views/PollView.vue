@@ -35,7 +35,7 @@
       <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
       <button 
-        class="back-button-game" 
+        class="back-btn back-btn-game" 
         onclick="location.href='/';">
           {{ uiLabels.returnHome }}
       </button>
