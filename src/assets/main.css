@@ -24,9 +24,7 @@ body {
   font-size: 0.8rem; 
   text-transform: uppercase;
   letter-spacing: 0.1em; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  transition: background-color 0.3s box-shadow 0.3s
 }
 
 .create-btn:hover {
@@ -41,8 +39,6 @@ body {
   font-size: 0.8rem;
   text-decoration: none;
   letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
   width: 55%;
   height: 100%;
   text-transform: uppercase;  
@@ -136,6 +132,7 @@ header {
   flex-direction: column;
   gap: 2em;
   width: 26em;
+  align-items: center;
 }
 
 .menu-section{
@@ -143,7 +140,6 @@ header {
   height: 3em;
   width: 100%;
   justify-content: center;
-
 }
 
 .id-input {
@@ -156,24 +152,13 @@ header {
   opacity: 0.75;
 }
 
-.or {
+.content-separator {
+  display: flex;
+  align-items: center;
+  height: 2em;
   letter-spacing: 0.15em;
   font-size: 1.5rem;
   color: white;
-}
-
-.create-game-start {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  height: 3em; 
-  width: 60%; 
-  background-color: #ff8c00; 
-  color: black; 
-  font-size: 0.8rem; 
-  text-decoration: none; 
-  letter-spacing: 0.1em; 
-  margin: 0 auto; 
 }
 
 .footer-menu {
@@ -224,13 +209,6 @@ button {
 
 /*CreateView-----------*/
 
-.centered-container {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
 
 .operator-section label, .questions-section label, .range-section label{
   font-size: 1.1em;
@@ -296,7 +274,7 @@ button {
   transform: translate(-50%, -50%); /* Adjust to perfectly center it */
 }
 
-.poll-id{
+.poll-id {
   padding-top: 10vh;
   padding-bottom: 2vh;
   font-size: 20pt;
@@ -312,19 +290,6 @@ button {
 .card label{
   color:white;
   padding: 3px;
-}
-
-.join-game-lobby {
-  background-color: #32cd32;
-  color:black;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  height: 3em;
-  width: 55%;
-  text-transform: uppercase;
 }
 
 .back-button {

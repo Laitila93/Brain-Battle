@@ -30,14 +30,17 @@
         </div>
       </div>
     </div>
-    <div></div>
-    <button type="submit" class="create-game-start">
-      {{ uiLabels.header }}
-    </button>
-    <p v-if="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </p>
+    <div class="content-separator"></div>
+      <div class="menu-section">
+        <button type="submit" class="create-btn">
+          {{ uiLabels.header }}
+        </button>
+      </div>
   </form>
+
+  <p v-if="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
   <div class="lang-switcher">
     {{ uiLabels.changeLanguage }}
     <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
