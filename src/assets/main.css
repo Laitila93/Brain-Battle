@@ -16,6 +16,49 @@ body {
   color: #007bff; /*necessary?*/
 }
 
+.create-btn {
+  height: 100%; 
+  width: 60%; 
+  background-color: #ff8c00; 
+  color: black; 
+  font-size: 0.8rem; 
+  text-transform: uppercase;
+  letter-spacing: 0.1em; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.create-btn:hover {
+  background-color: #d97800;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.7); /*Adds glow effect*/
+  color: white;
+}
+
+.join-btn {
+  background-color: #32cd32;
+  color:black;
+  font-size: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  display: grid;
+  align-items: center;
+  width: 55%;
+  height: 100%;
+  text-transform: uppercase;  
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+.join-btn:hover {
+  background-color: #28a428;
+  box-shadow: 0 0 10px rgba(50, 205, 50, 0.7); /*Adds glow effect*/
+  color: white;
+}
+
+.join-btn--disabled {
+  background-color: gray;
+  pointer-events: none;
+}
+
 .error-message {
   color: red;
   font-size: 1.2rem;
@@ -56,6 +99,7 @@ body {
 
 
 /* StartView -----------*/
+
 header {
   background-color:#1e1e2f; /*Emil: this class is unnecessary, 
                                 but we still might want to keep it, maybe ask Mikael.*/
@@ -94,11 +138,12 @@ header {
   width: 26em;
 }
 
-.menu-join-section{
+.menu-section{
   display: flex;
   height: 3em;
   width: 100%;
   justify-content: center;
+
 }
 
 .id-input {
@@ -109,22 +154,6 @@ header {
 .id-input::placeholder {
   text-transform: uppercase;
   opacity: 0.75;
-}
-
-.join-visible {
-  background-color: #32cd32;
-  color:black;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  width: 55%;
-}
-
-.join-disabled {
-  background-color: gray;
-  pointer-events: none;
 }
 
 .or {

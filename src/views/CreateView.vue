@@ -1,56 +1,51 @@
 <template>
-  <div>
-    <div class="poll-id">{{ uiLabels.whichGame }}: {{ pollId }}</div>
-      <form id="createForm" class="form-grid" @submit="createAndStart">
-
-        <div class="operator-section">
-        <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
-          <div class="radio-group">
-            <div class="radio-item" v-for="operator in operators" :key="operator.id">
-              <input type="radio" :id="operator.id" name="operator" :value="operator.value" v-model="formOperator">
-              <label :for="operator.id">{{ operator.label }}</label>
-            </div>
-          </div>
+  <div class="poll-id">
+    {{ uiLabels.whichGame }}: {{ pollId }}
+  </div>
+  <form id="createForm" class="form-grid" @submit="createAndStart">
+    <div class="operator-section">
+     <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
+       <div class="radio-group">
+         <div class="radio-item" v-for="operator in operators" :key="operator.id">
+            <input type="radio" :id="operator.id" name="operator" :value="operator.value" v-model="formOperator">
+            <label :for="operator.id">{{ operator.label }}</label>
+         </div>
         </div>
-
-        <div class="questions-section">
-        <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
-          <div class="radio-group">
-            <div class="radio-item" v-for="amountOfQuestions in amountOfQuestions" :key="amountOfQuestions.id">
-              <input type="radio" :id="amountOfQuestions.id" name="questions" :value="amountOfQuestions.value" v-model="numberOfQuestions">
-              <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
-            </div>
-          </div>
-        </div>
-      
-        <div class="range-section">
-          <label for="formMax">{{ uiLabels.chooseRange }}</label>
-            <div class="radio-group">
-              <div class="radio-item" v-for="range in range" :key="range.id">
-                <input type="radio" :id="range.id" name="range" :value="range.value" v-model="formMax">
-                <label :for="range.id">{{ range.label }}</label>
-              </div>
-            </div>
-        </div>
-        <div></div>
-          <button type="submit" class="create-game-start">
-            {{ uiLabels.header }}
-          </button>
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      </form>
     </div>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button 
-      v-on:click="switchLanguage" 
-      v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-      </button>
-    <button 
-    class="back-button" 
-    onclick="location.href='/';">
-      {{ uiLabels.returnHome }}
+    <div class="questions-section">
+      <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
+      <div class="radio-group">
+        <div class="radio-item" v-for="amountOfQuestions in amountOfQuestions" :key="amountOfQuestions.id">
+          <input type="radio" :id="amountOfQuestions.id" name="questions" :value="amountOfQuestions.value" v-model="numberOfQuestions">
+          <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="range-section">
+      <label for="formMax">{{ uiLabels.chooseRange }}</label>
+      <div class="radio-group">
+        <div class="radio-item" v-for="range in range" :key="range.id">
+          <input type="radio" :id="range.id" name="range" :value="range.value" v-model="formMax">
+          <label :for="range.id">{{ range.label }}</label>
+        </div>
+      </div>
+    </div>
+    <div></div>
+    <button type="submit" class="create-game-start">
+      {{ uiLabels.header }}
+    </button>
+    <p v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </p>
+  </form>
+  <div class="lang-switcher">
+    {{ uiLabels.changeLanguage }}
+    <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
     </button>
   </div>
+  <button class="back-button" onclick="location.href='/';">
+    {{ uiLabels.returnHome }}
+  </button>
 </template>
 
 <script>
@@ -113,7 +108,6 @@ export default {
       this.errorMessage = '';
 
       if (this.formOperator && this.formMin && this.formMax){
-        
         this.operator = this.formOperator;
         this.min = 1; 
         this.max = parseInt(this.formMax); 
@@ -139,7 +133,6 @@ export default {
       localStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     }
-    
   }
 }
 </script>

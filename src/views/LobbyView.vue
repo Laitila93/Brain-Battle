@@ -7,8 +7,8 @@
         </div>
         <div>
           <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
-          <div class="menu-join-section">
-            <button v-if="!joined" @click="participateInPoll" class="join-game-lobby">
+          <div class="menu-section">
+            <button v-if="!joined" @click="participateInPoll" class="join-btn">
             {{uiLabels.participateInGame}}
             </button>
           </div>

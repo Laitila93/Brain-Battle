@@ -12,7 +12,7 @@
     <p v-if="!pollExists && pollIsChecked" class="error-message">
         {{ uiLabels.invalidGameId }}
     </p>
-    <div class="menu-join-section">
+    <div class="menu-section">
       <input 
       class="id-input" 
       type="text" 
@@ -20,17 +20,17 @@
       v-on:input="checkPollID" 
       v-model="newPollId" 
       :placeholder="uiLabels.enterprompt">
-      <router-link v-bind:class="['join-visible', {'join-disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
-      {{ uiLabels.participatePoll }}
-      </router-link>
+      <button v-bind:class="['join-btn', {'join-btn--disabled':!pollExists || !pollIsChecked}]" @click="directToLobby">
+        {{ uiLabels.participatePoll }}
+      </button>
     </div>
     <div class="or">
       {{ uiLabels.or }}
-    </div>        
-    <div class="menu-item">
-      <router-link to="/create/" class="create-game-start">
+    </div>
+    <div class="menu-section">
+      <button class="create-btn" @click="directToCreate">
         {{ uiLabels.createPoll }}
-      </router-link>
+      </button>  
     </div>
   </nav>
   <nav class="footer-menu">
@@ -95,6 +95,14 @@ export default {
           this.pollIsChecked = true;
           });
         };
+    },
+
+    directToLobby() {
+      this.$router.push(`/lobby/${this.newPollId}`);
+    },
+
+    directToCreate() {
+      this.$router.push(`/create/`);
     }
   }
 }
