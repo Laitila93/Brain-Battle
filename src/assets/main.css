@@ -236,10 +236,14 @@ button {
   text-align: center;
 }
 
+.card label{
+  color:white;
+  padding: 3px;
+}
 
 
-/*CreateView-----------*/
 
+/*CREATEVIEW-----------*/
 
 .operator-section label, .questions-section label, .range-section label{
   font-size: 1.1em;
@@ -254,95 +258,10 @@ button {
   gap: 5px;  
 }
 
-
-/*LobbyView-----------*/
-
-.card {
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
-  background-color: #252537;
-  width: 65%;
-  position:fixed;
-  top: 50%; /* Vertically center */
-  left: 50%; /* Horizontally center */
-  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
-}
-
-.poll-id {
-  padding-top: 10vh;
-  padding-bottom: 2vh;
-  font-size: 20pt;
-  color:#007bff;
-}
-
-.poll-id-game {
-  padding-top: 0;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.card label{
-  color:white;
-  padding: 3px;
-}
-
-
-/*PollView-----------*/
-
-.banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #007bff;
-  padding: 0px;
-  color: white;
-}
-
-.player {
-  flex: 1;
-  text-align: center;
-  padding: 10px;
-  color: white;
-}
-
-.player1 {
-  background-color: #32cd32; /* Player 1's color */
-}
-
-.player2 {
-  background-color: #ff8c00; /* Player 2's color */
-}
-
-.node-area {
-  padding-top: 5vw;
-  padding-bottom: 5vw;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-
-/* Smartphones (portrait) ----------- */
+/*CREATEVIEW Smartphones (portrait) ----------- */
 @media only screen 
 and (max-width : 320px) {
-  .node-grid {
-    max-width: 400px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
-    gap: 0.5em;
-    text-align: center;
-    margin:  auto;
-  } 
-  .nodeButton {
-    height: 1em;
-    width: 1em;
-    border-radius: 50%;
-    background-color: #007bff;
-    text-align: center;
-    margin: auto;
 
-  }
   .form-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -375,27 +294,9 @@ and (max-width : 320px) {
   }
 }
 
-
-/* Smartphones (landscape) -----------Joakims telefon */
+/*CREATEVIEW Smartphones (landscape) -----------Joakims telefon */
 @media only screen 
 and (min-width : 321px) {
-  .node-grid {
-    max-width: 300px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
-    gap: 0.2em;
-    text-align: center;
-    margin:  auto;
-  } 
-
-  .nodeButton {
-    height: 2em;
-    width: 2em;
-    border-radius: 50%;
-    background-color: #007bff;
-    text-align: center;
-    margin: auto;
-  }
 
   .form-grid {
     display: grid;
@@ -430,27 +331,9 @@ and (min-width : 321px) {
 }
 
 
-/* Desktops and laptops ----------- */
+/*CREATEVIEW Desktops and laptops ----------- */
 @media only screen 
 and (min-width : 700px) {
-  
-  .node-grid {
-    max-width: 450px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
-    gap: 0.7em;
-    text-align: center;
-    margin:  auto;
-  } 
-
-  .nodeButton {
-    height: 3em;
-    width: 3em;
-    border-radius: 50%;
-    background-color: #007bff;
-    text-align: center;
-    margin: auto;
-  }
 
   .form-grid {
     display: grid;
@@ -489,9 +372,174 @@ and (min-width : 700px) {
 }
 
 
-/* Large screens ----------- */
+/*CREATEVIEW Large screens ----------- */
 @media only screen 
 and (min-width : 1824px) {
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    width:65%;
+    position:fixed;
+    bottom: 135px;
+    right:250px;
+  }
+
+  .operator-section,.questions-section,
+  .range-section {
+    padding: 20px;
+    border-radius: 10px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #252537;
+  
+    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
+  }
+}
+
+
+/*LobbyView-----------*/
+
+.card {
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
+  background-color: #252537;
+  width: 65%;
+  position:fixed;
+  top: 50%; /* Vertically center */
+  left: 50%; /* Horizontally center */
+  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
+}
+
+.poll-id {
+  padding-top: 10vh;
+  padding-bottom: 2vh;
+  font-size: 20pt;
+  color:#007bff;
+}
+
+
+/*POLLVIEW-----------*/
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  padding: 0px;
+  color: white;
+}
+
+.poll-id-game {
+  padding-top: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.player {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+
+.player1 {
+  background-color: #32cd32; /* Player 1's color */
+}
+
+.player2 {
+  background-color: #ff8c00; /* Player 2's color */
+}
+
+.node-area {
+  padding-top: 5vw;
+  padding-bottom: 5vw;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+
+/*POLLVIEW Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+  .node-grid {
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.5em;
+    text-align: center;
+    margin:  auto;
+  } 
+  .nodeButton {
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+  }
+
+}
+
+
+/*POLLVIEW Smartphones (landscape) -----------Joakims telefon */
+@media only screen 
+and (min-width : 321px) {
+  .node-grid {
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.2em;
+    text-align: center;
+    margin:  auto;
+  } 
+
+  .nodeButton {
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+  }
+
+}
+
+
+/*POLLVIEW Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 700px) {
+  
+  .node-grid {
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+    gap: 0.7em;
+    text-align: center;
+    margin:  auto;
+  } 
+
+  .nodeButton {
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    background-color: #007bff;
+    text-align: center;
+    margin: auto;
+  }
+
+}
+
+
+/*POLLVIEW Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+
   .node-grid {
     max-width: 600px;
     display: grid;
@@ -507,29 +555,8 @@ and (min-width : 1824px) {
     background-color: #007bff;
     text-align: center;
     margin: auto;
-
   }
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
-    width:65%;
-    position:fixed;
-    bottom: 135px;
-    right:250px;
-  }
-  .operator-section,.questions-section,
-  .range-section {
-    padding: 20px;
-    border-radius: 10px;
-    height: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: #252537;
-  
-    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
-  }
+ 
 }
 
 @keyframes pulse {
