@@ -26,9 +26,18 @@
       <div class="radio-group">
         <div class="radio-item" v-for="range in range" :key="range.id">
           <input type="radio" :id="range.id" name="range" :value="range.value" v-model="formMax">
-          <label :for="range.id">{{ range.label }}</label>
+          <label :for="range.id">
+            {{ range.value === 'custom' ? uiLabels.custom : range.label }}
+          </label>
         </div>
       </div>
+      <input 
+        v-if="formMax === 'custom'" 
+        type="number" 
+        v-model.number="customRange" 
+        :placeholder="uiLabels.enterCustomRange"
+        min="2"
+        max="1000">
     </div>
     <div class="content-separator"></div>
       <div class="menu-section">
@@ -75,6 +84,7 @@ export default {
       formOperator: null,
       formMin: 1,
       formMax: null,
+      customRange: null,
 
       errorMessage: '',
 
@@ -109,11 +119,14 @@ export default {
     createAndStart: function (e) {
       e.preventDefault();
       this.errorMessage = '';
+      
+      const isCustom = this.formMax === 'custom' && this.customRange > 0;
+      const isRange = this.formMax !== 'custom' && this.formMax !== null;
 
-      if (this.formOperator && this.formMin && this.formMax){
+      if (this.formOperator && this.formMin && (isCustom || isRange)){
         this.operator = this.formOperator;
         this.min = 1; 
-        this.max = parseInt(this.formMax); 
+        this.max = isCustom ? parseInt(this.customRange) : parseInt(this.formMax); 
         for (let i = 0; i < this.numberOfQuestions; i++){
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, pollId: this.pollId} );
         }
