@@ -1,6 +1,6 @@
 <template>
   <p>{{question.q}}</p>
-  <button :class="'answer-button-' + playerRoleShort"
+  <button :class="'answer-btn-' + playerRoleShort"
    v-for="a in question.a" 
    v-on:click="answer(a)" 
    v-bind:key="a" >
