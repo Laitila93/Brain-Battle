@@ -41,7 +41,7 @@
 		"opponentScore": "Opponent's score",
 		"correctAnswer": "Correct answer!",
 		"wrongAnswer": "Wrong answer!",
-		"clickNodePrompt": "Click a glowing node!",
+		"clickNodePrompt": "Click on a glowing node!",
 		"gameOver": "Game over",
 		"youWin": "You win!",
 		"youLoose": "You loose!",
