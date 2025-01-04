@@ -16,41 +16,41 @@ body {
   color: #007bff; /*necessary?*/
 }
 
-.create-btn {
+.menu-link, .menu-btn {
   height: 100%; 
   width: 60%; 
-  background-color: #ff8c00; 
   color: black; 
   font-size: 0.8rem; 
   text-transform: uppercase;
   letter-spacing: 0.1em; 
-  transition: background-color 0.3s box-shadow 0.3s
+  transition: background-color 0.3s box-shadow 0.3s;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  text-decoration: none;
 }
 
-.create-btn:hover {
+.create-link, .create-btn {
+  background-color: #ff8c00;
+}
+
+.create-link:hover, .create-btn:hover {
   background-color: #d97800;
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.7); /*Adds glow effect*/
   color: white;
 }
 
-.join-btn {
+.join-link, .join-btn {
   background-color: #32cd32;
-  color:black;
-  font-size: 0.8rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  width: 55%;
-  height: 100%;
-  text-transform: uppercase;  
-  transition: background-color 0.3s, box-shadow 0.3s;
 }
-.join-btn:hover {
+
+.join-btn:hover, .join-link:hover {
   background-color: #28a428;
   box-shadow: 0 0 10px rgba(50, 205, 50, 0.7); /*Adds glow effect*/
   color: white;
 }
 
-.join-btn--disabled {
+.join-link--disabled {
   background-color: gray;
   pointer-events: none;
 }

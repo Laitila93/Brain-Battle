@@ -40,7 +40,7 @@
     </div>
     <div class="content-separator"></div>
       <div class="menu-section">
-        <button type="submit" class="create-btn">
+        <button type="submit" class="menu-btn create-btn">
           {{ uiLabels.header }}
         </button>
       </div>

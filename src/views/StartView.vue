@@ -20,17 +20,17 @@
       v-on:input="checkPollID" 
       v-model="newPollId" 
       :placeholder="uiLabels.enterprompt">
-      <button v-bind:class="['join-btn', {'join-btn--disabled':!pollExists || !pollIsChecked}]" @click="directToLobby">
+      <router-link v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
         {{ uiLabels.participatePoll }}
-      </button>
+      </router-link>
     </div>
     <div class="content-separator">
       {{ uiLabels.or }}
     </div>
-    <div class="menu-section">
-      <button class="create-btn" @click="directToCreate">
+    <div class="menu-section"> 
+      <router-link to="/create/" class="menu-link create-link" >
         {{ uiLabels.createPoll }}
-      </button>  
+      </router-link>
     </div>
   </nav>
   <nav class="footer-menu">
