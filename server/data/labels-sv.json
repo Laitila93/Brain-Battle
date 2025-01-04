@@ -21,7 +21,9 @@
 		"changeLanguage": "Change language: ",
 		"chooseRange": "Välj nummerintervall: ",
 		"returnHome": "Till startsidan",
-		"errorMessage": "Fyll i alla fält innan du fortsätter."
+		"errorMessage": "Fyll i alla fält innan du fortsätter.",
+		"custom":"Anpassat intervall",
+		"enterCustomRange": "Ange anpassat nummerintervall"
 	},
 
 	"LobbyViewLabels": {
@@ -31,8 +33,7 @@
 		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
 		"changeLanguage": "Change language: ",
-		"returnHome": "Till startsidan",
-		"enterNameFirst": "Vänligen ange ett namn först"
+		"returnHome": "Till startsidan"
 	},
 
 	"PollViewLabels": {
