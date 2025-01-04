@@ -217,32 +217,6 @@ header {
 }
 
 
-/*Unknown */
-
-button {
-  height: 2em;
-  width: 10em;
-  cursor: pointer;
-}
-
-.node {
-  color: aqua;
-  display: flex; 
-  flex-wrap: wrap; 
-}
-  
-.pollBody {
-  width: 500px;
-  text-align: center;
-}
-
-.card label{
-  color:white;
-  padding: 3px;
-}
-
-
-
 /*CREATEVIEW-----------*/
 
 .operator-section label, .questions-section label, .range-section label{
@@ -573,22 +547,26 @@ and (min-width : 1824px) {
 
 /*QuestionComponent-----------*/
 
-.answer-button-p1 {
+.answer-btn-p1 {
   background-color: #32cd32;
-  color: white;
+  height: 2em;
+  width: 10em;
+  cursor: pointer;
+  color:white;
 }
 
-.answer-button-p1:hover {
+.answer-btn-p1:hover {
   background-color: #9cca9cff;
-  color: white;
 }
 
-.answer-button-p2 {
+.answer-btn-p2 {
   background-color:  #e67e00;
-  color: white;
+  height: 2em;
+  width: 10em;
+  cursor: pointer;
+  color:white;
 }
 
-.answer-button-p2:hover {
+.answer-btn-p2:hover {
   background-color: #ffc379ff;
-  color: white;
 }
