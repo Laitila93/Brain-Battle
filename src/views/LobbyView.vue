@@ -1,27 +1,27 @@
 <template>
-  <div class="wrapper">
+  <div>
     <div class="main-menu">
       <div class="card">
-      <div class="poll-id">
+        <div class="poll-id">
         {{ uiLabels.whichGame }} : {{pollId}}
+        </div>
+        <div>
+          <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
+          <div class="menu-section">
+            <button v-if="!joined" @click="participateInPoll" class="menu-btn join-btn">
+            {{uiLabels.participateInGame}}
+            </button>
+          </div>
+          <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
+        </div>
       </div>
-      <div>
-        <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
-        <div class="menu-item">
-        <button v-if="!joined" @click="participateInPoll" class="join-game-lobby">
-          {{uiLabels.participateInGame}}
-        </button>
-      </div>
-        <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
-      </div>
-    </div>
     </div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
     </div> 
-    <button class="back-button" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
+    <button class="back-btn" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
       pollId: "inactive poll",
       uiLabels: {},
       joined: false,
-      lang: localStorage.getItem("lang") || "en",
+      lang: sessionStorage.getItem("lang") || "en",
       participants: [],
       waitingForPlayers: true
     }
@@ -48,7 +48,7 @@ export default {
     
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
-      localStorage.setItem("playerRole", role);
+      sessionStorage.setItem("playerRole", role);
       console.log("LOBBY: Player role assigned: ", role);
       this.joined = true;
     });
@@ -70,7 +70,8 @@ export default {
     alert(message);
     });
     
-    socket.emit( "joinPoll", this.pollId );
+    socket.emit( "joinPoll", this.pollId ); //Emil: se CreateView, vi verkar kunna ta bort denna tack vare
+                                            //uppdateringar i servern i particpateInPoll.
     socket.emit( "getUILabels", this.lang );
   },
 
@@ -87,15 +88,9 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     }
   }
 }
 </script>
-
-<style>
-/*To be placed in main.css */
-
-
-</style>

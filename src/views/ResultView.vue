@@ -21,7 +21,7 @@ export default {
   },
   data: function () {
     return {
-      lang: localStorage.getItem("lang") || "en",
+      lang: sessionStorage.getItem("lang") || "en",
       pollId: "",
       question: "",
       submittedAnswers: {}

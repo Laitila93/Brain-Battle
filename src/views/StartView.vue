@@ -1,54 +1,51 @@
 <template>
-  <div class="wrapper">
-    <header>
-      <div class="logo">
-        <img src="../assets/swords.png" class="logo-image">
-        Brain Battle
-        <img src="../assets/brain.png" class="logo-image">
-      </div>
-
-    </header>
-    <nav class="main-menu">
-      <p v-if="!pollExists && pollIsChecked" id="error-message">
-          {{ uiLabels.invalidGameId }}
-      </p>
-      <div class="text-join-section">
-        <input 
-        class="id-input" 
-        type="text" 
-        maxlength="4"
-        v-on:input="checkPollID" 
-        v-model="newPollId" 
-        :placeholder="uiLabels.enterprompt">
-        <router-link v-bind:class="['join-game', {'hidden':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
-        {{ uiLabels.participatePoll }}
-        </router-link>
-      </div>
-      <div class="or">
-        {{ uiLabels.or }}
-      </div>
-        
-      <div class="menu-item">
-        <router-link to="/create/" class="create-game-start">
-          {{ uiLabels.createPoll }}
-        </router-link>
-      </div>
-    </nav>
-
-    <nav class="footer-menu">
-
-      <a class="about-page" href="">
-        {{ uiLabels.about }}
-      </a>
-      <a class="rules-page" href="">
-        {{ uiLabels.rules }}
-      </a>
-    </nav>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-      </button>
+  <!--Emil: the header element is not necessary for the resulting layout. Should it
+  still be kept for readability reasons?-->
+  <header>
+    <div class="logo">
+      <img src="../assets/swords.png" class="logo-image">
+      Brain Battle
+      <img src="../assets/brain.png" class="logo-image">
     </div>
+  </header>
+  <nav class="main-menu">
+    <p v-if="!pollExists && pollIsChecked" class="error-message">
+        {{ uiLabels.invalidGameId }}
+    </p>
+    <div class="menu-section">
+      <input 
+      class="id-input" 
+      type="text" 
+      maxlength="4"
+      v-on:input="checkPollID" 
+      v-model="newPollId" 
+      :placeholder="uiLabels.enterprompt">
+      <router-link v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
+        {{ uiLabels.participatePoll }}
+      </router-link>
+    </div>
+    <div class="content-separator">
+      {{ uiLabels.or }}
+    </div>
+    <div class="menu-section"> 
+      <router-link to="/create/" class="menu-link create-link" >
+        {{ uiLabels.createPoll }}
+      </router-link>
+    </div>
+  </nav>
+  <nav class="footer-menu">
+    <a class="about-page" href="">
+      {{ uiLabels.about }}
+    </a>
+    <a class="rules-page" href="">
+      {{ uiLabels.rules }}
+    </a>
+  </nav>
+  <div class="lang-switcher">
+    {{ uiLabels.changeLanguage }}
+    <button 
+      v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+    </button>
   </div>
 </template>
 
@@ -58,11 +55,8 @@
 import io from 'socket.io-client';
 const serverIP = import.meta.env.VUE_APP_SERVER_IP|| "";
 localStorage.setItem("serverIP", serverIP);
-const socket = io(serverIP);
 
-socket.on('connect_error', (err) => {
-  console.error('Connection Error:', err);
-});
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'StartView',
@@ -70,8 +64,7 @@ export default {
     return {
       uiLabels: {},
       newPollId: "",
-      lang: localStorage.getItem( "lang") || "en",
-      hideNav: true,
+      lang: sessionStorage.getItem( "lang") || "en",
       pollExists: false,
       pollIsChecked: false
     }
@@ -95,12 +88,10 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     },
-    toggleNav: function () { //Emil: ta bort?
-      this.hideNav = ! this.hideNav;
-    },
+    
     checkPollID() {
       if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
         this.pollIsChecked = false
@@ -111,11 +102,16 @@ export default {
           this.pollIsChecked = true;
           });
         };
+    },
+
+    directToLobby() {
+      this.$router.push(`/lobby/${this.newPollId}`);
+    },
+
+    directToCreate() {
+      this.$router.push(`/create/`);
     }
   }
 }
 </script>
-<style scoped>
 
-
-</style>

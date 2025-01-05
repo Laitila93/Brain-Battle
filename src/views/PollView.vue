@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper"> 
+  <div> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
@@ -22,7 +22,7 @@
       <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">{{ uiLabels.wrongAnswer }}</div>
       <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">{{ uiLabels.clickNodePrompt }}</div>
           <div v-if="showQuestionComponent">
-            <QuestionComponent 
+            <QuestionComponent
               v-bind:question="question" 
               v-on:answer="submitAnswer($event, this.playerRole)"
               v-on:answered="handleAnswered"
@@ -34,7 +34,11 @@
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
       <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
-      <button onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
+      <button 
+        class="back-btn back-btn-game" 
+        onclick="location.href='/';">
+          {{ uiLabels.returnHome }}
+      </button>
     </div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
@@ -65,8 +69,8 @@ export default {
         a: []
       },
       uiLabels: {},
-      lang: localStorage.getItem( "lang") || "en",
-      playerRole: localStorage.getItem("playerRole") || "",
+      lang: sessionStorage.getItem( "lang") || "en",
+      playerRole: sessionStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
       submittedAnswers: {},
       questionNumber: 0,
@@ -134,7 +138,7 @@ export default {
       socket.emit("getNumberOfQuestions", this.pollId);
       socket.on("playerRoleAssigned", role => {
         this.playerRole = role;
-        localStorage.setItem("playerRole", role); // Update locally just in case
+        sessionStorage.setItem("playerRole", role); // Update locally just in case
       });
 
       socket.on("submittedAnswersUpdate", scores => {
@@ -241,7 +245,7 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     }
 

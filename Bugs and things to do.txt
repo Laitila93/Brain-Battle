@@ -4,14 +4,13 @@
 2. KLAR-----------(Joakim)(VIKTIGT) Måste fixa så flera olika frågor kan vara laddade samtidigt (currentQuestion i data som spökar)
 3. KLAR-----------(Emil)(VIKTIGT) Ibland registreras inte att man klarat av första frågan.(kanske för att poäng inte visas i början) 
 4. KLAR-----------(Emil)(VIKTIGT) Fortfarande strul med att ladda score och registrera knapptryck i PollView
-5. Score-div:arna ändrar storlek när score uppdateras. 
 
 ------------------Things to do------------------
 
 --Style--
-1.  Städa och ordna alla klass- ,id- och variabelnamn.
-2.  Kontrollera att alla views använder rätt klasser och ser likadana ut.
-3.  flytta CSS kod till Main.css
+1.  (Emil)Städa och ordna alla klass- ,id- och variabelnamn.
+2.  (Emil)Kontrollera att alla views använder rätt klasser och ser likadana ut.
+3.  KLAR-----------flytta CSS kod till Main.css
 4.  rename all "poll" to "Quiz".
 5.  KLAR-----------(Emil)Fixa så att all text hämtas från language filen.
 6.  Fixa så allt ser bra ut på mindre skärmar.
@@ -20,7 +19,7 @@
 1.  Eventuellt problem om man skulle få ett pollId som redan använts.
 2.  Skapa gameField komponent och sätt noder med grid samt tillhörande metoder i den. 
     Denna ska emita det som pollView behöver för att fungera som den ska.
-3.  Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
+3.  (Emil)Fixa "Rules" för instruktioner. (Både i startView och i lobbyn)
 4.  (Sulle)(VIKTIGT) Fixa Lobbyn.
 5.  KLAR-----------(Sulle)Ändra createView till radioknappar? eller liknande.
 6.  Eventuellt fixa så att istället för att låsa fråga vid status 6 så får man tävla om den
@@ -36,4 +35,4 @@
 --Nodes--
 
 --Code readability--
-1. (Emil)Rensa/kolla bland sockets i server och se om något kan tas bort/ändras 
+1. KLAR-----------(Emil)Rensa/kolla bland sockets i server och se om något kan tas bort/ändras 

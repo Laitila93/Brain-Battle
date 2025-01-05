@@ -4,7 +4,8 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     try {
       nodeStatus[d.node] = d.status;
       socket.emit("nodeStatusUpdate", pollId, d);
-      getNodeStatus(pollId, socket);
+      getNodeStatus(pollId, socket); //Emil: har ett förslag på hur man verkar kunna ändra så att 
+                                      // getNodeStatus blir överflödig. Se nodeStatusUpdate i sockets.js
     } catch (error) {
       console.error("Error in setNodeStatus method:", error);
     }
@@ -94,6 +95,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
     4 = nåbar för spelare 1
     5 = nåbar för spelare 2
     6 = nåbar för 1 och 2
+    7 = paxad
 */
   export function drawNodeColors({
     totalQuestions,
