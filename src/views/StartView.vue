@@ -54,9 +54,9 @@
 
 import io from 'socket.io-client';
 
-localStorage.setItem("serverIP", "192.168.10.149:3000");
+sessionStorage.setItem("serverIP", "192.168.50.97:3000");
 
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'StartView',
@@ -64,7 +64,7 @@ export default {
     return {
       uiLabels: {},
       newPollId: "",
-      lang: localStorage.getItem( "lang") || "en",
+      lang: sessionStorage.getItem( "lang") || "en",
       pollExists: false,
       pollIsChecked: false
     }
@@ -81,7 +81,7 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     },
     

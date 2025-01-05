@@ -13,7 +13,7 @@ export default {
   name: 'QuestionComponent',
   data: function () {
     return {
-      playerRole: localStorage.getItem("playerRole") || ""
+      playerRole: sessionStorage.getItem("playerRole") || ""
     };
   },
   props: {

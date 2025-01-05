@@ -28,7 +28,7 @@
 
 <script>
 import io from 'socket.io-client';
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'LobbyView',
@@ -38,7 +38,7 @@ export default {
       pollId: "inactive poll",
       uiLabels: {},
       joined: false,
-      lang: localStorage.getItem("lang") || "en",
+      lang: sessionStorage.getItem("lang") || "en",
       participants: [],
       waitingForPlayers: true
     }
@@ -48,7 +48,7 @@ export default {
     
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
-      localStorage.setItem("playerRole", role);
+      sessionStorage.setItem("playerRole", role);
       console.log("LOBBY: Player role assigned: ", role);
       this.joined = true;
     });
@@ -88,7 +88,7 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     }
   }

@@ -12,7 +12,7 @@
 // @ is an alias to /src
 import BarsComponent from '@/components/BarsComponent.vue';
 import io from 'socket.io-client';
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'ResultView',
@@ -21,7 +21,7 @@ export default {
   },
   data: function () {
     return {
-      lang: localStorage.getItem("lang") || "en",
+      lang: sessionStorage.getItem("lang") || "en",
       pollId: "",
       question: "",
       submittedAnswers: {}

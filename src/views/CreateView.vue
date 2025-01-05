@@ -62,7 +62,7 @@
 
 <script>
 import io from 'socket.io-client';
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io(sessionStorage.getItem("serverIP"));
 import { generateRandomQuestion } from "@/assets/Methods.js";
 import options from "@/assets/options.json";
 
@@ -70,7 +70,7 @@ export default {
   name: 'CreateView',
   data: function () {
     return {
-      lang: localStorage.getItem("lang") || "en",
+      lang: sessionStorage.getItem("lang") || "en",
       pollId: null,
       question: "",
       answers: ["", ""],
@@ -146,7 +146,7 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     }
   }

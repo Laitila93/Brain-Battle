@@ -53,7 +53,7 @@ import QuestionComponent from '@/components/QuestionComponent.vue';
 import io from 'socket.io-client';
 import NodeComponent from '../components/NodeComponent.vue';
 import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Methods.js";
-const socket = io(localStorage.getItem("serverIP"));
+const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'PollView',
@@ -69,8 +69,8 @@ export default {
         a: []
       },
       uiLabels: {},
-      lang: localStorage.getItem( "lang") || "en",
-      playerRole: localStorage.getItem("playerRole") || "",
+      lang: sessionStorage.getItem( "lang") || "en",
+      playerRole: sessionStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
       submittedAnswers: {},
       questionNumber: 0,
@@ -138,7 +138,7 @@ export default {
       socket.emit("getNumberOfQuestions", this.pollId);
       socket.on("playerRoleAssigned", role => {
         this.playerRole = role;
-        localStorage.setItem("playerRole", role); // Update locally just in case
+        sessionStorage.setItem("playerRole", role); // Update locally just in case
       });
 
       socket.on("submittedAnswersUpdate", scores => {
@@ -245,7 +245,7 @@ export default {
       else {
         this.lang = "en"
       }
-      localStorage.setItem( "lang", this.lang );
+      sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
     }
 
