@@ -29,6 +29,7 @@ body {
   justify-content: center; 
   align-items: center; 
   text-decoration: none;
+  cursor: pointer;
 }
 
 .create-link, .create-btn {
@@ -37,6 +38,7 @@ body {
 }
 
 .create-link:hover, .create-btn:hover {
+  
   background-color: #d97800;
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.7); /*Adds glow effect*/
   color: white;
