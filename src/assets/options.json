@@ -13,10 +13,10 @@
       { "id": "q100", "value": 100, "label": "100" }  
     ],
     "range": [
-      { "id": "r1", "value": 9, "label": "9" },
-      { "id": "r2", "value": 20, "label": "20" },
-      { "id": "r3", "value": 50, "label": "50" },
-      { "id": "r4", "value": 100, "label": "100" },
+      { "id": "r1", "value": 9, "label": "1 - 9" },
+      { "id": "r2", "value": 20, "label": "1 - 20" },
+      { "id": "r3", "value": 50, "label": "1 - 50" },
+      { "id": "r4", "value": 100, "label": "1 - 100" },
       { "id": "rCustom", "value": "custom", "label": "Custom" }
     ]
   }

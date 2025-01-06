@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="main-menu">
       <div class="card">
         <div class="poll-id">
@@ -22,7 +21,6 @@
       </button>
     </div> 
     <button class="back-btn" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
-  </div>
 </template>
 
 
