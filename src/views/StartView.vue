@@ -3,9 +3,9 @@
   still be kept for readability reasons?-->
   <header>
     <div class="logo">
-      <img src="../assets/swords.png" class="logo-image">
-      Brain Battle
       <img src="../assets/brain.png" class="logo-image">
+        Brain Battle
+      <img src="../assets/swords.png" class="logo-image">
     </div>
   </header>
   <nav class="main-menu">
