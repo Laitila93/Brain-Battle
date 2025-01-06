@@ -153,9 +153,14 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
             nodeElement.style.animation = "pulse 2s infinite";
           }
           break;
-        //case 7 for locking a question
+        //case 7 & 8 for locking a question
         case 7:
           nodeElement.style.backgroundColor = "#f5f5f5ff";
+          nodeElement.style.borderColor = "#32cd32";
+          break;
+        case 8:
+          nodeElement.style.backgroundColor = "#f5f5f5ff";
+          nodeElement.style.borderColor = "#ff8c00";
           break;
   
         default:
