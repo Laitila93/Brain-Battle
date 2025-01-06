@@ -102,6 +102,11 @@ function sockets(io, socket, data) {
     callback(pollExists);
   });
 
+  socket.on("giveUp", function(d){
+    console.log("server recieve playerRole", d.playerRole)
+    io.to(d.pollId).emit("handleGiveUp", data.getWinner(d.playerRole))
+  });
+
 
 }
 

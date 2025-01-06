@@ -48,7 +48,10 @@
 		"youLoose": "Du förlorade!",
 		"draw": "Oavgjort",
 		"returnHome": "Till startsidan",
-		"changeLanguage": "Change language to: "
+		"changeLanguage": "Change language to: ",
+		"giveUp": "Ge upp",
+		"opponentGaveUp": "Motståndaren gav upp",
+		"youGaveUp": "Du gave upp"
 	}
 
 }
