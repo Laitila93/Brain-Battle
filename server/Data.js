@@ -159,6 +159,15 @@ Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returne
   return {}
 }
 
+Data.prototype.getWinner = function(playerRole){
+  if(playerRole === "Player 1"){
+    return "Player 2";
+  }
+  if (playerRole === "Player 2"){
+    return "Player 1"
+  }
+}
+
 Data.prototype.submitAnswer = function(d) { 
 
   if (this.pollExists(d.pollId)) {

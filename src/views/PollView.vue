@@ -31,9 +31,14 @@
     </div>
     <div v-else>
       <div>{{ uiLabels.gameOver }}</div>
+      <div v-if="gaveUp && winner === playerRole">{{ uiLabels.opponentGaveUp }}</div>
+      <div v-if="gaveUp && winner !== playerRole">{{ uiLabels.youGaveUp }}</div>
+
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
       <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
+        
+        
       <button 
         class="back-btn back-btn-game" 
         onclick="location.href='/';">
@@ -43,6 +48,11 @@
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      </button>
+    </div>
+    <div>
+      <button class="back-btn" v-on:click="giveUp">
+        {{ uiLabels.giveUp }}
       </button>
     </div>
   </div>
@@ -84,6 +94,7 @@ export default {
       lastAnswer: "start", 
       isGameOver:false,
       winner: "",
+      gaveUp: false
     };
   },
 //--------------------------------------------------------------------------------
@@ -182,6 +193,15 @@ export default {
       socket.emit("joinPoll", this.pollId);
       socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
+      socket.on("handleGiveUp", (winner)=>{
+        this.gaveUp = true;
+        this.winner = winner;
+        
+        this.isGameOver = true;
+
+        this.disableAllNodes();
+      });
+      
     },
 
     handleAnswered() {
@@ -217,11 +237,15 @@ export default {
         this.winner = ""
       }
       if (this.isGameOver){
-        for (let i = 1; i <= this.totalQuestions; i++) {
+        this.disableAllNodes();
+      }
+    },
+
+    disableAllNodes: function(){
+      for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
         nodeElement.disabled = true;
         nodeElement.style.animation = "none";
-        }
       }
     },
 
@@ -272,6 +296,10 @@ export default {
       }
       sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
+    },
+
+    giveUp: function(){
+      socket.emit("giveUp",{pollId: this.pollId, playerRole: this.playerRole});
     }
 
   }

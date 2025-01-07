@@ -52,7 +52,10 @@
 		"youLoose": "You loose!",
 		"draw": "Draw",
 		"returnHome": "Back to home page",
-		"changeLanguage": "Byt språk till: "
+		"changeLanguage": "Byt språk till: ",
+		"giveUp" : "Give up",
+		"opponentGaveUp": "Opponent gave up",
+		"youGaveUp": "You gave up"
 	}
 
 }
