@@ -1,7 +1,9 @@
 <template>
-    <div class="main-menu">
-      <div class="card">
-        <div class="poll-id">
+      <div><DominationTutorial v-bind:uiLabels="uiLabels"/></div>
+      
+      <div id="join-button">
+        <div class="card">
+        <div class="poll-id-lobby">
         {{ uiLabels.whichGame }} : {{pollId}}
         </div>
         <div>
@@ -11,22 +13,25 @@
             {{uiLabels.participateInGame}}
             </button>
           </div>
-          <p v-if="waitingForPlayers">{{ uiLabels.waitingForOthers }}</p>
+          <p v-if="waitingForPlayers && joined">{{ uiLabels.waitingForOthers }}</p>
         </div>
       </div>
-    </div>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
     </div> 
+  </div>
     <button class="back-btn" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
 </template>
 
 
 <script>
 import io from 'socket.io-client';
+import QuestionComponent from '../components/QuestionComponent.vue';
+import DominationTutorial from '../components/DominationTutorial.vue';
 const socket = io(sessionStorage.getItem("serverIP"));
+
 
 export default {
   name: 'LobbyView',
@@ -40,6 +45,10 @@ export default {
       participants: [],
       waitingForPlayers: true
     }
+  },
+  components: {
+    QuestionComponent,
+    DominationTutorial
   },
   created: function () {
     this.pollId = this.$route.params.id;

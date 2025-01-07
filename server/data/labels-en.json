@@ -32,7 +32,12 @@
 		"participateInGame": "Join",
 		"waitingForOthers": "Waiting for other player to join...",
 		"changeLanguage": "Byt språk till: ",
-		"returnHome": "Back to home page"
+		"returnHome": "Back to home page",
+		"notClickable": "Not clickable",
+		"clickable": "Clickable",
+		"takenp1": "taken by Player 1",
+		"reachp1": "reachable by player 1"
+		
 	},
 
 	"PollViewLabels": {

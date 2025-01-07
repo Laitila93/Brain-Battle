@@ -316,11 +316,9 @@ and (min-width : 700px) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
-    width:90%;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width:80%;
+    padding: 10%;
+    padding-bottom: 5%;
   }
 
   .operator-section,.questions-section,
@@ -386,20 +384,28 @@ and (min-width : 1824px) {
   padding: 20px;
   box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
   background-color: #252537;
-  width: 65%;
-  position:fixed;
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
 }
 
-.poll-id {
-  padding-top: 10vh;
+.poll-id-lobby {
+  padding-top: 1vh;
   padding-bottom: 2vh;
   font-size: 20pt;
   color:#007bff;
 }
+#domination-tutorial{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
 
+#join-button {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 50px;
+  width:80%;
+  padding: 10%;
+  padding-top: 5%;
+}
 
 /*POLLVIEW-----------*/
 

@@ -33,7 +33,11 @@
 		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
 		"changeLanguage": "Change language to: ",
-		"returnHome": "Till startsidan"
+		"returnHome": "Till startsidan",
+		"notClickable": "Inte klickbar",
+		"clickable": "Klickbar",
+		"takenp1": "Tagen av Spelare 1",
+		"reachp1": "Nåbar av spelare 1"
 	},
 
 	"PollViewLabels": {
