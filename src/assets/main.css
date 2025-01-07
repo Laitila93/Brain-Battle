@@ -29,6 +29,7 @@ body {
   justify-content: center; 
   align-items: center; 
   text-decoration: none;
+  cursor: pointer;
 }
 
 .create-link, .create-btn {
@@ -37,6 +38,7 @@ body {
 }
 
 .create-link:hover, .create-btn:hover {
+  
   background-color: #d97800;
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.7); /*Adds glow effect*/
   color: white;
@@ -257,7 +259,7 @@ and (max-width : 320px) {
   .radio-group label {
     font-size: 1em;
     font-weight: bold;
-    color: #ff8c00;  /* Ensure readability */  
+    color: #ff8c00;   
   }
 
   .radio-group {
@@ -293,16 +295,17 @@ and (min-width : 321px) {
   .radio-group label {
     font-size: 1em;
     font-weight: bold;
-    color: #ff8c00;  /* Ensure readability */
+    color: #ff8c00; 
   }
 
   .radio-group {
     display: flex;
     flex-direction: column;
-    gap: 0px;
+
     width: auto;  
   }
 }
+
 
 
 /*CREATEVIEW Desktops and laptops ----------- */
@@ -313,9 +316,9 @@ and (min-width : 700px) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
-    width:90%;
-    padding-left: 2%;
-    padding-top: 10%;
+    width:80%;
+    padding: 10%;
+    padding-bottom: 5%;
   }
 
   .operator-section,.questions-section,
@@ -333,7 +336,7 @@ and (min-width : 700px) {
   .radio-group label {
     font-size: 1em;
     font-weight: bold;
-    color: #ff8c00;  /* Ensure readability */
+    color: #ff8c00;  
   }
 
   .radio-group {
@@ -342,7 +345,6 @@ and (min-width : 700px) {
     gap: 2px;
     width: auto;  
   }
-
 }
 
 
@@ -355,9 +357,10 @@ and (min-width : 1824px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
     width:65%;
-    position:fixed;
-    bottom: 135px;
-    right:250px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .operator-section,.questions-section,
@@ -369,7 +372,6 @@ and (min-width : 1824px) {
     display: flex;
     flex-direction: column;
     background-color: #252537;
-  
     box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
   }
 }
@@ -382,20 +384,28 @@ and (min-width : 1824px) {
   padding: 20px;
   box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
   background-color: #252537;
-  width: 65%;
-  position:fixed;
-  top: 50%; /* Vertically center */
-  left: 50%; /* Horizontally center */
-  transform: translate(-50%, -50%); /* Adjust to perfectly center it */
 }
 
-.poll-id {
-  padding-top: 10vh;
+.poll-id-lobby {
+  padding-top: 1vh;
   padding-bottom: 2vh;
   font-size: 20pt;
   color:#007bff;
 }
+#domination-tutorial{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
 
+#join-button {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 50px;
+  width:80%;
+  padding: 10%;
+  padding-top: 5%;
+}
 
 /*POLLVIEW-----------*/
 

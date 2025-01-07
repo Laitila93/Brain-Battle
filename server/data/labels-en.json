@@ -3,7 +3,7 @@
 		"createPoll": "Create new game",
 		"participatePoll": "Join game",
 		"question": "Question",
-		"changeLanguage": "Byt språk:",
+		"changeLanguage": "Byt språk till:",
 		"about": "About",
 		"participateInPoll": "Participate in poll",
 		"enterprompt": "Enter game ID",
@@ -18,12 +18,12 @@
 		"chooseOperator": "Choose a Math Operator: ",
 		"chooseNumberOfQuestions": "Select the number of questions: ",
 		"createGame": "Create new game",
-		"changeLanguage": "Byt språk: ",
+		"changeLanguage": "Byt språk till: ",
 		"chooseRange": "Choose the range of numbers: ",
 		"returnHome": "Back to home page",
 		"errorMessage":"Please fill in all fields before continuing.",
-		"custom":"Custom range",
-		"enterCustomRange": "Enter custom range numbers"
+		"custom":"Custom (1 - ?)",
+		"enterCustomRange": "Enter custom end for range"
 	},
 
 	"LobbyViewLabels": {
@@ -31,8 +31,13 @@
 		"youAre": "You are: ",
 		"participateInGame": "Join",
 		"waitingForOthers": "Waiting for other player to join...",
-		"changeLanguage": "Byt språk: ",
-		"returnHome": "Back to home page"
+		"changeLanguage": "Byt språk till: ",
+		"returnHome": "Back to home page",
+		"notClickable": "Not clickable",
+		"clickable": "Clickable",
+		"takenp1": "taken by Player 1",
+		"reachp1": "reachable by player 1"
+		
 	},
 
 	"PollViewLabels": {
@@ -47,7 +52,10 @@
 		"youLoose": "You loose!",
 		"draw": "Draw",
 		"returnHome": "Back to home page",
-		"changeLanguage": "Byt språk: "
+		"changeLanguage": "Byt språk till: ",
+		"giveUp" : "Give up",
+		"opponentGaveUp": "Opponent gave up",
+		"youGaveUp": "You gave up"
 	}
 
 }

@@ -3,9 +3,9 @@
   still be kept for readability reasons?-->
   <header>
     <div class="logo">
-      <img src="../assets/swords.png" class="logo-image">
-      Brain Battle
       <img src="../assets/brain.png" class="logo-image">
+        Brain Battle
+      <img src="../assets/swords.png" class="logo-image">
     </div>
   </header>
   <nav class="main-menu">
@@ -33,15 +33,15 @@
       </router-link>
     </div>
   </nav>
-  <nav class="footer-menu">
-    <a class="about-page" href="">
+ <div class="banner">
+
+    <router-link to="/" class="menu-link create-link" >
       {{ uiLabels.about }}
-    </a>
-    <a class="rules-page" href="">
+    </router-link>
+    <router-link to="/" class="menu-link create-link" >
       {{ uiLabels.rules }}
-    </a>
-  </nav>
-  <div class="lang-switcher">
+    </router-link>
+
     {{ uiLabels.changeLanguage }}
     <button 
       v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">

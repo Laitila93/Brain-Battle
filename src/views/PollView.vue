@@ -31,9 +31,14 @@
     </div>
     <div v-else>
       <div>{{ uiLabels.gameOver }}</div>
+      <div v-if="gaveUp && winner === playerRole">{{ uiLabels.opponentGaveUp }}</div>
+      <div v-if="gaveUp && winner !== playerRole">{{ uiLabels.youGaveUp }}</div>
+
       <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
       <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div v-else>{{ uiLabels.youLoose }}</div>
+        
+        
       <button 
         class="back-btn back-btn-game" 
         onclick="location.href='/';">
@@ -43,6 +48,11 @@
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
       <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      </button>
+    </div>
+    <div>
+      <button class="back-btn" v-on:click="giveUp">
+        {{ uiLabels.giveUp }}
       </button>
     </div>
   </div>
@@ -84,11 +94,32 @@ export default {
       lastAnswer: "start", 
       isGameOver:false,
       winner: "",
+      gaveUp: false
     };
   },
 //--------------------------------------------------------------------------------
   created: function () {
     this.gameSetup();
+    //lines below to handle bugs after refresh
+    const savedQuestionNumber = sessionStorage.getItem("currentQuestionNumber");
+    const showQuestionComponent = sessionStorage.getItem("showQuestionComponent") === "true";
+    const savedP1Score = sessionStorage.getItem("savedP1Score");
+    const savedP2Score = sessionStorage.getItem("savedP2Score");
+
+    if (savedQuestionNumber && showQuestionComponent) {
+      this.questionNumber = parseInt(savedQuestionNumber, 10);
+      this.showQuestionComponent = true;
+
+      socket.emit("runQuestion", { 
+        pollId: this.pollId, 
+        questionNumber: this.questionNumber - 1, 
+        playerRole: this.playerRole 
+      });
+    }
+    if (savedP1Score && savedP2Score) {
+      this.scores.p1Score = savedP1Score;
+      this.scores.p2Score = savedP2Score;
+    }
   },
   computed: {
     dynamicGap() {
@@ -151,6 +182,9 @@ export default {
             socket: socket, // Ensure socket is correctly passed here
           });                            
         this.scores = scores;
+        sessionStorage.setItem("savedP1Score", this.scores.p1Score);
+        sessionStorage.setItem("savedP2Score", this.scores.p2Score);
+
         this.checkIsGameOver();
 
       });
@@ -159,10 +193,21 @@ export default {
       socket.emit("joinPoll", this.pollId);
       socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
+      socket.on("handleGiveUp", (winner)=>{
+        this.gaveUp = true;
+        this.winner = winner;
+        
+        this.isGameOver = true;
+
+        this.disableAllNodes();
+      });
+      
     },
 
     handleAnswered() {
       this.showQuestionComponent = false; // Hide the QuestionComponent
+      sessionStorage.removeItem("currentQuestionNumber");
+      sessionStorage.removeItem("showQuestionComponent");
     },
 
     checkIsGameOver: function(){
@@ -192,11 +237,15 @@ export default {
         this.winner = ""
       }
       if (this.isGameOver){
-        for (let i = 1; i <= this.totalQuestions; i++) {
+        this.disableAllNodes();
+      }
+    },
+
+    disableAllNodes: function(){
+      for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
         nodeElement.disabled = true;
         nodeElement.style.animation = "none";
-        }
       }
     },
 
@@ -225,17 +274,17 @@ export default {
     },
     runQuestion: function (questionNumber) {
       this.questionNumber = questionNumber;
+      sessionStorage.setItem("currentQuestionNumber", questionNumber);
+      sessionStorage.setItem("showQuestionComponent", true);
+
       socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
-      setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
-      let nodeElement = document.getElementById('node-' + (this.questionNumber));
       if (this.playerRole === "Player 1") {
-        nodeElement.style.borderColor = "#32cd32"; //sets green marker
+        setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
       else {
-        nodeElement.style.borderColor = "#ff8c00"; //sets orange marker
+        setNodeStatus({d:{ node: this.questionNumber-1, status: 8 /*set to 8 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
-
     },
 
     switchLanguage: function() {
@@ -247,6 +296,10 @@ export default {
       }
       sessionStorage.setItem( "lang", this.lang );
       socket.emit( "getUILabels", this.lang );
+    },
+
+    giveUp: function(){
+      socket.emit("giveUp",{pollId: this.pollId, playerRole: this.playerRole});
     }
 
   }

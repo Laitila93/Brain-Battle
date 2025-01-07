@@ -3,7 +3,7 @@
 		"createPoll": "Skapa nytt spel",
 		"participatePoll": "Delta i spel",
 		"question": "Fråga",
-		"changeLanguage": "Change language:",
+		"changeLanguage": "Change language to:",
 		"about": "Om oss",
 		"participateInPoll": "Delta i enkäten",
 		"enterprompt": "Ange spel-ID",
@@ -18,12 +18,12 @@
 		"chooseOperator": "Välj ett räknesätt: ",
 		"chooseNumberOfQuestions": "Välj antal frågor: ",
 		"createGame": "Skapa spel",
-		"changeLanguage": "Change language: ",
+		"changeLanguage": "Change language to: ",
 		"chooseRange": "Välj nummerintervall: ",
 		"returnHome": "Till startsidan",
 		"errorMessage": "Fyll i alla fält innan du fortsätter.",
-		"custom":"Anpassat intervall",
-		"enterCustomRange": "Ange anpassat nummerintervall"
+		"custom":"Anpassat (1 - ?)",
+		"enterCustomRange": "Ange anpassat slut på intervall"
 	},
 
 	"LobbyViewLabels": {
@@ -32,8 +32,12 @@
 		"youAre": "Du är: ",
 		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
-		"changeLanguage": "Change language: ",
-		"returnHome": "Till startsidan"
+		"changeLanguage": "Change language to: ",
+		"returnHome": "Till startsidan",
+		"notClickable": "Inte klickbar",
+		"clickable": "Klickbar",
+		"takenp1": "Tagen av Spelare 1",
+		"reachp1": "Nåbar av spelare 1"
 	},
 
 	"PollViewLabels": {
@@ -48,7 +52,10 @@
 		"youLoose": "Du förlorade!",
 		"draw": "Oavgjort",
 		"returnHome": "Till startsidan",
-		"changeLanguage": "Change language: "
+		"changeLanguage": "Change language to: ",
+		"giveUp": "Ge upp",
+		"opponentGaveUp": "Motståndaren gav upp",
+		"youGaveUp": "Du gave upp"
 	}
 
 }

@@ -1,8 +1,11 @@
 <template>
-  <div class="poll-id">
-    {{ uiLabels.whichGame }}: {{ pollId }}
-  </div>
+
   <form id="createForm" class="form-grid" @submit="createAndStart">
+    <div> </div>
+    <div class="poll-id">
+    <h1>{{ uiLabels.whichGame }}: {{ pollId }} </h1>
+    </div>
+    <div> </div>
     <div class="operator-section">
      <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
        <div class="radio-group">
