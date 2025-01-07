@@ -46,7 +46,7 @@ body {
 
 .join-link, .join-btn {
   background-color: #32cd32;
-  width: 55%
+  width: 35%
 }
 
 .join-btn:hover, .join-link:hover {
@@ -90,9 +90,9 @@ body {
 .back-btn-game {
   position:relative;
   margin: auto;
-  top: 12px;
+  
   bottom: 4px;
-  left: 10px;
+  left: 0px;
 }
 
 .lang-switcher {
@@ -177,7 +177,7 @@ header {
 
 .id-input {
   font-size: 1.2rem;
-  max-width: 40%;
+  width: 35%;
 }
 
 .id-input::placeholder {
@@ -304,6 +304,8 @@ and (min-width : 321px) {
 
     width: auto;  
   }
+
+
 }
 
 
@@ -447,6 +449,19 @@ and (min-width : 1824px) {
   gap: 1rem;
 }
 
+.who-wins-p1 {
+  font-size: 24px;
+  color: #32cd32;
+  animation: pulse 2s infinite;
+  padding: 24px;
+}
+
+.who-wins-p2 {
+  font-size: 24px;
+  animation: pulse 2s infinite;
+  color: #ff8c00;
+  padding: 24px;
+}
 
 /*POLLVIEW Smartphones (portrait) ----------- */
 @media only screen 

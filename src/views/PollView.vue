@@ -34,9 +34,9 @@
       <div v-if="gaveUp && winner === playerRole">{{ uiLabels.opponentGaveUp }}</div>
       <div v-if="gaveUp && winner !== playerRole">{{ uiLabels.youGaveUp }}</div>
 
-      <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
-      <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
-      <div v-else>{{ uiLabels.youLoose }}</div>
+      <div :class="'who-wins-' + playerRoleShort" v-if="winner === playerRole">{{uiLabels.youWin}}</div>
+      <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">{{uiLabels.draw}}</div>
+      <div :class="'who-wins-' + playerRoleShort" v-else>{{ uiLabels.youLoose }}</div>
         
         
       <button 
@@ -120,6 +120,7 @@ export default {
       this.scores.p1Score = savedP1Score;
       this.scores.p2Score = savedP2Score;
     }
+    //this.checkIsGameOver();
   },
   computed: {
     dynamicGap() {
@@ -130,6 +131,11 @@ export default {
       const baseGap = 5; // Base gap in pixels
       const additionalGap = (containerWidth - (this.columns * 100)) / (this.columns - 1);
       return `${baseGap + additionalGap}px`;
+    },
+    playerRoleShort() {
+      // Transform "Player 1" -> "p1" and "Player 2" -> "p2"
+      return this.playerRole === "Player 1" ? "p1" : 
+             this.playerRole === "Player 2" ? "p2" : "";
     }
   },
   watch: {
@@ -199,7 +205,7 @@ export default {
         
         this.isGameOver = true;
 
-        this.disableAllNodes();
+        this.stopGame();
       });
       
     },
@@ -237,16 +243,21 @@ export default {
         this.winner = ""
       }
       if (this.isGameOver){
-        this.disableAllNodes();
+        this.stopGame();
+        
       }
     },
 
-    disableAllNodes: function(){
+    stopGame: function(){
       for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
         nodeElement.disabled = true;
         nodeElement.style.animation = "none";
       }
+      sessionStorage.removeItem("savedP1Score");
+      sessionStorage.removeItem("savedP2Score");
+      sessionStorage.removeItem("currentQuestionNumber");
+      sessionStorage.removeItem("showQuestionComponent");
     },
 
     submitAnswer: function (answer, playerRole) {
