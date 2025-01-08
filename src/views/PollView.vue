@@ -83,10 +83,10 @@ export default {
       lang: sessionStorage.getItem( "lang") || "en",
       playerRole: sessionStorage.getItem("playerRole") || "",
       pollId: "inactive poll",
-      submittedAnswers: {},
+      submittedAnswers: {}, //Emil: kan tas bort, alt lägg till funktionalitet så att denna uppdateras och kan nås i Result?
       questionNumber: 0,
       totalQuestions: 0,
-      nodeNumber: 0,
+      nodeNumber: 0, //Emi: kan tas bort?
       columns: 0,
       nodeStatus: [],
       firstCheck: true, // Guard variable //Emil: Kan tas bort? 
