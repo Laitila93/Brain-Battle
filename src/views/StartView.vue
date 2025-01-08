@@ -1,51 +1,50 @@
 <template>
   <!--Emil: the header element is not necessary for the resulting layout. Should it
   still be kept for readability reasons?-->
-  <header>
-    <div class="logo">
-      <img src="../assets/brain.png" class="logo-image">
-        Brain Battle
-      <img src="../assets/swords.png" class="logo-image">
-    </div>
-  </header>
-  <nav class="main-menu">
-    <p v-if="!pollExists && pollIsChecked" class="error-message">
+  <div class="main-container">
+    <header>
+      <div class="logo">
+        <img src="../assets/brain.png" class="logo-image">
+          Brain Battle
+        <img src="../assets/swords.png" class="logo-image">
+      </div>
+    </header>
+    <nav class="start-menu">
+      <p v-if="!pollExists && pollIsChecked" class="error-message">
         {{ uiLabels.invalidGameId }}
-    </p>
-    <div class="menu-section">
-      <input 
-      class="id-input" 
-      type="text" 
-      maxlength="4"
-      v-on:input="checkPollID" 
-      v-model="newPollId" 
-      :placeholder="uiLabels.enterprompt">
-      <router-link v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" v-bind:to="'/lobby/' + newPollId">
-        {{ uiLabels.participatePoll }}
-      </router-link>
-    </div>
-    <div class="content-separator">
-      {{ uiLabels.or }}
-    </div>
-    <div class="menu-section"> 
-      <router-link to="/create/" class="menu-link create-link" >
-        {{ uiLabels.createPoll }}
-      </router-link>
-    </div>
-  </nav>
- <div class="banner">
-
-    <router-link to="/" class="menu-link create-link" >
-      {{ uiLabels.about }}
-    </router-link>
-    <router-link to="/" class="menu-link create-link" >
-      {{ uiLabels.rules }}
-    </router-link>
-
-    {{ uiLabels.changeLanguage }}
-    <button 
-      v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-    </button>
+      </p>
+      <div class="menu-section">
+        <input 
+          class="id-input" 
+          type="text" 
+          maxlength="4"
+          v-on:input="checkPollID" 
+          v-model="newPollId" 
+          :placeholder="uiLabels.enterprompt"
+          >
+        <router-link 
+          v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" 
+          v-bind:to="'/lobby/' + newPollId">
+          {{ uiLabels.participatePoll }}
+        </router-link>
+      </div>
+      <div class="content-separator">
+        {{ uiLabels.or }}
+      </div>
+      <div class="menu-section"> 
+        <router-link to="/create/" class="menu-link create-link" >
+          {{ uiLabels.createPoll }}
+        </router-link>
+      </div>
+    </nav>
+    <footer>
+      <div class="lang-switcher">{{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -54,7 +53,7 @@
 
 import io from 'socket.io-client';
 
-sessionStorage.setItem("serverIP", "192.168.50.97:3000");
+sessionStorage.setItem("serverIP", "192.168.10.149:3000");
 
 const socket = io(sessionStorage.getItem("serverIP"));
 
@@ -64,7 +63,7 @@ export default {
     return {
       uiLabels: {},
       newPollId: "",
-      lang: sessionStorage.getItem( "lang") || "en",
+      lang: sessionStorage.getItem("lang") || "en",
       pollExists: false,
       pollIsChecked: false
     }
@@ -97,14 +96,8 @@ export default {
         };
     },
 
-    directToLobby() {
-      this.$router.push(`/lobby/${this.newPollId}`);
-    },
-
-    directToCreate() {
-      this.$router.push(`/create/`);
-    }
   }
+  
 }
 </script>
 

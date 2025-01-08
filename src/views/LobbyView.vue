@@ -1,28 +1,42 @@
 <template>
-      <div><DominationTutorial v-bind:uiLabels="uiLabels"/></div>
-      
-      <div id="join-button">
-        <div class="card">
+  <div class="main-container">
+    <div>
+      <DominationTutorial v-bind:uiLabels="uiLabels"/>
+    </div>  
+    <div class="lobby-menu">
+      <div class="card">
         <div class="poll-id-lobby">
-        {{ uiLabels.whichGame }} : {{pollId}}
+          {{ uiLabels.whichGame }} : {{pollId}}
         </div>
         <div>
-          <p v-if="playerRole">{{ uiLabels.youAre }} <strong>{{ playerRole }}</strong></p>
+          <p v-if="playerRole">
+            {{ uiLabels.youAre }} 
+            <strong>{{ playerRole }}</strong>
+          </p>
           <div class="menu-section">
             <button v-if="!joined" @click="participateInPoll" class="menu-btn join-btn">
-            {{uiLabels.participateInGame}}
+              {{uiLabels.participateInGame}}
             </button>
           </div>
           <p v-if="waitingForPlayers && joined">{{ uiLabels.waitingForOthers }}</p>
         </div>
       </div>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+    </div>
+    <footer>
+      <div class="lang-switcher">
+        {{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div> 
+      <button 
+        class="back-btn" 
+        onclick="location.href='/';">
+        {{ uiLabels.returnHome }}
       </button>
-    </div> 
+    </footer>
   </div>
-    <button class="back-btn" onclick="location.href='/';">{{ uiLabels.returnHome }}</button>
 </template>
 
 

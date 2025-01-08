@@ -1,34 +1,57 @@
 <template>
-
-  <form id="createForm" class="form-grid" @submit="createAndStart">
-    <div> </div>
+  <div class="main-container">
     <div class="poll-id">
-    <h1>{{ uiLabels.whichGame }}: {{ pollId }} </h1>
+      <h1>{{ uiLabels.whichGame }}: {{ pollId }} </h1>
     </div>
-    <div> </div>
+  <form id="createForm" class="form-grid" @submit="createAndStart">
     <div class="operator-section">
-     <label for="formOperator">{{ uiLabels.chooseOperator }}</label>
-       <div class="radio-group">
-         <div class="radio-item" v-for="operator in operators" :key="operator.id">
-            <input type="radio" :id="operator.id" name="operator" :value="operator.value" v-model="formOperator">
-            <label :for="operator.id">{{ operator.label }}</label>
-         </div>
+      <label for="formOperator">
+        {{ uiLabels.chooseOperator }}
+      </label>
+      <div class="radio-group">
+       <div class="radio-item" v-for="operator in operators" :key="operator.id">
+          <input 
+            type="radio" 
+            :id="operator.id" 
+            name="operator" 
+            :value="operator.value" 
+            v-model="formOperator"
+          >
+          <label :for="operator.id">
+            {{ operator.label }}
+          </label>
         </div>
+      </div>
     </div>
     <div class="questions-section">
-      <label for="numberOfQuestions">{{ uiLabels.chooseNumberOfQuestions }}</label>
+      <label for="numberOfQuestions">
+        {{ uiLabels.chooseNumberOfQuestions }}
+      </label>
       <div class="radio-group">
         <div class="radio-item" v-for="amountOfQuestions in amountOfQuestions" :key="amountOfQuestions.id">
-          <input type="radio" :id="amountOfQuestions.id" name="questions" :value="amountOfQuestions.value" v-model="numberOfQuestions">
+          <input 
+            type="radio" 
+            :id="amountOfQuestions.id" 
+            name="questions" 
+            :value="amountOfQuestions.value" 
+            v-model="numberOfQuestions"
+          >
           <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
         </div>
       </div>
     </div>
     <div class="range-section">
-      <label for="formMax">{{ uiLabels.chooseRange }}</label>
+      <label for="formMax">
+        {{ uiLabels.chooseRange }}
+      </label>
       <div class="radio-group">
         <div class="radio-item" v-for="range in range" :key="range.id">
-          <input type="radio" :id="range.id" name="range" :value="range.value" v-model="formMax">
+          <input type="radio" 
+            :id="range.id" 
+            name="range" 
+            :value="range.value" 
+            v-model="formMax"
+          >
           <label :for="range.id">
             {{ range.value === 'custom' ? uiLabels.custom : range.label }}
           </label>
@@ -40,27 +63,34 @@
         v-model.number="customRange" 
         :placeholder="uiLabels.enterCustomRange"
         min="2"
-        max="1000">
+        max="1000"
+      >
     </div>
-    <div class="content-separator"></div>
-      <div class="menu-section">
-        <button type="submit" class="menu-btn create-btn">
-          {{ uiLabels.header }}
-        </button>
-      </div>
+    <div 
+      class="content-separator">
+    </div>
+    <div class="menu-section">
+      <button type="submit" class="menu-btn create-btn">
+        {{ uiLabels.header }}
+      </button>
+    </div>
   </form>
-
   <p v-if="errorMessage" class="error-message">
     {{ errorMessage }}
   </p>
-  <div class="lang-switcher">
-    {{ uiLabels.changeLanguage }}
-    <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+  <footer>
+    <div class="lang-switcher">
+      {{ uiLabels.changeLanguage }}
+      <button 
+        v-on:click="switchLanguage" 
+        v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+      </button>
+    </div>
+    <button class="back-btn" onclick="location.href='/';">
+      {{ uiLabels.returnHome }}
     </button>
-  </div>
-  <button class="back-btn" onclick="location.href='/';">
-    {{ uiLabels.returnHome }}
-  </button>
+</footer>
+</div>
 </template>
 
 <script>
@@ -108,7 +138,7 @@ export default {
     this.generatePollId();
     socket.on( "participantsUpdate", p => this.pollData.participants = p ); //Emil: och denna
     socket.emit( "getUILabels", this.lang );
-    socket.emit("createPoll", {pollId: this.pollId, lang: this.lang });
+    socket.emit("createPoll", {pollId: this.pollId, lang: this.lang }); //Emil: och denna?
     socket.emit("joinPoll", this.pollId); //Emil: har kollat på joinPoll events som skapas i Create och Lobby. De verkar onödiga
                                           //om jag inte missar något. Föreslår att vi testar att ta bort dem.
 

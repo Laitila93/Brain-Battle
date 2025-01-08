@@ -1,5 +1,5 @@
 <template>
-  <div> 
+  <div class="main-container"> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
@@ -38,23 +38,24 @@
       <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">{{uiLabels.draw}}</div>
       <div :class="'who-wins-' + playerRoleShort" v-else>{{ uiLabels.youLoose }}</div>
         
-        
       <button 
         class="back-btn back-btn-game" 
         onclick="location.href='/';">
           {{ uiLabels.returnHome }}
       </button>
     </div>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-      </button>
-    </div>
-    <div>
-      <button class="back-btn" v-on:click="giveUp">
+    <footer>
+      <div class="lang-switcher">
+        {{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div>
+      <button v-if="!gaveUp" class="back-btn" v-on:click="giveUp">
         {{ uiLabels.giveUp }}
       </button>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -88,7 +89,7 @@ export default {
       nodeNumber: 0,
       columns: 0,
       nodeStatus: [],
-      firstCheck: true, // Guard variable
+      firstCheck: true, // Guard variable //Emil: Kan tas bort? 
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "start", 
@@ -154,7 +155,7 @@ export default {
       socket.on("sendNodeStatus", status => {
         console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
-        this.$nextTick(() => {  //la till detta 
+        this.$nextTick(() => {  //la till detta //Emil: Kan tas bort?
         }); 
       });
       this.pollId = this.$route.params.id;
