@@ -13,8 +13,8 @@
             {{ uiLabels.youAre }} 
             <strong>{{ playerRole }}</strong>
           </p>
-          <div class="menu-section">
-            <button v-if="!joined" @click="participateIngame" class="menu-btn join-btn">
+          <div v-if="!joined" class="menu-section">
+            <button @click="participateIngame" class="menu-btn join-btn">
               {{uiLabels.participateInGame}}
             </button>
           </div>
@@ -23,6 +23,11 @@
       </div>
     </div>
     <footer>
+      <button 
+        class="back-btn" 
+        onclick="location.href='/';">
+        {{ uiLabels.returnHome }}
+      </button>
       <div class="lang-switcher">
         {{ uiLabels.changeLanguage }}
         <button 
@@ -30,11 +35,7 @@
           v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
         </button>
       </div> 
-      <button 
-        class="back-btn" 
-        onclick="location.href='/';">
-        {{ uiLabels.returnHome }}
-      </button>
+
     </footer>
   </div>
 </template>

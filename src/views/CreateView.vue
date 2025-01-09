@@ -79,6 +79,9 @@
     {{ errorMessage }}
   </p>
   <footer>
+    <button class="back-btn" onclick="location.href='/';">
+      {{ uiLabels.returnHome }}
+    </button>
     <div class="lang-switcher">
       {{ uiLabels.changeLanguage }}
       <button 
@@ -86,9 +89,6 @@
         v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
     </div>
-    <button class="back-btn" onclick="location.href='/';">
-      {{ uiLabels.returnHome }}
-    </button>
 </footer>
 </div>
 </template>
