@@ -1,19 +1,19 @@
 
 
-export function setNodeStatus({d, pollId, nodeStatus, socket}) {
+export function setNodeStatus({d, gameId, nodeStatus, socket}) {
     try {
       nodeStatus[d.node] = d.status;
-      socket.emit("nodeStatusUpdate", pollId, d);
-      getNodeStatus(pollId, socket); //Emil: har ett förslag på hur man verkar kunna ändra så att 
+      socket.emit("nodeStatusUpdate", gameId, d);
+      getNodeStatus(gameId, socket); //Emil: har ett förslag på hur man verkar kunna ändra så att 
                                       // getNodeStatus blir överflödig. Se nodeStatusUpdate i sockets.js
     } catch (error) {
       console.error("Error in setNodeStatus method:", error);
     }
   }
   
-  export function getNodeStatus(pollId, socket) {
+  export function getNodeStatus(gameId, socket) {
     try {
-      socket.emit("getNodeStatus", pollId);
+      socket.emit("getNodeStatus", gameId);
     } catch (error) {
       console.error("Error in getNodeStatus method:", error);
     }
@@ -24,7 +24,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
     nodeStatus,
     columns,
     totalQuestions,
-    pollId,
+    gameId,
     socket,
   }) {
     let Nodestatus2D = to2DArray(nodeStatus, columns);
@@ -35,7 +35,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
         if ((newStatus === 4 && currentStatus === 5) || (newStatus === 5 && currentStatus === 4)) {
           setNodeStatus({
             d: { node: adjacentIndex.index, status: 6 },
-            pollId,
+            gameId,
             nodeStatus,
             socket,
           });
@@ -43,7 +43,7 @@ export function setNodeStatus({d, pollId, nodeStatus, socket}) {
         } else if (currentStatus !== 4 && currentStatus !== 5 && currentStatus !== 6) {
           setNodeStatus({
             d: { node: adjacentIndex.index, status: newStatus },
-            pollId,
+            gameId,
             nodeStatus,
             socket,
           });
@@ -183,7 +183,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
     return array;
   }
   
-  export function generateRandomQuestion({ min, max, operator, questions, socket, pollId }) {
+  export function generateRandomQuestion({ min, max, operator, questions, socket, gameId }) {
     const num1 = Math.floor(Math.random() * (max - min + 1)) + min;
     const num2 = Math.floor(Math.random() * (max - min + 1)) + min;
   
@@ -221,7 +221,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
       case '/':
         // Avoid division by zero, decimals, and answer = 1
         if (num2 === 0 || num2 === 1 || num1 % num2 !== 0 || num1 === num2) {
-          return generateRandomQuestion({ min, max, operator, questions, socket, pollId });
+          return generateRandomQuestion({ min, max, operator, questions, socket, gameId });
         }
         questions.q = `${num1} / ${num2}`;
         questions.a = [
@@ -241,6 +241,6 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
           { a: null, c: false },
         ];
     }
-    socket.emit("addQuestion", { pollId, q: questions.q, a: questions.a })
+    socket.emit("addQuestion", { gameId, q: questions.q, a: questions.a })
   }
   

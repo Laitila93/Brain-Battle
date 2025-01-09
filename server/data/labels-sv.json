@@ -1,11 +1,11 @@
 {
 	"StartViewLabels": {
-		"createPoll": "Skapa nytt spel",
-		"participatePoll": "Delta i spel",
+		"creategame": "Skapa nytt spel",
+		"participategame": "Delta i spel",
 		"question": "Fråga",
 		"changeLanguage": "Change language to:",
 		"about": "Om oss",
-		"participateInPoll": "Delta i enkäten",
+		"participateIngame": "Delta i enkäten",
 		"enterprompt": "Ange spel-ID",
 		"rules": "Spelregler",
 		"or": "Eller",
@@ -40,7 +40,7 @@
 		"reachp1": "Nåbar av spelare 1"
 	},
 
-	"PollViewLabels": {
+	"gameViewLabels": {
 		"whichGame": "Spel-ID",
 		"yourScore": "Din poäng",
 		"opponentScore": "Motståndares poäng",

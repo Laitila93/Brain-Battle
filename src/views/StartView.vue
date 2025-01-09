@@ -10,7 +10,7 @@
       </div>
     </header>
     <nav class="start-menu">
-      <p v-if="!pollExists && pollIsChecked" class="error-message">
+      <p v-if="!gameExists && gameIsChecked" class="error-message">
         {{ uiLabels.invalidGameId }}
       </p>
       <div class="menu-section">
@@ -18,14 +18,14 @@
           class="id-input" 
           type="text" 
           maxlength="4"
-          v-on:input="checkPollID" 
-          v-model="newPollId" 
+          v-on:input="checkgameID" 
+          v-model="newgameId" 
           :placeholder="uiLabels.enterprompt"
           >
         <router-link 
-          v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!pollExists || !pollIsChecked}]" 
-          v-bind:to="'/lobby/' + newPollId">
-          {{ uiLabels.participatePoll }}
+          v-bind:class="['menu-link join-link', {'menu-link join-link--disabled':!gameExists || !gameIsChecked}]" 
+          v-bind:to="'/lobby/' + newgameId">
+          {{ uiLabels.participategame }}
         </router-link>
       </div>
       <div class="content-separator">
@@ -33,7 +33,7 @@
       </div>
       <div class="menu-section"> 
         <router-link to="/create/" class="menu-link create-link" >
-          {{ uiLabels.createPoll }}
+          {{ uiLabels.creategame }}
         </router-link>
       </div>
     </nav>
@@ -53,7 +53,7 @@
 
 import io from 'socket.io-client';
 
-sessionStorage.setItem("serverIP", "192.168.10.149:3000");
+sessionStorage.setItem("serverIP", "192.168.50.97:3000");
 
 const socket = io(sessionStorage.getItem("serverIP"));
 
@@ -62,10 +62,10 @@ export default {
   data: function () {
     return {
       uiLabels: {},
-      newPollId: "",
+      newgameId: "",
       lang: sessionStorage.getItem("lang") || "en",
-      pollExists: false,
-      pollIsChecked: false
+      gameExists: false,
+      gameIsChecked: false
     }
   },
   created: function () {
@@ -84,14 +84,14 @@ export default {
       socket.emit( "getUILabels", this.lang );
     },
     
-    checkPollID() {
-      if(this.newPollId.length >= 0 && this.newPollId.length < 4) {
-        this.pollIsChecked = false
+    checkgameID() {
+      if(this.newgameId.length >= 0 && this.newgameId.length < 4) {
+        this.gameIsChecked = false
       }
-      if (this.newPollId.length === 4) {
-        socket.emit('validatePollId', this.newPollId, (exists) => {
-          this.pollExists = exists;
-          this.pollIsChecked = true;
+      if (this.newgameId.length === 4) {
+        socket.emit('validategameId', this.newgameId, (exists) => {
+          this.gameExists = exists;
+          this.gameIsChecked = true;
           });
         };
     },

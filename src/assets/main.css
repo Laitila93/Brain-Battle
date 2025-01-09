@@ -208,7 +208,7 @@ header {
 
 /*CREATEVIEW-----------*/
 
-.poll-id {
+.game-id {
   margin-top: 5px;
 }
 
@@ -379,7 +379,7 @@ and (min-width : 1824px) {
   background-color: #252537;
 }
 
-.poll-id-lobby {
+.game-id-lobby {
   padding-top: 1vh;
   padding-bottom: 2vh;
   font-size: 20pt;
@@ -400,7 +400,7 @@ and (min-width : 1824px) {
   padding-top: 5%;
 }
 
-/*POLLVIEW-----------*/
+/*gameVIEW-----------*/
 
 .banner {
   width: 100%;
@@ -412,7 +412,7 @@ and (min-width : 1824px) {
   color: white;
 }
 
-.poll-id-game {
+.game-id-game {
   padding-top: 0;
   padding-left: 20px;
   padding-right: 20px;
@@ -456,7 +456,7 @@ and (min-width : 1824px) {
   padding: 24px;
 }
 
-/*POLLVIEW Smartphones (portrait) ----------- */
+/*gameVIEW Smartphones (portrait) ----------- */
 @media only screen 
 and (max-width : 320px) {
   .node-grid {
@@ -479,7 +479,7 @@ and (max-width : 320px) {
 }
 
 
-/*POLLVIEW Smartphones (landscape) -----------Joakims telefon */
+/*gameVIEW Smartphones (landscape) -----------Joakims telefon */
 @media only screen 
 and (min-width : 321px) {
   .node-grid {
@@ -503,7 +503,7 @@ and (min-width : 321px) {
 }
 
 
-/*POLLVIEW Desktops and laptops ----------- */
+/*gameVIEW Desktops and laptops ----------- */
 @media only screen 
 and (min-width : 700px) {
   
@@ -528,7 +528,7 @@ and (min-width : 700px) {
 }
 
 
-/*POLLVIEW Large screens ----------- */
+/*gameVIEW Large screens ----------- */
 @media only screen 
 and (min-width : 1824px) {
 

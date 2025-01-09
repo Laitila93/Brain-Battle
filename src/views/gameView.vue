@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
-      <div class="poll-id-game">{{ uiLabels.whichGame }}: {{ pollId }}</div>
+      <div class="game-id-game">{{ uiLabels.whichGame }}: {{ gameId }}</div>
       <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
       <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
     </div>
@@ -67,7 +67,7 @@ import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Meth
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
-  name: 'PollView',
+  name: 'gameView',
   components: {
     QuestionComponent,
     NodeComponent
@@ -82,7 +82,7 @@ export default {
       uiLabels: {},
       lang: sessionStorage.getItem( "lang") || "en",
       playerRole: sessionStorage.getItem("playerRole") || "",
-      pollId: "inactive poll",
+      gameId: "inactive game",
       submittedAnswers: {}, //Emil: kan tas bort, alt lägg till funktionalitet så att denna uppdateras och kan nås i Result?
       questionNumber: 0,
       totalQuestions: 0,
@@ -112,7 +112,7 @@ export default {
       this.showQuestionComponent = true;
 
       socket.emit("runQuestion", { 
-        pollId: this.pollId, 
+        gameId: this.gameId, 
         questionNumber: this.questionNumber - 1, 
         playerRole: this.playerRole 
       });
@@ -158,22 +158,22 @@ export default {
         this.$nextTick(() => {  //la till detta //Emil: Kan tas bort?
         }); 
       });
-      this.pollId = this.$route.params.id;
+      this.gameId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
         this.totalQuestions = number;
-        setNodeStatus({d:{ node: 0, status: 1 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: 0, status: 1 }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
-        setNodeStatus({d:{ node: lastNode, status: 2 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: lastNode, status: 2 }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
         checkAdjacentNodes({
             nodeStatus: this.nodeStatus,
             columns: this.columns,
             totalQuestions: this.totalQuestions,
-            pollId: this.$route.params.id,
+            gameId: this.$route.params.id,
             socket: socket, // Ensure socket is correctly passed here
           }); 
       });
-      socket.emit("getNumberOfQuestions", this.pollId);
+      socket.emit("getNumberOfQuestions", this.gameId);
       socket.on("playerRoleAssigned", role => {
         this.playerRole = role;
         sessionStorage.setItem("playerRole", role); // Update locally just in case
@@ -185,7 +185,7 @@ export default {
             nodeStatus: this.nodeStatus,
             columns: this.columns,
             totalQuestions: this.totalQuestions,
-            pollId: this.$route.params.id,
+            gameId: this.$route.params.id,
             socket: socket, // Ensure socket is correctly passed here
           });                            
         this.scores = scores;
@@ -195,9 +195,9 @@ export default {
         this.checkIsGameOver();
 
       });
-      socket.on("uiLabels", labels => {this.uiLabels = labels.PollViewLabels;});
+      socket.on("uiLabels", labels => {this.uiLabels = labels.gameViewLabels;});
       socket.emit("getUILabels", this.lang);
-      socket.emit("joinPoll", this.pollId);
+      socket.emit("joingame", this.gameId);
       socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
       socket.on("handleGiveUp", (winner)=>{
@@ -263,7 +263,7 @@ export default {
 
     submitAnswer: function (answer, playerRole) {
       if (answer.c) {
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
+        socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -274,7 +274,7 @@ export default {
       else {
         console.log("wrong answer");
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
+        socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -289,13 +289,13 @@ export default {
       sessionStorage.setItem("currentQuestionNumber", questionNumber);
       sessionStorage.setItem("showQuestionComponent", true);
 
-      socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
+      socket.emit("runQuestion", { gameId: this.gameId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
       if (this.playerRole === "Player 1") {
-        setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
       else {
-        setNodeStatus({d:{ node: this.questionNumber-1, status: 8 /*set to 8 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: this.questionNumber-1, status: 8 /*set to 8 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
     },
 
@@ -311,7 +311,7 @@ export default {
     },
 
     giveUp: function(){
-      socket.emit("giveUp",{pollId: this.pollId, playerRole: this.playerRole});
+      socket.emit("giveUp",{gameId: this.gameId, playerRole: this.playerRole});
     }
 
   }

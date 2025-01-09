@@ -5,8 +5,8 @@
     </div>  
     <div class="lobby-menu">
       <div class="card">
-        <div class="poll-id-lobby">
-          {{ uiLabels.whichGame }} : {{pollId}}
+        <div class="game-id-lobby">
+          {{ uiLabels.whichGame }} : {{gameId}}
         </div>
         <div>
           <p v-if="playerRole">
@@ -14,7 +14,7 @@
             <strong>{{ playerRole }}</strong>
           </p>
           <div class="menu-section">
-            <button v-if="!joined" @click="participateInPoll" class="menu-btn join-btn">
+            <button v-if="!joined" @click="participateIngame" class="menu-btn join-btn">
               {{uiLabels.participateInGame}}
             </button>
           </div>
@@ -52,7 +52,7 @@ export default {
   data: function () {
     return {
       playerRole: "",
-      pollId: "inactive poll",
+      gameId: "inactive game",
       uiLabels: {},
       joined: false,
       lang: sessionStorage.getItem("lang") || "en",
@@ -65,7 +65,7 @@ export default {
     DominationTutorial
   },
   created: function () {
-    this.pollId = this.$route.params.id;
+    this.gameId = this.$route.params.id;
     
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
@@ -82,24 +82,24 @@ export default {
       }
     });
     
-    socket.on("startPoll", () => {
+    socket.on("startgame", () => {
     console.log("LOBBY: Game started!");
-    this.$router.push(`/poll/${this.pollId}`);
+    this.$router.push(`/game/${this.gameId}`);
     });
 
     socket.on("error", (message) => {
     alert(message);
     });
     
-    socket.emit( "joinPoll", this.pollId ); //Emil: se CreateView, vi verkar kunna ta bort denna tack vare
-                                            //uppdateringar i servern i particpateInPoll.
+    socket.emit( "joingame", this.gameId ); //Emil: se CreateView, vi verkar kunna ta bort denna tack vare
+                                            //uppdateringar i servern i particpateIngame.
     socket.emit( "getUILabels", this.lang );
   },
 
   methods: {
-    participateInPoll() {
-      console.log("participateInPoll ", this.pollId, this.uiLabels.waitingForPlayer)
-      socket.emit("participateInPoll", { pollId: this.pollId });
+    participateIngame() {
+      console.log("participateIngame ", this.gameId, this.uiLabels.waitingForPlayer)
+      socket.emit("participateIngame", { gameId: this.gameId });
     },
 
     switchLanguage: function() {
