@@ -42,6 +42,7 @@ footer {
   font-size: 1.2rem;
   font: bold;
   text-transform: none;
+  margin: 0;
 }
 
 
@@ -312,9 +313,9 @@ and (min-width : 700px) {
   .form-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
+    gap: 40px;
     width:80%;
-    padding: 10%;
+    padding: 5%;
     padding-bottom: 5%;
 
   }
