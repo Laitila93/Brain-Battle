@@ -37,7 +37,7 @@
         </router-link>
       </div>
     </nav>
-    <footer>
+    <footer id="start-footer">
       <div class="lang-switcher">{{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 

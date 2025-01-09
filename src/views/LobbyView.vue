@@ -4,25 +4,30 @@
       <DominationTutorial v-bind:uiLabels="uiLabels"/>
     </div>  
     <div class="lobby-menu">
-      <div class="card">
+
         <div class="game-id-lobby">
           {{ uiLabels.whichGame }} : {{gameId}}
         </div>
-        <div>
-          <p v-if="playerRole">
-            {{ uiLabels.youAre }} 
-            <strong>{{ playerRole }}</strong>
-          </p>
-          <div class="menu-section">
-            <button v-if="!joined" @click="participateIngame" class="menu-btn join-btn">
-              {{uiLabels.participateInGame}}
-            </button>
-          </div>
-          <p v-if="waitingForPlayers && joined">{{ uiLabels.waitingForOthers }}</p>
+        <p v-if="playerRole">
+          {{ uiLabels.youAre }} 
+          <strong>{{ playerRole }}</strong>
+        </p>
+        <div v-if="!joined" class="menu-section">
+          <button @click="participateIngame" class="menu-btn join-btn">
+            {{uiLabels.participateInGame}}
+          </button>
         </div>
-      </div>
+        <p v-if="waitingForPlayers && joined">
+          {{ uiLabels.waitingForOthers }}
+        </p>
+
     </div>
     <footer>
+      <button 
+        class="back-btn" 
+        onclick="location.href='/';">
+        {{ uiLabels.returnHome }}
+      </button>
       <div class="lang-switcher">
         {{ uiLabels.changeLanguage }}
         <button 
@@ -30,11 +35,7 @@
           v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
         </button>
       </div> 
-      <button 
-        class="back-btn" 
-        onclick="location.href='/';">
-        {{ uiLabels.returnHome }}
-      </button>
+
     </footer>
   </div>
 </template>

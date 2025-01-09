@@ -9,12 +9,14 @@
   text-transform: uppercase;  
 }
 
+
+/*Reused component containers -----------*/
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   background-color: #1e1e2f;
-  color: #007bff; /*necessary?*/
+  color: #007bff;
 }
 
 .main-container {
@@ -31,11 +33,19 @@ footer {
   height: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+/*Reused error message class -----------*/
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  font: bold;
+  text-transform: none;
 }
 
 
-/*Buttons and links that are often reused---------*/
+/*Reused button- and link classes ---------*/
 .menu-link, .menu-btn {
   height: 100%; 
   color: black; 
@@ -56,7 +66,6 @@ footer {
 }
 
 .create-link:hover, .create-btn:hover {
-  
   background-color: #d97800;
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.7); /*Adds glow effect*/
   color: white;
@@ -78,18 +87,8 @@ footer {
   pointer-events: none;
 }
 
-.error-message {
-  color: red;
-  font-size: 1.2rem;
-  font: bold;
-  text-transform: none;
-}
-
 .back-btn {
-  position: fixed;
   background-color: #1e1e2f;
-  bottom: 4px;
-  left: 50px;
   width: 13em;
   height: 2em;
   display: grid;
@@ -98,6 +97,7 @@ footer {
   text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
+  margin: 0 0 0 20px;
 }
 
 .back-btn:hover {
@@ -121,7 +121,7 @@ footer {
   font-size: 1em;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
-  margin: 0 10px 4px 0;
+  margin: 0 20px 4px 0;
 }
 
 .lang-btn {
@@ -203,6 +203,10 @@ header {
   letter-spacing: 0.15em;
   font-size: 1.5rem;
   color: white;
+}
+
+#start-footer {
+  justify-content: flex-end;
 }
 
 
@@ -374,17 +378,16 @@ and (min-width : 1824px) {
 
 .card {
   border-radius: 5px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0px 4px 6px rgba(0.3, 0.1, 0.2, 0.4);
   background-color: #252537;
 }
 
 .game-id-lobby {
-  padding-top: 1vh;
-  padding-bottom: 2vh;
   font-size: 20pt;
   color:#007bff;
 }
+
 #domination-tutorial{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -392,12 +395,11 @@ and (min-width : 1824px) {
 }
 
 .lobby-menu {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width:80%;
-  padding: 10%;
-  padding-top: 5%;
+  gap: 10%
 }
 
 /*gameVIEW-----------*/

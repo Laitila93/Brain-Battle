@@ -45,6 +45,9 @@
       </button>
     </div>
     <footer>
+      <button class="back-btn" v-on:click="giveUp">
+        {{ uiLabels.giveUp }}
+      </button>
       <div class="lang-switcher">
         {{ uiLabels.changeLanguage }}
         <button 
@@ -52,9 +55,7 @@
           v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
         </button>
       </div>
-      <button v-if="!gaveUp" class="back-btn" v-on:click="giveUp">
-        {{ uiLabels.giveUp }}
-      </button>
+
     </footer>
   </div>
 </template>
