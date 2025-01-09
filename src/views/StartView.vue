@@ -53,7 +53,7 @@
 
 import io from 'socket.io-client';
 
-sessionStorage.setItem("serverIP", "192.168.50.97:3000");
+sessionStorage.setItem("serverIP", "192.168.50.66:3000");
 
 const socket = io(sessionStorage.getItem("serverIP"));
 
