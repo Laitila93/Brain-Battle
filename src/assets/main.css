@@ -384,11 +384,10 @@ and (min-width : 1824px) {
 }
 
 .game-id-lobby {
-  padding-top: 1vh;
-  padding-bottom: 2vh;
   font-size: 20pt;
   color:#007bff;
 }
+
 #domination-tutorial{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -396,12 +395,11 @@ and (min-width : 1824px) {
 }
 
 .lobby-menu {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width:80%;
-  padding: 10%;
-  padding-top: 5%;
+  gap: 10%
 }
 
 /*gameVIEW-----------*/
