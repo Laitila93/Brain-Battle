@@ -341,7 +341,7 @@ and (min-width : 700px) {
 }
 
 
-/*CREATEVIEW Large screens ----------- */
+/*CREATEVIEW Large screens ----------- 
 @media only screen 
 and (min-width : 1824px) {
 
@@ -368,7 +368,7 @@ and (min-width : 1824px) {
     box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
   }
 }
-
+*/
 
 /*LobbyView-----------*/
 
