@@ -37,7 +37,12 @@
 		"notClickable": "Inte klickbar",
 		"clickable": "Klickbar",
 		"takenp1": "Tagen av Spelare 1",
-		"reachp1": "Nåbar av spelare 1"
+		"reachp1": "Nåbar av spelare 1",
+		"takenp2": "Tagen av spelare 2",
+		"reachp2": "Nåbar av spelare 2",
+		"reachAll": "Nåbar av båda",
+		"deadNode": "Fel svar (död)",
+		"dominationText": "<h3>Domination</h3>Var snabb och strategisk!<br>Svara snabbt på matematikfrågorna och välj noder smart för att ta över spelbrädet och blockera din motståndare.<br><br>Dominera för att vinna!"
 	},
 
 	"gameViewLabels": {
