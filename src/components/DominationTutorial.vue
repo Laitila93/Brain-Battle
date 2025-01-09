@@ -1,7 +1,7 @@
 <template>
     <div class="form-grid">
         <div class="card">
-            <h3>Domination</h3>Be quick and strategic!  <br>  Answer math questions fast and choose nodes wisely to claim the board and block your opponents. <br> <br> Dominate to win!
+            <div v-html="uiLabels.dominationText"></div>
         </div>
         <div class="card">
             <div><h3>{{ uiLabels.notClickable }}</h3></div>
@@ -9,9 +9,9 @@
                 <NodeComponent :key="1" :questionId="1" @questionId="runQuestion" />
                 <div>{{uiLabels.takenp1}}</div>
                 <NodeComponent :key="2" :questionId="2" @questionId="runQuestion" />
-                <div>Taken by player 2</div>
+                <div>{{uiLabels.takenp2}}</div>
                 <NodeComponent :key="3" :questionId="3" @questionId="runQuestion" />
-                <div>Wrong answer (dead)</div>
+                <div>{{uiLabels.deadNode}}</div>
             </div>
         </div>
         <div class="card">
@@ -20,9 +20,9 @@
                 <NodeComponent :key="4" :questionId="4" @questionId="runQuestion" />
                 <div>{{uiLabels.reachp1}}</div>
                 <NodeComponent :key="5" :questionId="5" @questionId="runQuestion" />
-                <div>reachable by player 2</div>
+                <div>{{uiLabels.reachp2}}</div>
                 <NodeComponent :key="6" :questionId="6" @questionId="runQuestion" />
-                <div>reachable by both</div>
+                <div>{{uiLabels.reachAll}}</div>
             </div>
         </div>
 

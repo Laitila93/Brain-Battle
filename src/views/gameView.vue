@@ -1,9 +1,9 @@
 <template>
-  <div> 
+  <div class="main-container"> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
       <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
-      <div class="poll-id-game">{{ uiLabels.whichGame }}: {{ pollId }}</div>
+      <div class="game-id-game">{{ uiLabels.whichGame }}: {{ gameId }}</div>
       <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
       <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
     </div>
@@ -34,10 +34,9 @@
       <div v-if="gaveUp && winner === playerRole">{{ uiLabels.opponentGaveUp }}</div>
       <div v-if="gaveUp && winner !== playerRole">{{ uiLabels.youGaveUp }}</div>
 
-      <div v-if="winner === playerRole">{{uiLabels.youWin}}</div>
-      <div v-else-if="winner === ''">{{uiLabels.draw}}</div>
-      <div v-else>{{ uiLabels.youLoose }}</div>
-        
+      <div :class="'who-wins-' + playerRoleShort" v-if="winner === playerRole">{{uiLabels.youWin}}</div>
+      <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">{{uiLabels.draw}}</div>
+      <div :class="'who-wins-' + playerRoleShort" v-else>{{ uiLabels.youLoose }}</div>
         
       <button 
         class="back-btn back-btn-game" 
@@ -45,16 +44,18 @@
           {{ uiLabels.returnHome }}
       </button>
     </div>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button v-on:click="switchLanguage" v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-      </button>
-    </div>
-    <div>
-      <button class="back-btn" v-on:click="giveUp">
+    <footer>
+      <div class="lang-switcher">
+        {{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div>
+      <button v-if="!gaveUp" class="back-btn" v-on:click="giveUp">
         {{ uiLabels.giveUp }}
       </button>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -66,7 +67,7 @@ import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Meth
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
-  name: 'PollView',
+  name: 'gameView',
   components: {
     QuestionComponent,
     NodeComponent
@@ -81,14 +82,14 @@ export default {
       uiLabels: {},
       lang: sessionStorage.getItem( "lang") || "en",
       playerRole: sessionStorage.getItem("playerRole") || "",
-      pollId: "inactive poll",
-      submittedAnswers: {},
+      gameId: "inactive game",
+      submittedAnswers: {}, //Emil: kan tas bort, alt lägg till funktionalitet så att denna uppdateras och kan nås i Result?
       questionNumber: 0,
       totalQuestions: 0,
-      nodeNumber: 0,
+      nodeNumber: 0, //Emi: kan tas bort?
       columns: 0,
       nodeStatus: [],
-      firstCheck: true, // Guard variable
+      firstCheck: true, // Guard variable //Emil: Kan tas bort? 
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "start", 
@@ -111,7 +112,7 @@ export default {
       this.showQuestionComponent = true;
 
       socket.emit("runQuestion", { 
-        pollId: this.pollId, 
+        gameId: this.gameId, 
         questionNumber: this.questionNumber - 1, 
         playerRole: this.playerRole 
       });
@@ -120,6 +121,7 @@ export default {
       this.scores.p1Score = savedP1Score;
       this.scores.p2Score = savedP2Score;
     }
+    //this.checkIsGameOver();
   },
   computed: {
     dynamicGap() {
@@ -130,6 +132,11 @@ export default {
       const baseGap = 5; // Base gap in pixels
       const additionalGap = (containerWidth - (this.columns * 100)) / (this.columns - 1);
       return `${baseGap + additionalGap}px`;
+    },
+    playerRoleShort() {
+      // Transform "Player 1" -> "p1" and "Player 2" -> "p2"
+      return this.playerRole === "Player 1" ? "p1" : 
+             this.playerRole === "Player 2" ? "p2" : "";
     }
   },
   watch: {
@@ -148,25 +155,25 @@ export default {
       socket.on("sendNodeStatus", status => {
         console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
-        this.$nextTick(() => {  //la till detta 
+        this.$nextTick(() => {  //la till detta //Emil: Kan tas bort?
         }); 
       });
-      this.pollId = this.$route.params.id;
+      this.gameId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {
         this.totalQuestions = number;
-        setNodeStatus({d:{ node: 0, status: 1 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: 0, status: 1 }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
         let lastNode = this.totalQuestions - 1;
         this.columns = Math.sqrt(this.totalQuestions);
-        setNodeStatus({d:{ node: lastNode, status: 2 }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: lastNode, status: 2 }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
         checkAdjacentNodes({
             nodeStatus: this.nodeStatus,
             columns: this.columns,
             totalQuestions: this.totalQuestions,
-            pollId: this.$route.params.id,
+            gameId: this.$route.params.id,
             socket: socket, // Ensure socket is correctly passed here
           }); 
       });
-      socket.emit("getNumberOfQuestions", this.pollId);
+      socket.emit("getNumberOfQuestions", this.gameId);
       socket.on("playerRoleAssigned", role => {
         this.playerRole = role;
         sessionStorage.setItem("playerRole", role); // Update locally just in case
@@ -178,7 +185,7 @@ export default {
             nodeStatus: this.nodeStatus,
             columns: this.columns,
             totalQuestions: this.totalQuestions,
-            pollId: this.$route.params.id,
+            gameId: this.$route.params.id,
             socket: socket, // Ensure socket is correctly passed here
           });                            
         this.scores = scores;
@@ -188,9 +195,9 @@ export default {
         this.checkIsGameOver();
 
       });
-      socket.on("uiLabels", labels => {this.uiLabels = labels.PollViewLabels;});
+      socket.on("uiLabels", labels => {this.uiLabels = labels.gameViewLabels;});
       socket.emit("getUILabels", this.lang);
-      socket.emit("joinPoll", this.pollId);
+      socket.emit("joingame", this.gameId);
       socket.on("questionUpdate", d => {if (d.playerRole === this.playerRole) {this.question = d.q;}});
       
       socket.on("handleGiveUp", (winner)=>{
@@ -199,7 +206,7 @@ export default {
         
         this.isGameOver = true;
 
-        this.disableAllNodes();
+        this.stopGame();
       });
       
     },
@@ -237,21 +244,26 @@ export default {
         this.winner = ""
       }
       if (this.isGameOver){
-        this.disableAllNodes();
+        this.stopGame();
+        
       }
     },
 
-    disableAllNodes: function(){
+    stopGame: function(){
       for (let i = 1; i <= this.totalQuestions; i++) {
         let nodeElement = document.getElementById('node-' + i);
         nodeElement.disabled = true;
         nodeElement.style.animation = "none";
       }
+      sessionStorage.removeItem("savedP1Score");
+      sessionStorage.removeItem("savedP2Score");
+      sessionStorage.removeItem("currentQuestionNumber");
+      sessionStorage.removeItem("showQuestionComponent");
     },
 
     submitAnswer: function (answer, playerRole) {
       if (answer.c) {
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
+        socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -262,7 +274,7 @@ export default {
       else {
         console.log("wrong answer");
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
-        socket.emit("submitAnswer", { pollId: this.pollId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
+        socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -277,13 +289,13 @@ export default {
       sessionStorage.setItem("currentQuestionNumber", questionNumber);
       sessionStorage.setItem("showQuestionComponent", true);
 
-      socket.emit("runQuestion", { pollId: this.pollId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
+      socket.emit("runQuestion", { gameId: this.gameId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
       if (this.playerRole === "Player 1") {
-        setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
       else {
-        setNodeStatus({d:{ node: this.questionNumber-1, status: 8 /*set to 8 instead of 0 */ }, pollId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
+        setNodeStatus({d:{ node: this.questionNumber-1, status: 8 /*set to 8 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
     },
 
@@ -299,7 +311,7 @@ export default {
     },
 
     giveUp: function(){
-      socket.emit("giveUp",{pollId: this.pollId, playerRole: this.playerRole});
+      socket.emit("giveUp",{gameId: this.gameId, playerRole: this.playerRole});
     }
 
   }

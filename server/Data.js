@@ -3,8 +3,8 @@ import {readFileSync} from "fs";
 
 // Store data in an object to keep the global namespace clean. In an actual implementation this would be interfacing a database...
 function Data() {
-  this.polls = {};
-  this.polls['test'] = {
+  this.games = {};
+  this.games['test'] = {
     lang: "en",
     questions: [
       {q: "1?", 
@@ -34,21 +34,21 @@ prototype of the Data object/class
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
 ***********************************************/
 
-Data.prototype.pollExists = function (pollId) {
-  return typeof this.polls[pollId] !== "undefined"
+Data.prototype.gameExists = function (gameId) {
+  return typeof this.games[gameId] !== "undefined"
 }
 
-Data.prototype.getNodeStatus = function (pollId) {
-  return this.polls[pollId].nodeStatus;
+Data.prototype.getNodeStatus = function (gameId) {
+  return this.games[gameId].nodeStatus;
 }
 
 
-Data.prototype.getScores = function (pollId) {
-  return this.polls[pollId].scores;
+Data.prototype.getScores = function (gameId) {
+  return this.games[gameId].scores;
 }
 
-Data.prototype.nodeStatusUpdate = function (pollId,d) {
-    this.polls[pollId].nodeStatus[d.node] = d.status;
+Data.prototype.nodeStatusUpdate = function (gameId,d) {
+    this.games[gameId].nodeStatus[d.node] = d.status;
 }
 
 Data.prototype.getUILabels = function (lang) {
@@ -59,79 +59,79 @@ Data.prototype.getUILabels = function (lang) {
   return JSON.parse(labels);
 }
 
-Data.prototype.createPoll = function(pollId, lang="en") {
-  if (!this.pollExists(pollId)) {
-    let poll = {};
-    poll.lang = lang;  
-    poll.questions = [];
-    poll.answers = [];
-    poll.participants = [];
-    poll.currentQuestion = [];
-    poll.nodeStatus = [];             
-    this.polls[pollId] = poll;
-    poll.scores = {p1Score: 1, p2Score: 1};
+Data.prototype.creategame = function(gameId, lang="en") {
+  if (!this.gameExists(gameId)) {
+    let game = {};
+    game.lang = lang;  
+    game.questions = [];
+    game.answers = [];
+    game.participants = [];
+    game.currentQuestion = [];
+    game.nodeStatus = [];             
+    this.games[gameId] = game;
+    game.scores = {p1Score: 1, p2Score: 1};
     
   }
-  return this.polls[pollId];
+  return this.games[gameId];
 }
 
-Data.prototype.getPoll = function(pollId) {
-  if (this.pollExists(pollId)) {
-    return this.polls[pollId];
+Data.prototype.getgame = function(gameId) {
+  if (this.gameExists(gameId)) {
+    return this.games[gameId];
   }
   return {};
 }
 //Lägger till playerName
-Data.prototype.participateInPoll = function (pollId, player) {
-  if (this.pollExists(pollId)) {
-    const poll = this.polls[pollId];
-    if (poll.participants.length < 2) {
-      poll.participants.push(player);
-      poll.currentQuestion.push(0);
+Data.prototype.participateIngame = function (gameId, player) {
+  if (this.gameExists(gameId)) {
+    const game = this.games[gameId];
+    if (game.participants.length < 2) {
+      game.participants.push(player);
+      game.currentQuestion.push(0);
     }
   }
 }
 
-Data.prototype.getParticipants = function(pollId) {
-  const poll = this.polls[pollId];
-  console.log("DATA: participants requested for", pollId);
-  if (this.pollExists(pollId)) { 
-    return this.polls[pollId].participants
+Data.prototype.getParticipants = function(gameId) {
+  const game = this.games[gameId];
+  console.log("DATA: participants requested for", gameId);
+  if (this.gameExists(gameId)) { 
+    return this.games[gameId].participants
   }
   return [];
 }
 //Lagt till detta
-Data.prototype.getPlayerName = function(pollId, player) {
-  if (this.pollExists(pollId)) {
-    const participant = this.polls[pollId].participants.find(p => p.player === player);
+Data.prototype.getPlayerName = function(gameId, player) {
+  if (this.gameExists(gameId)) {
+    const participant = this.games[gameId].participants.find(p => p.player === player);
     return participant ? participant.name : null;
   }
   return null;
 }
 
-Data.prototype.addQuestion = function(pollId, q) {
-  if (this.pollExists(pollId)) {
-    this.polls[pollId].questions.push(q);
-    this.polls[pollId].nodeStatus.push(0);
-    this.polls[pollId].answers.push({});
+Data.prototype.addQuestion = function(gameId, q) {
+  if (this.gameExists(gameId)) {
+    this.games[gameId].questions.push(q);
+    this.games[gameId].nodeStatus.push(0);
+    this.games[gameId].answers.push({});
   }
 }
 
-Data.prototype.getQuestion = function(pollId, player = null, qId = null) {
+Data.prototype.getQuestion = function(gameId, player = null, qId = null) {
 
-  if (this.pollExists(pollId)) {
-    const poll = this.polls[pollId];
+  if (this.gameExists(gameId)) {
+    const game = this.games[gameId];
     if (qId !== null) {
       if (player === "Player 1") {
-        poll.currentQuestion [0] = qId;
-        return poll.questions[poll.currentQuestion[0]];
+        game.currentQuestion [0] = qId;
+        return game.questions[game.currentQuestion[0]];
       }
       else if (player === "Player 2") {
-        poll.currentQuestion [1] = qId;
-        return poll.questions[poll.currentQuestion[1]];
+        game.currentQuestion [1] = qId;
+        return game.questions[game.currentQuestion[1]];
       }
       else {
-        return poll.questions[qId];
+        return game.questions[qId];
       }
 
     }
@@ -140,19 +140,19 @@ Data.prototype.getQuestion = function(pollId, player = null, qId = null) {
   return {}
 }
 
-Data.prototype.getNumberOfQuestions = function(pollId) {
-  if (this.pollExists(pollId)) {
-    const poll = this.polls[pollId];
-    return poll.questions;
+Data.prototype.getNumberOfQuestions = function(gameId) {
+  if (this.gameExists(gameId)) {
+    const game = this.games[gameId];
+    return game.questions;
   }
   return {}
 }
 
-Data.prototype.getSubmittedAnswers = function(pollId) { //Denna funktion returnerar bara svar från spelare 1!!
-  if (this.pollExists(pollId)) {
-    const poll = this.polls[pollId];
-    const answers = poll.answers[poll.currentQuestion[0]];
-    if (typeof poll.questions[poll.currentQuestion[0]] !== 'undefined') {
+Data.prototype.getSubmittedAnswers = function(gameId) { //Denna funktion returnerar bara svar från spelare 1!!
+  if (this.gameExists(gameId)) {
+    const game = this.games[gameId];
+    const answers = game.answers[game.currentQuestion[0]];
+    if (typeof game.questions[game.currentQuestion[0]] !== 'undefined') {
       return answers;
     }
   }
@@ -170,37 +170,37 @@ Data.prototype.getWinner = function(playerRole){
 
 Data.prototype.submitAnswer = function(d) { 
 
-  if (this.pollExists(d.pollId)) {
+  if (this.gameExists(d.gameId)) {
 
-    const poll = this.polls[d.pollId];
+    const game = this.games[d.gameId];
     let answers = {};
     
     if(d.correct){
       if (d.playerRole === "Player 1"){ 
-        if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
-          answers = poll.answers[poll.currentQuestion[0]]; //behövs dessa answers????
-          poll.nodeStatus[poll.currentQuestion[0]] = 1; // Player 1 claims
-          poll.scores.p1Score++;
+        if (game.nodeStatus[game.currentQuestion[0]] !== 1 && game.nodeStatus[game.currentQuestion[0]] !== 2 && game.nodeStatus[game.currentQuestion[0]] !== 3){
+          answers = game.answers[game.currentQuestion[0]]; //behövs dessa answers????
+          game.nodeStatus[game.currentQuestion[0]] = 1; // Player 1 claims
+          game.scores.p1Score++;
         }   
       }
       if (d.playerRole === "Player 2"){
-        if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
-          answers = poll.answers[poll.currentQuestion[1]];
-          poll.nodeStatus[poll.currentQuestion[1]] = 2; // Player 2 claims
-          poll.scores.p2Score++;
+        if (game.nodeStatus[game.currentQuestion[1]] !== 1 && game.nodeStatus[game.currentQuestion[1]] !== 2 && game.nodeStatus[game.currentQuestion[1]] !== 3){
+          answers = game.answers[game.currentQuestion[1]];
+          game.nodeStatus[game.currentQuestion[1]] = 2; // Player 2 claims
+          game.scores.p2Score++;
         }
       }
       
     }
     else {
       if (d.playerRole === "Player 1"){
-        if (poll.nodeStatus[poll.currentQuestion[0]] !== 1 && poll.nodeStatus[poll.currentQuestion[0]] !== 2 && poll.nodeStatus[poll.currentQuestion[0]] !== 3){
-          poll.nodeStatus[poll.currentQuestion[0]] = 3;
+        if (game.nodeStatus[game.currentQuestion[0]] !== 1 && game.nodeStatus[game.currentQuestion[0]] !== 2 && game.nodeStatus[game.currentQuestion[0]] !== 3){
+          game.nodeStatus[game.currentQuestion[0]] = 3;
         }
       }
       if (d.playerRole === "Player 2"){
-        if (poll.nodeStatus[poll.currentQuestion[1]] !== 1 && poll.nodeStatus[poll.currentQuestion[1]] !== 2 && poll.nodeStatus[poll.currentQuestion[1]] !== 3){
-          poll.nodeStatus[poll.currentQuestion[1]] = 3;
+        if (game.nodeStatus[game.currentQuestion[1]] !== 1 && game.nodeStatus[game.currentQuestion[1]] !== 2 && game.nodeStatus[game.currentQuestion[1]] !== 3){
+          game.nodeStatus[game.currentQuestion[1]] = 3;
         }
       }
     } 

@@ -1,11 +1,11 @@
 {
 	"StartViewLabels": {
-		"createPoll": "Create new game",
-		"participatePoll": "Join game",
+		"creategame": "Create new game",
+		"participategame": "Join game",
 		"question": "Question",
 		"changeLanguage": "Byt språk till:",
 		"about": "About",
-		"participateInPoll": "Participate in poll",
+		"participateIngame": "Participate in game",
 		"enterprompt": "Enter game ID",
 		"rules": "Rules",
 		"or": "Or",
@@ -36,11 +36,16 @@
 		"notClickable": "Not clickable",
 		"clickable": "Clickable",
 		"takenp1": "taken by Player 1",
-		"reachp1": "reachable by player 1"
+		"reachp1": "reachable by player 1",
+		"takenp2": "Taken by player 2",
+		"reachp2": "Reachable by player 2",
+		"reachAll": "Reachable by both",
+		"deadNode": "Wrong answer (dead)",
+		"dominationText": "<h3>Domination</h3>Be quick and strategic!  <br>  Answer math questions fast and choose nodes wisely to claim the board and block your opponents. <br> <br> Dominate to win!"
 		
 	},
 
-	"PollViewLabels": {
+	"gameViewLabels": {
 		"whichGame": "Game ID",
 		"yourScore": "Your score",
 		"opponentScore": "Opponent's score",

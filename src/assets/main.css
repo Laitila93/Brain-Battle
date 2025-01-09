@@ -12,8 +12,26 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   background-color: #1e1e2f;
   color: #007bff; /*necessary?*/
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+footer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 
@@ -46,7 +64,7 @@ body {
 
 .join-link, .join-btn {
   background-color: #32cd32;
-  width: 55%
+  width: 35%
 }
 
 .join-btn:hover, .join-link:hover {
@@ -90,15 +108,11 @@ body {
 .back-btn-game {
   position:relative;
   margin: auto;
-  top: 12px;
   bottom: 4px;
-  left: 10px;
+  left: 0px;
 }
 
 .lang-switcher {
-  position: fixed;
-  bottom: 10px;
-  right: 20px;
   color:white;
   display: flex;
   flex-direction: row;
@@ -107,6 +121,7 @@ body {
   font-size: 1em;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
+  margin: 0 10px 4px 0;
 }
 
 .lang-btn {
@@ -156,11 +171,7 @@ header {
   justify-content: center;
 }
 
-.main-menu {
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.start-menu {
   display: flex;
   flex-direction: column;
   gap: 2em;
@@ -177,7 +188,7 @@ header {
 
 .id-input {
   font-size: 1.2rem;
-  max-width: 40%;
+  width: 40%;
 }
 
 .id-input::placeholder {
@@ -194,32 +205,12 @@ header {
   color: white;
 }
 
-.footer-menu {
-  position: fixed;
-  background-color: #1e1e2f;
-  bottom: 2px;
-  left: 50px;
-  width: 20em;
-  height: 2em;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 10em);
-  text-transform: uppercase;
-}
-
-.about-page, .rules-page {
-  font-size: 1rem;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  color: white;
-}
-
 
 /*CREATEVIEW-----------*/
+
+.game-id {
+  margin-top: 5px;
+}
 
 .operator-section label, .questions-section label, .range-section label{
   font-size: 1.1em;
@@ -304,6 +295,8 @@ and (min-width : 321px) {
 
     width: auto;  
   }
+
+
 }
 
 
@@ -319,11 +312,11 @@ and (min-width : 700px) {
     width:80%;
     padding: 10%;
     padding-bottom: 5%;
+
   }
 
   .operator-section,.questions-section,
   .range-section {
-    padding: 20px;
     border-radius: 10px;
     height: auto;
     width: 100%;
@@ -348,7 +341,7 @@ and (min-width : 700px) {
 }
 
 
-/*CREATEVIEW Large screens ----------- */
+/*CREATEVIEW Large screens ----------- 
 @media only screen 
 and (min-width : 1824px) {
 
@@ -375,7 +368,7 @@ and (min-width : 1824px) {
     box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
   }
 }
-
+*/
 
 /*LobbyView-----------*/
 
@@ -386,7 +379,7 @@ and (min-width : 1824px) {
   background-color: #252537;
 }
 
-.poll-id-lobby {
+.game-id-lobby {
   padding-top: 1vh;
   padding-bottom: 2vh;
   font-size: 20pt;
@@ -398,7 +391,7 @@ and (min-width : 1824px) {
   gap: 10px;
 }
 
-#join-button {
+.lobby-menu {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 50px;
@@ -407,9 +400,10 @@ and (min-width : 1824px) {
   padding-top: 5%;
 }
 
-/*POLLVIEW-----------*/
+/*gameVIEW-----------*/
 
 .banner {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -418,7 +412,7 @@ and (min-width : 1824px) {
   color: white;
 }
 
-.poll-id-game {
+.game-id-game {
   padding-top: 0;
   padding-left: 20px;
   padding-right: 20px;
@@ -445,10 +439,24 @@ and (min-width : 1824px) {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+  width: 80%
 }
 
+.who-wins-p1 {
+  font-size: 24px;
+  color: #32cd32;
+  animation: pulse 2s infinite;
+  padding: 24px;
+}
 
-/*POLLVIEW Smartphones (portrait) ----------- */
+.who-wins-p2 {
+  font-size: 24px;
+  animation: pulse 2s infinite;
+  color: #ff8c00;
+  padding: 24px;
+}
+
+/*gameVIEW Smartphones (portrait) ----------- */
 @media only screen 
 and (max-width : 320px) {
   .node-grid {
@@ -471,7 +479,7 @@ and (max-width : 320px) {
 }
 
 
-/*POLLVIEW Smartphones (landscape) -----------Joakims telefon */
+/*gameVIEW Smartphones (landscape) -----------Joakims telefon */
 @media only screen 
 and (min-width : 321px) {
   .node-grid {
@@ -495,7 +503,7 @@ and (min-width : 321px) {
 }
 
 
-/*POLLVIEW Desktops and laptops ----------- */
+/*gameVIEW Desktops and laptops ----------- */
 @media only screen 
 and (min-width : 700px) {
   
@@ -520,7 +528,7 @@ and (min-width : 700px) {
 }
 
 
-/*POLLVIEW Large screens ----------- */
+/*gameVIEW Large screens ----------- */
 @media only screen 
 and (min-width : 1824px) {
 
