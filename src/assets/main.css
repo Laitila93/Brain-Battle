@@ -164,6 +164,7 @@ header {
   color: #007bff;
   width:100%;
   padding:5px;
+  margin-top: 1.5em;
   display: flex;
   flex-direction: row;
   justify-content: center;
