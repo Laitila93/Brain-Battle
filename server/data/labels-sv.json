@@ -9,7 +9,8 @@
 		"enterprompt": "Ange spel-ID",
 		"rules": "Spelregler",
 		"or": "Eller",
-		"invalidGameId": "ID existerar inte, ange korrekt ID, 4 siffror"
+		"invalidGameId": "ID existerar inte, ange korrekt ID, 4 siffror",
+		"subtitle": "Ett strategiskt matematikspel"
 	},
 
 	"CreateViewLabels": {

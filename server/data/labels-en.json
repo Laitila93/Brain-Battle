@@ -9,7 +9,8 @@
 		"enterprompt": "Enter game ID",
 		"rules": "Rules",
 		"or": "Or",
-		"invalidGameId": "Please enter a valid ID, 4 numbers"
+		"invalidGameId": "Please enter a valid ID, 4 numbers",
+		"subtitle": "A strategic math game"
 	},
 
 	"CreateViewLabels": {

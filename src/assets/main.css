@@ -28,6 +28,13 @@ body {
   margin: 0;
 }
 
+.menu-section{
+  display: flex;
+  height: 3em;
+  width: 100%;
+  justify-content: center;
+}
+
 footer {
   width: 100%;
   height: auto;
@@ -42,6 +49,7 @@ footer {
   font-size: 1.2rem;
   font: bold;
   text-transform: none;
+  margin: 0;
 }
 
 
@@ -156,6 +164,7 @@ header {
   color: #007bff;
   width:100%;
   padding:5px;
+  margin-top: 1.5em;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -170,20 +179,15 @@ header {
   align-items: center;
   justify-content: center;
 }
-
+.sub-title{  
+  font: bold size 1.5em;
+}
 .start-menu {
   display: flex;
   flex-direction: column;
   gap: 2em;
   width: 26em;
   align-items: center;
-}
-
-.menu-section{
-  display: flex;
-  height: 3em;
-  width: 100%;
-  justify-content: center;
 }
 
 .id-input {
@@ -312,9 +316,9 @@ and (min-width : 700px) {
   .form-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
+    gap: 40px;
     width:80%;
-    padding: 10%;
+    padding: 5%;
     padding-bottom: 5%;
 
   }
@@ -344,35 +348,6 @@ and (min-width : 700px) {
   }
 }
 
-
-/*CREATEVIEW Large screens ----------- 
-@media only screen 
-and (min-width : 1824px) {
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
-    width:65%;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .operator-section,.questions-section,
-  .range-section {
-    padding: 20px;
-    border-radius: 10px;
-    height: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: #252537;
-    box-shadow: 2px 8px 10px rgba(0.5, 0.5, 0.5, 0.5);
-  }
-}
-*/
 
 /*LobbyView-----------*/
 
@@ -408,19 +383,23 @@ and (min-width : 1824px) {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   background-color: #007bff;
   padding: 0px;
   color: white;
 }
 
 .game-id-game {
+  display: flex;
+  align-items: center;
   padding-top: 0;
   padding-left: 20px;
   padding-right: 20px;
 }
 
 .player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   text-align: center;
   padding: 10px;

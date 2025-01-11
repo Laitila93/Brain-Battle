@@ -8,6 +8,7 @@
           Brain Battle
         <img src="../assets/swords.png" class="logo-image">
       </div>
+      <div class="sub-title">{{ uiLabels.subtitle }} </div>
     </header>
     <nav class="start-menu">
       <p v-if="!gameExists && gameIsChecked" class="error-message">
