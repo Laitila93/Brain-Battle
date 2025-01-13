@@ -17,14 +17,6 @@ function sockets(io, socket, data) {
     process.nextTick(() => {
     io.to(gameId).emit("sendNodeStatus", data.getNodeStatus(gameId));
     });
-    /*Emil: om man ändrar raden ovan till:
-    process.nextTick(() => {
-    io.to(gameId).emit("sendNodeStatus", data.getNodeStatus(gameId));
-    });
-    Verkar man kunna ta bort användningen av getNodeStatus helt. Personligen tkr jag det blir mer cleant,
-    blir mindre kommunikation mellan server och client.
-     */
-
   });
   
 
@@ -44,7 +36,6 @@ function sockets(io, socket, data) {
 
   socket.on('joingame', function(gameId) {
     socket.join(gameId); // Add the client to the game's room
-    //socket.emit('submittedAnswersUpdate', data.getSubmittedAnswers(gameId));
   });
 
   socket.on("participateIngame", function (d) {
@@ -99,8 +90,6 @@ function sockets(io, socket, data) {
   socket.on("giveUp", function(d){
     io.to(d.gameId).emit("handleGiveUp", data.getWinner(d.playerRole))
   });
-
-
 }
 
 export { sockets };
