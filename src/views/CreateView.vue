@@ -71,7 +71,7 @@
     </div>
     <div class="menu-section">
       <button type="submit" class="menu-btn create-btn">
-        {{ uiLabels.header }}
+        {{ uiLabels.createGame }}
       </button>
     </div>
   </form>

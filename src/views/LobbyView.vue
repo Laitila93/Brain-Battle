@@ -71,7 +71,6 @@ export default {
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
       sessionStorage.setItem("playerRole", role);
-      console.log("LOBBY: Player role assigned: ", role);
       this.joined = true;
     });
 
@@ -79,12 +78,10 @@ export default {
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;
-        console.log("LOBBY: Both players joined. Starting the game!");
       }
     });
     
     socket.on("startgame", () => {
-    console.log("LOBBY: Game started!");
     this.$router.push(`/game/${this.gameId}`);
     });
 
@@ -97,7 +94,6 @@ export default {
 
   methods: {
     participateIngame() {
-      console.log("participateIngame ", this.gameId, this.uiLabels.waitingForPlayer)
       socket.emit("participateIngame", { gameId: this.gameId });
     },
 
