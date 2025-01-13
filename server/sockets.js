@@ -19,10 +19,8 @@ function sockets(io, socket, data) {
     });
   });
   
-
   socket.on('creategame', function(d) {
     data.creategame(d.gameId, d.lang)
-    socket.emit('gameData', data.getgame(d.gameId));
   });
 
   socket.on('addQuestion', function(d) {
