@@ -21,7 +21,9 @@
     <div class="game-id">
       <h1>{{ uiLabels.whichGame }}: {{ gameId }} </h1>
     </div>
-
+    <p v-if="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
   <form id="createForm" class="form-grid" @submit="createAndStart">
     <div class="operator-section">
       <label for="formOperator">
@@ -88,15 +90,15 @@
     <div 
       class="content-separator">
     </div>
+
     <div class="menu-section">
+
       <button type="submit" class="menu-btn create-btn">
         {{ uiLabels.createGame }}
       </button>
     </div>
   </form>
-  <p v-if="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </p>
+
 
 </div>
 </template>
