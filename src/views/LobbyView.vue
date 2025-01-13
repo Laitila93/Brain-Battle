@@ -1,4 +1,22 @@
 <template>
+  <header>
+
+      <div class="lang-switcher">
+        <button 
+        class="back-btn" 
+        onclick="location.href='/';">
+        {{ uiLabels.returnHome }}
+      </button>
+      <div>
+        {{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div>
+      </div> 
+
+  </header>
   <div class="main-container">
     <div>
       <DominationTutorial v-bind:uiLabels="uiLabels"/>
@@ -23,18 +41,6 @@
 
     </div>
     <footer>
-      <button 
-        class="back-btn" 
-        onclick="location.href='/';">
-        {{ uiLabels.returnHome }}
-      </button>
-      <div class="lang-switcher">
-        {{ uiLabels.changeLanguage }}
-        <button 
-          v-on:click="switchLanguage" 
-          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-        </button>
-      </div> 
 
     </footer>
   </div>
@@ -71,7 +77,6 @@ export default {
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
       sessionStorage.setItem("playerRole", role);
-      console.log("LOBBY: Player role assigned: ", role);
       this.joined = true;
     });
 
@@ -79,12 +84,10 @@ export default {
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;
-        console.log("LOBBY: Both players joined. Starting the game!");
       }
     });
     
     socket.on("startgame", () => {
-    console.log("LOBBY: Game started!");
     this.$router.push(`/game/${this.gameId}`);
     });
 
@@ -97,7 +100,6 @@ export default {
 
   methods: {
     participateIngame() {
-      console.log("participateIngame ", this.gameId, this.uiLabels.waitingForPlayer)
       socket.emit("participateIngame", { gameId: this.gameId });
     },
 

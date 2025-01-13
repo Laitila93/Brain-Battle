@@ -1,4 +1,19 @@
 <template>
+  <header>
+    <div class="lang-switcher">
+      <button class="back-btn" v-on:click="giveUp">
+        {{ uiLabels.giveUp }}
+      </button>
+      <div>
+        {{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div>
+    </div> 
+  </header>
+
   <div class="main-container"> 
     <div class="banner">
       <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
@@ -7,6 +22,7 @@
       <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
       <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
     </div>
+
     <div class="node-area">
       <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
         <NodeComponent 
@@ -44,19 +60,7 @@
           {{ uiLabels.returnHome }}
       </button>
     </div>
-    <footer>
-      <button class="back-btn" v-on:click="giveUp">
-        {{ uiLabels.giveUp }}
-      </button>
-      <div class="lang-switcher">
-        {{ uiLabels.changeLanguage }}
-        <button 
-          v-on:click="switchLanguage" 
-          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-        </button>
-      </div>
 
-    </footer>
   </div>
 </template>
 
@@ -84,13 +88,10 @@ export default {
       lang: sessionStorage.getItem( "lang") || "en",
       playerRole: sessionStorage.getItem("playerRole") || "",
       gameId: "inactive game",
-      submittedAnswers: {}, //Emil: kan tas bort, alt lägg till funktionalitet så att denna uppdateras och kan nås i Result?
       questionNumber: 0,
       totalQuestions: 0,
-      nodeNumber: 0, //Emi: kan tas bort?
       columns: 0,
       nodeStatus: [],
-      firstCheck: true, // Guard variable //Emil: Kan tas bort? 
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "start", 

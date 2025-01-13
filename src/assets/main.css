@@ -22,9 +22,9 @@ body {
 .main-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
   margin: 0;
 }
 
@@ -96,7 +96,8 @@ footer {
 }
 
 .back-btn {
-  background-color: #1e1e2f;
+  background-color: #007bff;
+  justify-content: flex-start;
   width: 13em;
   height: 2em;
   display: grid;
@@ -123,7 +124,9 @@ footer {
 .lang-switcher {
   color:white;
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 1em;
+  padding-bottom: 0%;
   align-items: center;
   gap: 1em;
   font-size: 1em;
@@ -188,6 +191,7 @@ header {
   gap: 2em;
   width: 26em;
   align-items: center;
+
 }
 
 .id-input {
@@ -209,9 +213,7 @@ header {
   color: white;
 }
 
-#start-footer {
-  justify-content: flex-end;
-}
+
 
 
 /*CREATEVIEW-----------*/
@@ -379,14 +381,7 @@ and (min-width : 700px) {
 
 /*gameVIEW-----------*/
 
-.banner {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  background-color: #007bff;
-  padding: 0px;
-  color: white;
-}
+
 
 .game-id-game {
   display: flex;
@@ -415,8 +410,7 @@ and (min-width : 700px) {
 }
 
 .node-area {
-  padding-top: 5vw;
-  padding-bottom: 5vw;
+
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
@@ -457,6 +451,14 @@ and (max-width : 320px) {
     margin: auto;
   }
 
+  .banner {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #007bff;
+    padding: 0px;
+    color: white;
+  }
 }
 
 
@@ -481,6 +483,14 @@ and (min-width : 321px) {
     margin: auto;
   }
 
+  .banner {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #007bff;
+    padding: 0px;
+    color: white;
+  }
 }
 
 
@@ -504,6 +514,15 @@ and (min-width : 700px) {
     background-color: #007bff;
     text-align: center;
     margin: auto;
+  }
+  .banner {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #007bff;
+    padding: 0px;
+    color: white;
+
   }
 
 }
@@ -529,7 +548,15 @@ and (min-width : 1824px) {
     text-align: center;
     margin: auto;
   }
- 
+  .banner {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #007bff;
+    padding: 0px;
+    color: white;
+
+  }
 }
 
 @keyframes pulse {
