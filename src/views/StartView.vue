@@ -3,12 +3,20 @@
   still be kept for readability reasons?-->
   <div class="main-container">
     <header>
+      <div class="lang-switcher">
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+        {{ uiLabels.changeLanguage }}
+      </div>
       <div class="logo">
         <img src="../assets/brain.png" class="logo-image">
           Brain Battle
         <img src="../assets/swords.png" class="logo-image">
       </div>
       <div class="sub-title">{{ uiLabels.subtitle }} </div>
+
     </header>
     <nav class="start-menu">
       <p v-if="!gameExists && gameIsChecked" class="error-message">
@@ -39,12 +47,7 @@
       </div>
     </nav>
     <footer id="start-footer">
-      <div class="lang-switcher">{{ uiLabels.changeLanguage }}
-        <button 
-          v-on:click="switchLanguage" 
-          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-        </button>
-      </div>
+
     </footer>
   </div>
 </template>
@@ -54,7 +57,7 @@
 
 import io from 'socket.io-client';
 
-sessionStorage.setItem("serverIP", "192.168.50.66:3000");
+sessionStorage.setItem("serverIP", "130.243.211.91:3000");
 
 const socket = io(sessionStorage.getItem("serverIP"));
 
