@@ -1,8 +1,27 @@
 <template>
+      <header>
+
+        <div class="lang-switcher">
+        <button 
+        class="back-btn" 
+        onclick="location.href='/';">
+        {{ uiLabels.returnHome }}
+      </button>
+      <div>
+        {{ uiLabels.changeLanguage }}
+        <button 
+          v-on:click="switchLanguage" 
+          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
+        </button>
+      </div>
+      </div> 
+
+    </header>
   <div class="main-container">
     <div class="game-id">
       <h1>{{ uiLabels.whichGame }}: {{ gameId }} </h1>
     </div>
+
   <form id="createForm" class="form-grid" @submit="createAndStart">
     <div class="operator-section">
       <label for="formOperator">
@@ -78,18 +97,7 @@
   <p v-if="errorMessage" class="error-message">
     {{ errorMessage }}
   </p>
-  <footer>
-    <button class="back-btn" onclick="location.href='/';">
-      {{ uiLabels.returnHome }}
-    </button>
-    <div class="lang-switcher">
-      {{ uiLabels.changeLanguage }}
-      <button 
-        v-on:click="switchLanguage" 
-        v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-      </button>
-    </div>
-</footer>
+
 </div>
 </template>
 

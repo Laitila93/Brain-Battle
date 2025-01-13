@@ -1,23 +1,28 @@
 <template>
   <!--Emil: the header element is not necessary for the resulting layout. Should it
   still be kept for readability reasons?-->
-  <div class="main-container">
-    <header>
-      <div class="lang-switcher">
+  <header>
+    <div class="lang-switcher">
+    <div></div>
+      <div>
+        {{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 
           v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
         </button>
-        {{ uiLabels.changeLanguage }}
       </div>
-      <div class="logo">
+      </div> 
+
+    </header>
+  <div class="main-container">
+    <div>
+    <div class="logo">
         <img src="../assets/brain.png" class="logo-image">
           Brain Battle
         <img src="../assets/swords.png" class="logo-image">
       </div>
       <div class="sub-title">{{ uiLabels.subtitle }} </div>
-
-    </header>
+    </div>
     <nav class="start-menu">
       <p v-if="!gameExists && gameIsChecked" class="error-message">
         {{ uiLabels.invalidGameId }}
@@ -46,9 +51,6 @@
         </router-link>
       </div>
     </nav>
-    <footer id="start-footer">
-
-    </footer>
   </div>
 </template>
 
