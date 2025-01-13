@@ -131,11 +131,10 @@ export default {
     }
   },
   created: function () {
-    
     socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
     this.generategameId();
     socket.emit( "getUILabels", this.lang );
-    socket.emit("creategame", {gameId: this.gameId, lang: this.lang }); //Emil: och denna?
+    socket.emit("creategame", {gameId: this.gameId, lang: this.lang });
   },
   methods: {
     generategameId: function () {
@@ -157,7 +156,6 @@ export default {
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, gameId: this.gameId} );
         }
         socket.emit("creategame", {gameId: this.gameId, lang: this.lang });
-        socket.emit("joingame", this.gameId); //Emil: joingame event som verkar kunna tas bort
         this.$router.push(('/lobby/' + this.gameId))
       }
       else {
