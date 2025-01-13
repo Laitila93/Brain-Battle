@@ -20,7 +20,7 @@ function sockets(io, socket, data) {
   });
   
   socket.on('creategame', function(d) {
-    data.creategame(d.gameId, d.lang)
+    data.creategame(d.gameId, d.lang);
   });
 
   socket.on('addQuestion', function(d) {
