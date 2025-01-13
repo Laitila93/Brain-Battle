@@ -103,7 +103,7 @@ export default {
 //--------------------------------------------------------------------------------
   created: function () {
     this.gameSetup();
-    //lines below to handle bugs after refresh
+    //lines below to handle bugs after refresh in game.
     const savedQuestionNumber = sessionStorage.getItem("currentQuestionNumber");
     const showQuestionComponent = sessionStorage.getItem("showQuestionComponent") === "true";
     const savedP1Score = sessionStorage.getItem("savedP1Score");
@@ -123,7 +123,6 @@ export default {
       this.scores.p1Score = savedP1Score;
       this.scores.p2Score = savedP2Score;
     }
-    //this.checkIsGameOver();
   },
   computed: {
     dynamicGap() {
@@ -260,12 +259,7 @@ export default {
 
     submitAnswer: function (answer, playerRole) {
       if (answer.c) {
-        socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
-        drawNodeColors({ 
-          nodeStatus: this.nodeStatus, 
-          showQuestionComponent: this.showQuestionComponent, 
-          totalQuestions: this.totalQuestions, 
-          playerRole: this.playerRole });
+        socket.emit("submitAnswer", { gameId: this.gameId, correct: answer.c, playerRole: playerRole }); 
         this.lastAnswer = "correct";
       }
       else {
@@ -277,7 +271,6 @@ export default {
           totalQuestions: this.totalQuestions, 
           playerRole: this.playerRole });
         this.lastAnswer = "wrong";
-      
       } 
     },
     runQuestion: function (questionNumber) {
