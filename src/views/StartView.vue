@@ -46,19 +46,13 @@
         </router-link>
       </div>
     </nav>
-    <footer id="start-footer">
-
-    </footer>
+    <footer id="start-footer"></footer>
   </div>
 </template>
 
-
 <script>
-
 import io from 'socket.io-client';
-
-sessionStorage.setItem("serverIP", "130.243.211.91:3000");
-
+sessionStorage.setItem("serverIP", "130.243.222.19:3000");
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
@@ -99,9 +93,7 @@ export default {
           });
         };
     },
-
   }
-  
 }
 </script>
 

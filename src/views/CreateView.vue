@@ -71,7 +71,7 @@
     </div>
     <div class="menu-section">
       <button type="submit" class="menu-btn create-btn">
-        {{ uiLabels.header }}
+        {{ uiLabels.createGame }}
       </button>
     </div>
   </form>
@@ -141,8 +141,6 @@ export default {
     socket.emit("creategame", {gameId: this.gameId, lang: this.lang }); //Emil: och denna?
     socket.emit("joingame", this.gameId); //Emil: har kollat på joingame events som skapas i Create och Lobby. De verkar onödiga
                                           //om jag inte missar något. Föreslår att vi testar att ta bort dem.
-
-
   },
   methods: {
     generategameId: function () {

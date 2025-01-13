@@ -30,7 +30,7 @@ export default {
   methods: {
     answer(answer) {
       this.$emit("answer", answer);
-      this.$emit("answered"); // Emit an event to indicate the question has been answered
+      this.$emit("answered"); 
     },
   }
 }

@@ -3,8 +3,8 @@
     <div>
       <DominationTutorial v-bind:uiLabels="uiLabels"/>
     </div>  
+    
     <div class="lobby-menu">
-
         <div class="game-id-lobby">
           {{ uiLabels.whichGame }} : {{gameId}}
         </div>
@@ -20,8 +20,8 @@
         <p v-if="waitingForPlayers && joined">
           {{ uiLabels.waitingForOthers }}
         </p>
-
     </div>
+
     <footer>
       <button 
         class="back-btn" 
@@ -35,18 +35,15 @@
           v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
         </button>
       </div> 
-
     </footer>
   </div>
 </template>
-
 
 <script>
 import io from 'socket.io-client';
 import QuestionComponent from '../components/QuestionComponent.vue';
 import DominationTutorial from '../components/DominationTutorial.vue';
 const socket = io(sessionStorage.getItem("serverIP"));
-
 
 export default {
   name: 'LobbyView',
