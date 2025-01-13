@@ -156,8 +156,6 @@ export default {
       socket.on("sendNodeStatus", status => {
         console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
-        this.$nextTick(() => {  //la till detta //Emil: Kan tas bort?
-        }); 
       });
       this.gameId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {

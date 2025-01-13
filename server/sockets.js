@@ -4,23 +4,19 @@ function sockets(io, socket, data) {
     socket.emit('uiLabels', data.getUILabels(lang));
   });
 
-  socket.on("getNodeStatus", function(gameId) {
-    socket.emit("sendNodeStatus", data.getNodeStatus(gameId));
-  });
-
   socket.on("nodeStatusUpdate", function (gameId, d) {
     const currentStatus = data.getNodeStatus(gameId)[d.node];
   
     // Prevent overwriting status 1 or 2
     if (currentStatus === 1 || currentStatus === 2 || currentStatus === 3) {
-      console.log("Invalid update: Cannot change node status from", currentStatus, "to", d.status);
       return;
     }
   
     // Allow valid updates
     data.nodeStatusUpdate(gameId, d);
+    process.nextTick(() => {
     io.to(gameId).emit("sendNodeStatus", data.getNodeStatus(gameId));
-
+    });
     /*Emil: om man ändrar raden ovan till:
     process.nextTick(() => {
     io.to(gameId).emit("sendNodeStatus", data.getNodeStatus(gameId));
@@ -85,9 +81,7 @@ function sockets(io, socket, data) {
   });
 
   socket.on('submitAnswer', function(d) {
-     
     data.submitAnswer(d);
-    console.log("now executing emit")
     process.nextTick(() => {
       io.to(d.gameId).emit("sendNodeStatus", data.getNodeStatus(d.gameId));
       io.to(d.gameId).emit('submittedAnswersUpdate', data.getScores(d.gameId));
@@ -103,7 +97,6 @@ function sockets(io, socket, data) {
   });
 
   socket.on("giveUp", function(d){
-    console.log("server recieve playerRole", d.playerRole)
     io.to(d.gameId).emit("handleGiveUp", data.getWinner(d.playerRole))
   });
 

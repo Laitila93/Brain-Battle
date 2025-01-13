@@ -4,21 +4,10 @@ export function setNodeStatus({d, gameId, nodeStatus, socket}) {
     try {
       nodeStatus[d.node] = d.status;
       socket.emit("nodeStatusUpdate", gameId, d);
-      getNodeStatus(gameId, socket); //Emil: har ett förslag på hur man verkar kunna ändra så att 
-                                      // getNodeStatus blir överflödig. Se nodeStatusUpdate i sockets.js
     } catch (error) {
       console.error("Error in setNodeStatus method:", error);
     }
   }
-  
-  export function getNodeStatus(gameId, socket) {
-    try {
-      socket.emit("getNodeStatus", gameId);
-    } catch (error) {
-      console.error("Error in getNodeStatus method:", error);
-    }
-  }
-
 
   export function checkAdjacentNodes({
     nodeStatus,
