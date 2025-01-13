@@ -14,10 +14,11 @@
 	},
 
 	"CreateViewLabels": {
+		"header": "Skapa nytt spel",
 		"whichGame": "Spel-ID",
 		"chooseOperator": "Välj ett räknesätt: ",
 		"chooseNumberOfQuestions": "Välj antal frågor: ",
-		"createGame": "Skapa nytt spel",
+		"createGame": "Skapa spel",
 		"changeLanguage": "Change language to: ",
 		"chooseRange": "Välj nummerintervall: ",
 		"returnHome": "Till startsidan",
