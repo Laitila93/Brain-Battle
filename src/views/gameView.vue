@@ -1,10 +1,10 @@
 <template>
   <header>
-    <div class="lang-switcher">
+    <div class="header-container">
       <button class="back-btn" v-on:click="giveUp">
         {{ uiLabels.giveUp }}
       </button>
-      <div>
+      <div class="lang-container">
         {{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 

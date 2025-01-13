@@ -1,13 +1,13 @@
 <template>
   <header>
 
-      <div class="lang-switcher">
+      <div class="header-container">
         <button 
         class="back-btn" 
         onclick="location.href='/';">
         {{ uiLabels.returnHome }}
       </button>
-      <div>
+      <div class="lang-container">
         {{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 
@@ -40,9 +40,6 @@
         </p>
 
     </div>
-    <footer>
-
-    </footer>
   </div>
 </template>
 
