@@ -136,10 +136,6 @@ export default {
     this.generategameId();
     socket.emit( "getUILabels", this.lang );
     socket.emit("creategame", {gameId: this.gameId, lang: this.lang }); //Emil: och denna?
-    socket.emit("joingame", this.gameId); //Emil: har kollat på joingame events som skapas i Create och Lobby. De verkar onödiga
-                                          //om jag inte missar något. Föreslår att vi testar att ta bort dem.
-
-
   },
   methods: {
     generategameId: function () {

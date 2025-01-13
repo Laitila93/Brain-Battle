@@ -91,9 +91,7 @@ export default {
     socket.on("error", (message) => {
     alert(message);
     });
-    
-    socket.emit( "joingame", this.gameId ); //Emil: se CreateView, vi verkar kunna ta bort denna tack vare
-                                            //uppdateringar i servern i particpateIngame.
+
     socket.emit( "getUILabels", this.lang );
   },
 
