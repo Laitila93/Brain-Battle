@@ -143,7 +143,6 @@ export default {
   },
   watch: {
     nodeStatus: function () {
-      console.log("NodeStatus changed, calling drawNodeColors", this.nodeStatus[3]);
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -155,7 +154,6 @@ export default {
   methods: {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
-        console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
       });
       this.gameId = this.$route.params.id;
@@ -180,7 +178,6 @@ export default {
       });
 
       socket.on("submittedAnswersUpdate", scores => {
-        console.log("submittedAnswersUpdate event caught, calling checkAdjacent");
         checkAdjacentNodes({
             nodeStatus: this.nodeStatus,
             columns: this.columns,
@@ -272,7 +269,6 @@ export default {
         this.lastAnswer = "correct";
       }
       else {
-        console.log("wrong answer");
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
         socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         drawNodeColors({ 
