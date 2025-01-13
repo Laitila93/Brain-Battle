@@ -1,43 +1,40 @@
 <template>
-      <header>
-
-        <div class="lang-switcher">
-        <button 
-        class="back-btn" 
-        onclick="location.href='/';">
-        {{ uiLabels.returnHome }}
+  <div class="header-container">
+    <button 
+      class="back-btn" 
+      onclick="location.href='/';">
+      {{ uiLabels.returnHome }}
+    </button>
+    <div class="lang-container">
+      {{ uiLabels.changeLanguage }}
+      <button 
+        v-on:click="switchLanguage" 
+        v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
-      <div>
-        {{ uiLabels.changeLanguage }}
-        <button 
-          v-on:click="switchLanguage" 
-          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-        </button>
-      </div>
-      </div> 
-
-    </header>
+    </div>
+  </div> 
   <div class="main-container">
     <div class="game-id">
-      <h1>{{ uiLabels.whichGame }}: {{ gameId }} </h1>
+      <h1>
+        {{ uiLabels.whichGame }}: {{ gameId }} 
+      </h1>
     </div>
     <p v-if="errorMessage" class="error-message">
     {{ errorMessage }}
-  </p>
+    </p>
   <form id="createForm" class="form-grid" @submit="createAndStart">
     <div class="operator-section">
       <label for="formOperator">
         {{ uiLabels.chooseOperator }}
       </label>
       <div class="radio-group">
-       <div class="radio-item" v-for="operator in operators" :key="operator.id">
+        <div class="radio-item" v-for="operator in operators" :key="operator.id">
           <input 
             type="radio" 
             :id="operator.id" 
             name="operator" 
             :value="operator.value" 
-            v-model="formOperator"
-          >
+            v-model="formOperator">
           <label :for="operator.id">
             {{ operator.label }}
           </label>
@@ -55,8 +52,7 @@
             :id="amountOfQuestions.id" 
             name="questions" 
             :value="amountOfQuestions.value" 
-            v-model="numberOfQuestions"
-          >
+            v-model="numberOfQuestions">
           <label :for="amountOfQuestions.id">{{ amountOfQuestions.label }}</label>
         </div>
       </div>
@@ -71,8 +67,7 @@
             :id="range.id" 
             name="range" 
             :value="range.value" 
-            v-model="formMax"
-          >
+            v-model="formMax">
           <label :for="range.id">
             {{ range.value === 'custom' ? uiLabels.custom : range.label }}
           </label>
@@ -84,15 +79,12 @@
         v-model.number="customRange" 
         :placeholder="uiLabels.enterCustomRange"
         min="2"
-        max="1000"
-      >
+        max="1000">
     </div>
     <div 
       class="content-separator">
     </div>
-
     <div class="menu-section">
-
       <button type="submit" class="menu-btn create-btn">
         {{ uiLabels.createGame }}
       </button>

@@ -1,19 +1,15 @@
 <template>
-  <!--Emil: the header element is not necessary for the resulting layout. Should it
-  still be kept for readability reasons?-->
   <header>
-    <div class="lang-switcher">
-    <div></div>
-      <div>
+    <div class="header-container">
+      <div class="lang-container" id="start-lang-container">
         {{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 
           v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
         </button>
       </div>
-      </div> 
-
-    </header>
+    </div> 
+  </header>
   <div class="main-container">
     <div>
     <div class="logo">

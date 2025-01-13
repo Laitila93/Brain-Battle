@@ -9,14 +9,32 @@
   text-transform: uppercase;  
 }
 
-
-/*Reused component containers -----------*/
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   background-color: #1e1e2f;
   color: #007bff;
+}
+
+
+/*Reused component containers -----------*/
+header {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+}
+
+.header-container {
+  padding: 4px 20px 0 20px;
+  color:white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
 }
 
 .main-container {
@@ -35,13 +53,6 @@ body {
   justify-content: center;
 }
 
-footer {
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
 /*Reused error message class -----------*/
 .error-message {
@@ -97,7 +108,7 @@ footer {
 
 .back-btn {
   background-color: #007bff;
-  justify-content: flex-start;
+  justify-content: center;
   width: 13em;
   height: 2em;
   display: grid;
@@ -106,7 +117,6 @@ footer {
   text-transform: uppercase;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
-  margin: 0 0 0 20px;
 }
 
 .back-btn:hover {
@@ -121,18 +131,12 @@ footer {
   left: 0px;
 }
 
-.lang-switcher {
-  color:white;
+.lang-container {
+  padding-top: 4px;
   display: flex;
-  justify-content: space-between;
-  padding: 1em;
-  padding-bottom: 0%;
+  flex-direction: row;
   align-items: center;
   gap: 1em;
-  font-size: 1em;
-  letter-spacing: 0.1rem;
-  text-transform: uppercase;
-  margin: 0 20px 4px 0;
 }
 
 .lang-btn {
@@ -154,12 +158,6 @@ footer {
 
 
 /* StartView -----------*/
-
-header {
-  background-color:#1e1e2f; /*Emil: this class is unnecessary, 
-                                but we still might want to keep it, maybe ask Mikael.*/
-  width: 100%;
-}
 
 .logo {
   letter-spacing: 0.25em;

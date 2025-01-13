@@ -1,10 +1,9 @@
 <template>
-  <header>
-    <div class="lang-switcher">
+    <div class="header-container">
       <button class="back-btn" v-on:click="giveUp">
         {{ uiLabels.giveUp }}
       </button>
-      <div>
+      <div class="lang-container">
         {{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 
@@ -12,17 +11,25 @@
         </button>
       </div>
     </div> 
-  </header>
 
   <div class="main-container"> 
     <div class="banner">
-      <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
-      <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
-      <div class="game-id-game">{{ uiLabels.whichGame }}: {{ gameId }}</div>
-      <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
-      <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
+      <div class="player player1" v-if="playerRole === 'Player 1'">
+        {{ uiLabels.yourScore }}: {{ this.scores.p1Score }}
+      </div>
+      <div class="player player1" v-else>
+        {{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}
+      </div>
+      <div class="game-id-game">
+        {{ uiLabels.whichGame }}: {{ gameId }}
+      </div>
+      <div class="player player2" v-if="playerRole === 'Player 2'">
+        {{ uiLabels.yourScore }}: {{ this.scores.p2Score }}
+      </div>
+      <div class="player player2" v-else>
+        {{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}
+      </div>
     </div>
-
     <div class="node-area">
       <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
         <NodeComponent 
@@ -34,33 +41,46 @@
       </div>
     </div>
     <div v-if="!isGameOver">
-      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">{{ uiLabels.correctAnswer }}</div>
-      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">{{ uiLabels.wrongAnswer }}</div>
-      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">{{ uiLabels.clickNodePrompt }}</div>
-          <div v-if="showQuestionComponent">
-            <QuestionComponent
-              v-bind:question="question" 
-              v-on:answer="submitAnswer($event, this.playerRole)"
-              v-on:answered="handleAnswered"
+      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">
+        {{ uiLabels.correctAnswer }}
+      </div>
+      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">
+        {{ uiLabels.wrongAnswer }}
+      </div>
+      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">
+        {{ uiLabels.clickNodePrompt }}
+      </div>
+        <div v-if="showQuestionComponent">
+          <QuestionComponent
+            v-bind:question="question" 
+            v-on:answer="submitAnswer($event, this.playerRole)"
+            v-on:answered="handleAnswered"
             />
-          </div>
+        </div>
     </div>
     <div v-else>
-      <div>{{ uiLabels.gameOver }}</div>
-      <div v-if="gaveUp && winner === playerRole">{{ uiLabels.opponentGaveUp }}</div>
-      <div v-if="gaveUp && winner !== playerRole">{{ uiLabels.youGaveUp }}</div>
-
-      <div :class="'who-wins-' + playerRoleShort" v-if="winner === playerRole">{{uiLabels.youWin}}</div>
-      <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">{{uiLabels.draw}}</div>
-      <div :class="'who-wins-' + playerRoleShort" v-else>{{ uiLabels.youLoose }}</div>
-        
-      <button 
-        class="back-btn back-btn-game" 
-        onclick="location.href='/';">
+      <div>
+        {{ uiLabels.gameOver }}
+      </div>
+      <div v-if="gaveUp && winner === playerRole">
+        {{ uiLabels.opponentGaveUp }}
+      </div>
+      <div v-if="gaveUp && winner !== playerRole">
+        {{ uiLabels.youGaveUp }}
+      </div>
+      <div :class="'who-wins-' + playerRoleShort" v-if="winner === playerRole">
+        {{uiLabels.youWin}}
+      </div>
+      <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">
+        {{uiLabels.draw}}
+      </div>
+      <div :class="'who-wins-' + playerRoleShort" v-else>
+        {{ uiLabels.youLoose }}
+      </div>
+      <button class="back-btn back-btn-game" onclick="location.href='/';">
           {{ uiLabels.returnHome }}
       </button>
     </div>
-
   </div>
 </template>
 
@@ -103,7 +123,7 @@ export default {
 //--------------------------------------------------------------------------------
   created: function () {
     this.gameSetup();
-    //lines below to handle bugs after refresh
+    //lines below to handle bugs after refresh in game.
     const savedQuestionNumber = sessionStorage.getItem("currentQuestionNumber");
     const showQuestionComponent = sessionStorage.getItem("showQuestionComponent") === "true";
     const savedP1Score = sessionStorage.getItem("savedP1Score");
@@ -123,7 +143,6 @@ export default {
       this.scores.p1Score = savedP1Score;
       this.scores.p2Score = savedP2Score;
     }
-    //this.checkIsGameOver();
   },
   computed: {
     dynamicGap() {
@@ -143,7 +162,6 @@ export default {
   },
   watch: {
     nodeStatus: function () {
-      console.log("NodeStatus changed, calling drawNodeColors", this.nodeStatus[3]);
         drawNodeColors({ 
           nodeStatus: this.nodeStatus, 
           showQuestionComponent: this.showQuestionComponent, 
@@ -155,7 +173,6 @@ export default {
   methods: {
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
-        console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
       });
       this.gameId = this.$route.params.id;
@@ -180,7 +197,6 @@ export default {
       });
 
       socket.on("submittedAnswersUpdate", scores => {
-        console.log("submittedAnswersUpdate event caught, calling checkAdjacent");
         checkAdjacentNodes({
             nodeStatus: this.nodeStatus,
             columns: this.columns,
@@ -263,16 +279,10 @@ export default {
 
     submitAnswer: function (answer, playerRole) {
       if (answer.c) {
-        socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); 
-        drawNodeColors({ 
-          nodeStatus: this.nodeStatus, 
-          showQuestionComponent: this.showQuestionComponent, 
-          totalQuestions: this.totalQuestions, 
-          playerRole: this.playerRole });
+        socket.emit("submitAnswer", { gameId: this.gameId, correct: answer.c, playerRole: playerRole }); 
         this.lastAnswer = "correct";
       }
       else {
-        console.log("wrong answer");
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
         socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
         drawNodeColors({ 
@@ -281,7 +291,6 @@ export default {
           totalQuestions: this.totalQuestions, 
           playerRole: this.playerRole });
         this.lastAnswer = "wrong";
-      
       } 
     },
     runQuestion: function (questionNumber) {
