@@ -1,9 +1,7 @@
 <template>
-  <!--Emil: the header element is not necessary for the resulting layout. Should it
-  still be kept for readability reasons?-->
   <header>
     <div class="header-container">
-      <div class="lang-container">
+      <div class="lang-container" id="start-lang-container">
         {{ uiLabels.changeLanguage }}
         <button 
           v-on:click="switchLanguage" 
@@ -57,7 +55,7 @@
 
 import io from 'socket.io-client';
 
-sessionStorage.setItem("serverIP", "130.243.222.19:3000");
+sessionStorage.setItem("serverIP", "192.168.116.11:3000"); //Must be changed to your local IP-address
 
 const socket = io(sessionStorage.getItem("serverIP"));
 

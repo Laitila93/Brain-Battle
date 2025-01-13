@@ -26,7 +26,6 @@ header {
 }
 
 .header-container {
-  width: 100%;
   padding: 4px 20px 0 20px;
   color:white;
   display: flex;
@@ -39,7 +38,6 @@ header {
 }
 
 .main-container {
-
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

@@ -1,20 +1,18 @@
 <template>
-  <header>
-    <div class="header-container">
+  <div class="header-container">
+    <button 
+      class="back-btn" 
+      onclick="location.href='/';">
+      {{ uiLabels.returnHome }}
+    </button>
+    <div class="lang-container">
+      {{ uiLabels.changeLanguage }}
       <button 
-        class="back-btn" 
-        onclick="location.href='/';">
-        {{ uiLabels.returnHome }}
+        v-on:click="switchLanguage" 
+        v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
-      <div class="lang-container">
-        {{ uiLabels.changeLanguage }}
-        <button 
-          v-on:click="switchLanguage" 
-          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-        </button>
-      </div>
-    </div> 
-  </header>
+    </div>
+  </div> 
   <div class="main-container">
     <div class="game-id">
       <h1>
@@ -87,7 +85,6 @@
       class="content-separator">
     </div>
     <div class="menu-section">
-
       <button type="submit" class="menu-btn create-btn">
         {{ uiLabels.createGame }}
       </button>

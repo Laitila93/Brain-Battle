@@ -1,5 +1,4 @@
 <template>
-  <header>
     <div class="header-container">
       <button class="back-btn" v-on:click="giveUp">
         {{ uiLabels.giveUp }}
@@ -12,17 +11,25 @@
         </button>
       </div>
     </div> 
-  </header>
 
   <div class="main-container"> 
     <div class="banner">
-      <div class="player player1" v-if="playerRole === 'Player 1'">{{ uiLabels.yourScore }}: {{ this.scores.p1Score }}</div>
-      <div class="player player1" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}</div>
-      <div class="game-id-game">{{ uiLabels.whichGame }}: {{ gameId }}</div>
-      <div class="player player2" v-if="playerRole === 'Player 2'">{{ uiLabels.yourScore }}: {{ this.scores.p2Score }}</div>
-      <div class="player player2" v-else>{{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}</div>
+      <div class="player player1" v-if="playerRole === 'Player 1'">
+        {{ uiLabels.yourScore }}: {{ this.scores.p1Score }}
+      </div>
+      <div class="player player1" v-else>
+        {{ uiLabels.opponentScore }}: {{ this.scores.p1Score }}
+      </div>
+      <div class="game-id-game">
+        {{ uiLabels.whichGame }}: {{ gameId }}
+      </div>
+      <div class="player player2" v-if="playerRole === 'Player 2'">
+        {{ uiLabels.yourScore }}: {{ this.scores.p2Score }}
+      </div>
+      <div class="player player2" v-else>
+        {{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}
+      </div>
     </div>
-
     <div class="node-area">
       <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
         <NodeComponent 
@@ -34,33 +41,46 @@
       </div>
     </div>
     <div v-if="!isGameOver">
-      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">{{ uiLabels.correctAnswer }}</div>
-      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">{{ uiLabels.wrongAnswer }}</div>
-      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">{{ uiLabels.clickNodePrompt }}</div>
-          <div v-if="showQuestionComponent">
-            <QuestionComponent
-              v-bind:question="question" 
-              v-on:answer="submitAnswer($event, this.playerRole)"
-              v-on:answered="handleAnswered"
+      <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">
+        {{ uiLabels.correctAnswer }}
+      </div>
+      <div v-if="lastAnswer === 'wrong' && showQuestionComponent !== true">
+        {{ uiLabels.wrongAnswer }}
+      </div>
+      <div v-if="lastAnswer === 'start' && showQuestionComponent !== true">
+        {{ uiLabels.clickNodePrompt }}
+      </div>
+        <div v-if="showQuestionComponent">
+          <QuestionComponent
+            v-bind:question="question" 
+            v-on:answer="submitAnswer($event, this.playerRole)"
+            v-on:answered="handleAnswered"
             />
-          </div>
+        </div>
     </div>
     <div v-else>
-      <div>{{ uiLabels.gameOver }}</div>
-      <div v-if="gaveUp && winner === playerRole">{{ uiLabels.opponentGaveUp }}</div>
-      <div v-if="gaveUp && winner !== playerRole">{{ uiLabels.youGaveUp }}</div>
-
-      <div :class="'who-wins-' + playerRoleShort" v-if="winner === playerRole">{{uiLabels.youWin}}</div>
-      <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">{{uiLabels.draw}}</div>
-      <div :class="'who-wins-' + playerRoleShort" v-else>{{ uiLabels.youLoose }}</div>
-        
-      <button 
-        class="back-btn back-btn-game" 
-        onclick="location.href='/';">
+      <div>
+        {{ uiLabels.gameOver }}
+      </div>
+      <div v-if="gaveUp && winner === playerRole">
+        {{ uiLabels.opponentGaveUp }}
+      </div>
+      <div v-if="gaveUp && winner !== playerRole">
+        {{ uiLabels.youGaveUp }}
+      </div>
+      <div :class="'who-wins-' + playerRoleShort" v-if="winner === playerRole">
+        {{uiLabels.youWin}}
+      </div>
+      <div :class="'who-wins-' + playerRoleShort" v-else-if="winner === ''">
+        {{uiLabels.draw}}
+      </div>
+      <div :class="'who-wins-' + playerRoleShort" v-else>
+        {{ uiLabels.youLoose }}
+      </div>
+      <button class="back-btn back-btn-game" onclick="location.href='/';">
           {{ uiLabels.returnHome }}
       </button>
     </div>
-
   </div>
 </template>
 

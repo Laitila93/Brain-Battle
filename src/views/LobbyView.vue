@@ -1,44 +1,40 @@
 <template>
-  <header>
-
-      <div class="header-container">
-        <button 
-        class="back-btn" 
-        onclick="location.href='/';">
-        {{ uiLabels.returnHome }}
+  <div class="header-container">
+    <button 
+      class="back-btn" 
+      onclick="location.href='/';">
+      {{ uiLabels.returnHome }}
+    </button>
+    <div class="lang-container">
+      {{ uiLabels.changeLanguage }}
+      <button 
+        v-on:click="switchLanguage" 
+        v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
       </button>
-      <div class="lang-container">
-        {{ uiLabels.changeLanguage }}
-        <button 
-          v-on:click="switchLanguage" 
-          v-bind:class="['button-sv', {'button-en':this.lang=='sv'},'lang-btn']">
-        </button>
-      </div>
-      </div> 
-
-  </header>
+    </div>
+  </div> 
   <div class="main-container">
     <div>
       <DominationTutorial v-bind:uiLabels="uiLabels"/>
     </div>  
     <div class="lobby-menu">
-
-        <div class="game-id-lobby">
-          {{ uiLabels.whichGame }} : {{gameId}}
-        </div>
-        <p v-if="playerRole">
-          {{ uiLabels.youAre }} 
-          <strong>{{ playerRole }}</strong>
-        </p>
-        <div v-if="!joined" class="menu-section">
-          <button @click="participateIngame" class="menu-btn join-btn">
-            {{uiLabels.participateInGame}}
-          </button>
-        </div>
-        <p v-if="waitingForPlayers && joined">
-          {{ uiLabels.waitingForOthers }}
-        </p>
-
+      <div class="game-id-lobby">
+        {{ uiLabels.whichGame }} : {{gameId}}
+      </div>
+      <p v-if="playerRole">
+        {{ uiLabels.youAre }} 
+        <strong>
+          {{ playerRole }}
+        </strong>
+      </p>
+      <div v-if="!joined" class="menu-section">
+        <button @click="participateIngame" class="menu-btn join-btn">
+          {{uiLabels.participateInGame}}
+        </button>
+      </div>
+      <p v-if="waitingForPlayers && joined">
+        {{ uiLabels.waitingForOthers }}
+      </p>
     </div>
   </div>
 </template>
