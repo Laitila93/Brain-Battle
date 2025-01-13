@@ -107,23 +107,18 @@ export default {
       gameId: null,
       question: "",
       answers: ["", ""],
-      questionNumber: 0, //Emil: verkar kunna tas bort av samma anledning som nedan
       uiLabels: {},
       operators: options.operators,
       amountOfQuestions: options.amountOfQuestions,
       range: options.range,
-
       formOperator: null,
       formMin: 1,
       formMax: null,
       customRange: null,
-
       errorMessage: '',
-
       operator: null,
       min: null,
       max: null,
-
       numberOfQuestions: null,
       questions:
       {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
@@ -155,7 +150,6 @@ export default {
         for (let i = 0; i < this.numberOfQuestions; i++){
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, gameId: this.gameId} );
         }
-        socket.emit("creategame", {gameId: this.gameId, lang: this.lang });
         this.$router.push(('/lobby/' + this.gameId))
       }
       else {
