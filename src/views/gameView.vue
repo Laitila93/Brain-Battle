@@ -88,13 +88,10 @@ export default {
       lang: sessionStorage.getItem( "lang") || "en",
       playerRole: sessionStorage.getItem("playerRole") || "",
       gameId: "inactive game",
-      submittedAnswers: {}, //Emil: kan tas bort, alt lägg till funktionalitet så att denna uppdateras och kan nås i Result?
       questionNumber: 0,
       totalQuestions: 0,
-      nodeNumber: 0, //Emi: kan tas bort?
       columns: 0,
       nodeStatus: [],
-      firstCheck: true, // Guard variable //Emil: Kan tas bort? 
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "start", 
@@ -160,8 +157,6 @@ export default {
       socket.on("sendNodeStatus", status => {
         console.log("SendNodeStatus event caught, nodeStatus updated");
         this.nodeStatus = status;
-        this.$nextTick(() => {  //la till detta //Emil: Kan tas bort?
-        }); 
       });
       this.gameId = this.$route.params.id;
       socket.on("numberOfQuestions", number => {

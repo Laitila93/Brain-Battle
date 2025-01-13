@@ -4,28 +4,6 @@ import {readFileSync} from "fs";
 // Store data in an object to keep the global namespace clean. In an actual implementation this would be interfacing a database...
 function Data() {
   this.games = {};
-  this.games['test'] = {
-    lang: "en",
-    questions: [
-      {q: "1?", 
-       a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
-      },
-      {q: "2?", 
-       a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
-      },
-      {q: "3?", 
-        a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
-       },
-       {q: "4?", 
-        a: [{a:"0-13", c:true}, {a:"14-18", c:false}, {a:"19-25", c:false}, {a:"26-35", c:false}]
-       }
-      ],
-      answers: [],
-      currentQuestion: [],
-      participants: [],
-      nodeStatus: [],
-      scores: {p1Score: 1, p2Score: 1}
-    }
   }
 
 /***********************************************
@@ -41,7 +19,6 @@ Data.prototype.gameExists = function (gameId) {
 Data.prototype.getNodeStatus = function (gameId) {
   return this.games[gameId].nodeStatus;
 }
-
 
 Data.prototype.getScores = function (gameId) {
   return this.games[gameId].scores;
@@ -81,7 +58,7 @@ Data.prototype.getgame = function(gameId) {
   }
   return {};
 }
-//Lägger till playerName
+
 Data.prototype.participateIngame = function (gameId, player) {
   if (this.gameExists(gameId)) {
     const game = this.games[gameId];
@@ -94,31 +71,20 @@ Data.prototype.participateIngame = function (gameId, player) {
 
 Data.prototype.getParticipants = function(gameId) {
   const game = this.games[gameId];
-  console.log("DATA: participants requested for", gameId);
   if (this.gameExists(gameId)) { 
     return this.games[gameId].participants
   }
   return [];
-}
-//Lagt till detta
-Data.prototype.getPlayerName = function(gameId, player) {
-  if (this.gameExists(gameId)) {
-    const participant = this.games[gameId].participants.find(p => p.player === player);
-    return participant ? participant.name : null;
-  }
-  return null;
 }
 
 Data.prototype.addQuestion = function(gameId, q) {
   if (this.gameExists(gameId)) {
     this.games[gameId].questions.push(q);
     this.games[gameId].nodeStatus.push(0);
-    this.games[gameId].answers.push({});
   }
 }
 
 Data.prototype.getQuestion = function(gameId, player = null, qId = null) {
-
   if (this.gameExists(gameId)) {
     const game = this.games[gameId];
     if (qId !== null) {
@@ -133,9 +99,7 @@ Data.prototype.getQuestion = function(gameId, player = null, qId = null) {
       else {
         return game.questions[qId];
       }
-
     }
-    
   }
   return {}
 }
@@ -144,17 +108,6 @@ Data.prototype.getNumberOfQuestions = function(gameId) {
   if (this.gameExists(gameId)) {
     const game = this.games[gameId];
     return game.questions;
-  }
-  return {}
-}
-
-Data.prototype.getSubmittedAnswers = function(gameId) { //Denna funktion returnerar bara svar från spelare 1!!
-  if (this.gameExists(gameId)) {
-    const game = this.games[gameId];
-    const answers = game.answers[game.currentQuestion[0]];
-    if (typeof game.questions[game.currentQuestion[0]] !== 'undefined') {
-      return answers;
-    }
   }
   return {}
 }
@@ -169,28 +122,21 @@ Data.prototype.getWinner = function(playerRole){
 }
 
 Data.prototype.submitAnswer = function(d) { 
-
   if (this.gameExists(d.gameId)) {
-
     const game = this.games[d.gameId];
-    let answers = {};
-    
     if(d.correct){
       if (d.playerRole === "Player 1"){ 
         if (game.nodeStatus[game.currentQuestion[0]] !== 1 && game.nodeStatus[game.currentQuestion[0]] !== 2 && game.nodeStatus[game.currentQuestion[0]] !== 3){
-          answers = game.answers[game.currentQuestion[0]]; //behövs dessa answers????
           game.nodeStatus[game.currentQuestion[0]] = 1; // Player 1 claims
           game.scores.p1Score++;
         }   
       }
       if (d.playerRole === "Player 2"){
         if (game.nodeStatus[game.currentQuestion[1]] !== 1 && game.nodeStatus[game.currentQuestion[1]] !== 2 && game.nodeStatus[game.currentQuestion[1]] !== 3){
-          answers = game.answers[game.currentQuestion[1]];
           game.nodeStatus[game.currentQuestion[1]] = 2; // Player 2 claims
           game.scores.p2Score++;
         }
       }
-      
     }
     else {
       if (d.playerRole === "Player 1"){

@@ -77,7 +77,6 @@ export default {
     socket.on("playerRoleAssigned", (role) => {
       this.playerRole = role;
       sessionStorage.setItem("playerRole", role);
-      console.log("LOBBY: Player role assigned: ", role);
       this.joined = true;
     });
 
@@ -85,27 +84,22 @@ export default {
     socket.on("participantsUpdate", (participants) => {
       if (participants.length === 2) {
         this.waitingForPlayers = false;
-        console.log("LOBBY: Both players joined. Starting the game!");
       }
     });
     
     socket.on("startgame", () => {
-    console.log("LOBBY: Game started!");
     this.$router.push(`/game/${this.gameId}`);
     });
 
     socket.on("error", (message) => {
     alert(message);
     });
-    
-    socket.emit( "joingame", this.gameId ); //Emil: se CreateView, vi verkar kunna ta bort denna tack vare
-                                            //uppdateringar i servern i particpateIngame.
+
     socket.emit( "getUILabels", this.lang );
   },
 
   methods: {
     participateIngame() {
-      console.log("participateIngame ", this.gameId, this.uiLabels.waitingForPlayer)
       socket.emit("participateIngame", { gameId: this.gameId });
     },
 

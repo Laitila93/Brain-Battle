@@ -21,7 +21,9 @@
     <div class="game-id">
       <h1>{{ uiLabels.whichGame }}: {{ gameId }} </h1>
     </div>
-
+    <p v-if="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
   <form id="createForm" class="form-grid" @submit="createAndStart">
     <div class="operator-section">
       <label for="formOperator">
@@ -88,15 +90,15 @@
     <div 
       class="content-separator">
     </div>
+
     <div class="menu-section">
+
       <button type="submit" class="menu-btn create-btn">
-        {{ uiLabels.header }}
+        {{ uiLabels.createGame }}
       </button>
     </div>
   </form>
-  <p v-if="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </p>
+
 
 </div>
 </template>
@@ -115,24 +117,18 @@ export default {
       gameId: null,
       question: "",
       answers: ["", ""],
-      questionNumber: 0, //Emil: verkar kunna tas bort av samma anledning som nedan
-      gameData: {}, //EmiL: den här tycker jag verkar onödig, har testat att ta bort den och allt verkar funka.
       uiLabels: {},
       operators: options.operators,
       amountOfQuestions: options.amountOfQuestions,
       range: options.range,
-
       formOperator: null,
       formMin: 1,
       formMax: null,
       customRange: null,
-
       errorMessage: '',
-
       operator: null,
       min: null,
       max: null,
-
       numberOfQuestions: null,
       questions:
       {q: "", a: [{a:null, c:true}, {a:null, c:false}, {a:null, c:false}, {a:null, c:false}]}
@@ -140,17 +136,10 @@ export default {
     }
   },
   created: function () {
-    
     socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
-    socket.on( "gameData", data => this.gameData = data ); //Emil: Även denna tkr jag vi kan ta bort, se ovan
     this.generategameId();
-    socket.on( "participantsUpdate", p => this.gameData.participants = p ); //Emil: och denna
     socket.emit( "getUILabels", this.lang );
-    socket.emit("creategame", {gameId: this.gameId, lang: this.lang }); //Emil: och denna?
-    socket.emit("joingame", this.gameId); //Emil: har kollat på joingame events som skapas i Create och Lobby. De verkar onödiga
-                                          //om jag inte missar något. Föreslår att vi testar att ta bort dem.
-
-
+    socket.emit("creategame", {gameId: this.gameId, lang: this.lang });
   },
   methods: {
     generategameId: function () {
@@ -171,8 +160,6 @@ export default {
         for (let i = 0; i < this.numberOfQuestions; i++){
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, gameId: this.gameId} );
         }
-        socket.emit("creategame", {gameId: this.gameId, lang: this.lang });
-        socket.emit("joingame", this.gameId); //Emil: joingame event som verkar kunna tas bort
         this.$router.push(('/lobby/' + this.gameId))
       }
       else {
