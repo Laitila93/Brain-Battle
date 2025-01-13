@@ -132,6 +132,7 @@ header {
 }
 
 .lang-container {
+  padding-top: 4px;
   display: flex;
   flex-direction: row;
   align-items: center;

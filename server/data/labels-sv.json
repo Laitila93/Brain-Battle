@@ -20,7 +20,7 @@
 		"createGame": "Skapa nytt spel",
 		"changeLanguage": "Change language to: ",
 		"chooseRange": "Välj nummerintervall: ",
-		"returnHome": "Till startsidan",
+		"returnHome": "Startsida",
 		"errorMessage": "Fyll i alla fält innan du fortsätter.",
 		"custom":"Anpassat (1 - ?)",
 		"enterCustomRange": "Ange anpassat slut på intervall"
@@ -33,7 +33,7 @@
 		"participateInGame": "Gå med",
 		"waitingForOthers": "Väntar på motspelare...",
 		"changeLanguage": "Change language to: ",
-		"returnHome": "Till startsidan",
+		"returnHome": "Startsida",
 		"notClickable": "Inte klickbar",
 		"clickable": "Klickbar",
 		"takenp1": "Tagen av Spelare 1",
@@ -56,11 +56,11 @@
 		"youWin": "Du vann!",
 		"youLoose": "Du förlorade!",
 		"draw": "Oavgjort",
-		"returnHome": "Till startsidan",
+		"returnHome": "Startsida",
 		"changeLanguage": "Change language to: ",
 		"giveUp": "Ge upp",
 		"opponentGaveUp": "Motståndaren gav upp",
-		"youGaveUp": "Du gave upp"
+		"youGaveUp": "Du gav upp"
 	}
 
 }
