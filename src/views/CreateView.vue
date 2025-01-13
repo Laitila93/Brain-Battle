@@ -108,7 +108,6 @@ export default {
       question: "",
       answers: ["", ""],
       questionNumber: 0, //Emil: verkar kunna tas bort av samma anledning som nedan
-      gameData: {}, //EmiL: den här tycker jag verkar onödig, har testat att ta bort den och allt verkar funka.
       uiLabels: {},
       operators: options.operators,
       amountOfQuestions: options.amountOfQuestions,
@@ -134,9 +133,7 @@ export default {
   created: function () {
     
     socket.on( "uiLabels", labels => this.uiLabels = labels.CreateViewLabels );
-    socket.on( "gameData", data => this.gameData = data ); //Emil: Även denna tkr jag vi kan ta bort, se ovan
     this.generategameId();
-    socket.on( "participantsUpdate", p => this.gameData.participants = p ); //Emil: och denna
     socket.emit( "getUILabels", this.lang );
     socket.emit("creategame", {gameId: this.gameId, lang: this.lang }); //Emil: och denna?
     socket.emit("joingame", this.gameId); //Emil: har kollat på joingame events som skapas i Create och Lobby. De verkar onödiga
