@@ -54,9 +54,8 @@
 <script>
 
 import io from 'socket.io-client';
-const serverIP = import.meta.env.VUE_APP_SERVER_IP|| "";
-localStorage.setItem("serverIP", serverIP);
-
+//const serverIP = import.meta.env.VUE_APP_SERVER_IP|| "";
+localStorage.setItem("serverIP", "");
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
