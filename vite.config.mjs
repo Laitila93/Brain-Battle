@@ -10,7 +10,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'ads.txt',
+          src: 'Ads.txt',
           dest: ''
         }
       ]
