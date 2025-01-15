@@ -1,6 +1,11 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let httpServer;
 let io;
@@ -9,30 +14,24 @@ if (process.env.NODE_ENV === 'production') {
   const app = express();
   httpServer = createServer(app);
   io = new Server(httpServer);
-  let path = import.meta.dirname.split("/");
-  path.pop();
-  app.use(express.static(path.join("/") + '/dist/'));
-  app.get('/', (req, res) => {
-    res.sendFile(path.join("/") +'/dist/index.html');
-});
 
-}
-else {
-httpServer = createServer();
-io = new Server(httpServer, {
+  app.use(express.static(path.join(__dirname, '../dist')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+} else {
+  httpServer = createServer();
+  io = new Server(httpServer, {
     cors: {
       origin: "*",
       methods: ["GET"],
       credentials: true
-  }
-});
+    }
+  });
 }
-// Read in the "class" to store all our data on the server side
-// If you need to change how data is handled, check the Data.js file!
 
 import { Data } from "./Data.js";
-
-//
 import { sockets } from "./sockets.js";
 
 let data = new Data();
@@ -43,5 +42,5 @@ io.on('connection', function (socket) {
 
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, function() {
-    console.log("Socket.io server running on http://localhost:" + PORT);
+  console.log("Socket.io server running on http://localhost:" + PORT);
 });
