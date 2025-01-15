@@ -1,7 +1,6 @@
-# polly24
+# Brain Battle
 
-This is skeleton code for building "real-time" quiz and polling tools. The code is intended for quick prototyping and for learning (user) interface programming.
-
+Brain Battle is a real-time, strategic math game designed for quick prototyping and learning user interface programming. Players compete by answering math questions to claim nodes on a game board, aiming to dominate the board and block their opponent. The game supports multiple languages and offers customizable game settings, including different math operators, question counts, and number ranges.
 
 ## Customize configuration
 
