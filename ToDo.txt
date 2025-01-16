@@ -4,8 +4,8 @@
 
 
 -------------Server optimisation-----------------
-1. Byta så att langage inte hämtas från servern varje gång, utan spara filerna på klientsidan.
-1. Kontrollera alla socket emits för att minska data användningen.
+1. Byta så att language inte hämtas från servern varje gång, utan spara filerna på klientsidan.
+1. Kontrollera alla socket emits för att minska dataanvändningen.
 
 
 
@@ -18,6 +18,8 @@
 1. Google adsense? sidan granskas nu för att bli godkänd för att köra google ads på om vi vill
 2. ta betalt på något annat sätt?
 3. Helt gratis och vi står för kostnaderna?
+
+4. publicera på play store? https://developers.google.com/codelabs/pwa-in-play#0
 
 ---------------------Game------------------------
 1.  skapa enspelarläge, kanske tidsbegränsning per fråga som blir kortare för varje fråga och man har 3 "liv" som minskar när man svara fel.
