@@ -1,0 +1,31 @@
+******************Måste fixas********************
+
+---------------------Bugs------------------------
+
+
+-------------Server optimisation-----------------
+1. Byta så att langage inte hämtas från servern varje gång, utan spara filerna på klientsidan.
+1. Kontrollera alla socket emits för att minska data användningen.
+
+
+
+
+
+
+**************Tankar och planering***************
+
+-----------------Finansiering--------------------
+1. Google adsense? sidan granskas nu för att bli godkänd för att köra google ads på om vi vill
+2. ta betalt på något annat sätt?
+3. Helt gratis och vi står för kostnaderna?
+
+---------------------Game------------------------
+1.  skapa enspelarläge, kanske tidsbegränsning per fråga som blir kortare för varje fråga och man har 3 "liv" som minskar när man svara fel.
+    score på slutet är antalet avklarade frågor. Kanske ha en daily challange som ändras varje dag med highscore.
+
+2. Turneringar 
+
+3. lägga till alternativ att gå med som spectator om ett spel redan har max antal spelare eller redan har startat.
+
+------------Funktioner för skolor-----------------
+1. möjligheten att skapa x antal games på en gång och visa dess IDn samt antalet spelare som joinat till varje.
