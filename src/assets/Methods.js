@@ -16,6 +16,7 @@ export function setNodeStatus({d, gameId, nodeStatus, socket}) {
     gameId,
     socket,
   }) {
+    console.log("checkAdjacent")
     let Nodestatus2D = to2DArray(nodeStatus, columns);
     const updateNodeStatus = (adjacentIndex, newStatus) => {
       const currentStatus = Nodestatus2D[adjacentIndex.row][adjacentIndex.col];
@@ -92,6 +93,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
     showQuestionComponent,
     playerRole,
   }) {
+    console.log("Draw")
     for (let i = 1; i <= totalQuestions; i++) {
       const nodeElement = document.getElementById(`node-${i}`);
       if (!nodeElement) {

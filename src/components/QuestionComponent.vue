@@ -19,7 +19,7 @@ export default {
   props: {
     question: Object,
   },
-  emits: ["answer", "answered"],
+  emits: ["answer"],
   computed: {
     playerRoleShort() {
       // Transform "Player 1" -> "p1" and "Player 2" -> "p2"
@@ -30,7 +30,6 @@ export default {
   methods: {
     answer(answer) {
       this.$emit("answer", answer);
-      this.$emit("answered"); // Emit an event to indicate the question has been answered
     },
   }
 }

@@ -30,16 +30,15 @@
         {{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}
       </div>
     </div>
-    <div class="node-area">
-      <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
-        <NodeComponent 
-          v-for="index in totalQuestions" 
-          :key="index"
-          :questionId="index" 
-          @questionId="runQuestion($event)"
-        />
-      </div>
-    </div>
+    <DominationComponent
+      v-bind:playerRole="playerRole"
+      v-bind:isGameOver="isGameOver"
+      v-bind:key="refresh"
+      v-on:questionNumber="setQuestionNumber($event)"
+      v-on:showQuestionComponent="setshowQuestionComponent($event)"
+      v-on:refreshGame="refreshGame()"
+      />
+
     <div v-if="!isGameOver">
       <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">
         {{ uiLabels.correctAnswer }}
@@ -54,7 +53,6 @@
           <QuestionComponent
             v-bind:question="question" 
             v-on:answer="submitAnswer($event, this.playerRole)"
-            v-on:answered="handleAnswered"
             />
         </div>
     </div>
@@ -87,15 +85,16 @@
 <script>
 import QuestionComponent from '@/components/QuestionComponent.vue';
 import io from 'socket.io-client';
-import NodeComponent from '../components/NodeComponent.vue';
-import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Methods.js";
+import DominationComponent from '../components/DominationComponent.vue';
+
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
   name: 'gameView',
   components: {
     QuestionComponent,
-    NodeComponent
+    DominationComponent
+
   },
   //--------------------------------------------------------------------------------
   data: function () {
@@ -109,15 +108,13 @@ export default {
       playerRole: sessionStorage.getItem("playerRole") || "",
       gameId: "inactive game",
       questionNumber: 0,
-      totalQuestions: 0,
-      columns: 0,
-      nodeStatus: [],
       scores: {p1Score: 1, p2Score: 1},
       showQuestionComponent: false, // Control the visibility of the QuestionComponent
       lastAnswer: "start", 
       isGameOver:false,
       winner: "",
-      gaveUp: false
+      gaveUp: false,
+      refresh: 0
     };
   },
 //--------------------------------------------------------------------------------
@@ -145,72 +142,29 @@ export default {
     }
   },
   computed: {
-    dynamicGap() {
-      if (!this.$el) {
-        return '5px'; // Default gap value
-      }
-      const containerWidth = this.$el.clientWidth;
-      const baseGap = 5; // Base gap in pixels
-      const additionalGap = (containerWidth - (this.columns * 100)) / (this.columns - 1);
-      return `${baseGap + additionalGap}px`;
-    },
     playerRoleShort() {
       // Transform "Player 1" -> "p1" and "Player 2" -> "p2"
       return this.playerRole === "Player 1" ? "p1" : 
              this.playerRole === "Player 2" ? "p2" : "";
     }
   },
-  watch: {
-    nodeStatus: function () {
-        drawNodeColors({ 
-          nodeStatus: this.nodeStatus, 
-          showQuestionComponent: this.showQuestionComponent, 
-          totalQuestions: this.totalQuestions, 
-          playerRole: this.playerRole });
-      }
-  },
+
   //--------------------------------------------------------------------------------
   methods: {
     gameSetup: function () {
-      socket.on("sendNodeStatus", status => {
-        this.nodeStatus = status;
-      });
       this.gameId = this.$route.params.id;
-      socket.on("numberOfQuestions", number => {
-        this.totalQuestions = number;
-        setNodeStatus({d:{ node: 0, status: 1 }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
-        let lastNode = this.totalQuestions - 1;
-        this.columns = Math.sqrt(this.totalQuestions);
-        setNodeStatus({d:{ node: lastNode, status: 2 }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
-        checkAdjacentNodes({
-            nodeStatus: this.nodeStatus,
-            columns: this.columns,
-            totalQuestions: this.totalQuestions,
-            gameId: this.$route.params.id,
-            socket: socket, // Ensure socket is correctly passed here
-          }); 
-      });
-      socket.emit("getNumberOfQuestions", this.gameId);
+
       socket.on("playerRoleAssigned", role => {
         this.playerRole = role;
         sessionStorage.setItem("playerRole", role); // Update locally just in case
       });
 
-      socket.on("submittedAnswersUpdate", scores => {
-        checkAdjacentNodes({
-            nodeStatus: this.nodeStatus,
-            columns: this.columns,
-            totalQuestions: this.totalQuestions,
-            gameId: this.$route.params.id,
-            socket: socket, // Ensure socket is correctly passed here
-          });                            
+      socket.on("submittedAnswersUpdate", scores => {                            
         this.scores = scores;
         sessionStorage.setItem("savedP1Score", this.scores.p1Score);
         sessionStorage.setItem("savedP2Score", this.scores.p2Score);
-
-        this.checkIsGameOver();
-
       });
+
       socket.on("uiLabels", labels => {this.uiLabels = labels.gameViewLabels;});
       socket.emit("getUILabels", this.lang);
       socket.emit("joingame", this.gameId);
@@ -219,58 +173,25 @@ export default {
       socket.on("handleGiveUp", (winner)=>{
         this.gaveUp = true;
         this.winner = winner;
-        
         this.isGameOver = true;
-
         this.stopGame();
       });
       
     },
 
-    handleAnswered() {
-      this.showQuestionComponent = false; // Hide the QuestionComponent
-      sessionStorage.removeItem("currentQuestionNumber");
-      sessionStorage.removeItem("showQuestionComponent");
+    setQuestionNumber(number) {
+      this.questionNumber = number;
     },
 
-    checkIsGameOver: function(){
-      let isReachablePlayer1 = false;
-      let isReachablePlayer2 = false;
+    setshowQuestionComponent(is) {
+      this.showQuestionComponent = is;
+    },
 
-      for (let i = 0; i < this.totalQuestions; i++) {
-        if (this.nodeStatus[i] === 4 || this.nodeStatus[i] === 6) {
-          isReachablePlayer1 = true;
-        }
-        if (this.nodeStatus[i] === 5 || this.nodeStatus[i] === 6) {
-          isReachablePlayer2 = true;
-        }
-      }
-      if (!isReachablePlayer1 && this.scores.p2Score > this.scores.p1Score){
-        this.isGameOver = true;
-        this.winner = "Player 2";
-        this.showQuestionComponent = true;
-      }
-      if (!isReachablePlayer2 && this.scores.p1Score > this.scores.p2Score){
-        this.isGameOver = true;
-        this.winner = "Player 1";
-        this.showQuestionComponent = true;
-      }
-      if (!isReachablePlayer2 && !isReachablePlayer1 && this.scores.p1Score === this.scores.p2Score){
-        this.isGameOver = true;
-        this.winner = ""
-      }
-      if (this.isGameOver){
-        this.stopGame();
-        
-      }
+    refreshGame() {
+      this.refresh += 1;
     },
 
     stopGame: function(){
-      for (let i = 1; i <= this.totalQuestions; i++) {
-        let nodeElement = document.getElementById('node-' + i);
-        nodeElement.disabled = true;
-        nodeElement.style.animation = "none";
-      }
       sessionStorage.removeItem("savedP1Score");
       sessionStorage.removeItem("savedP2Score");
       sessionStorage.removeItem("currentQuestionNumber");
@@ -285,28 +206,12 @@ export default {
       else {
         //this.setNodeStatus({ node: this.questionNumber-1, status: 3 }); //kommenterade bort denna för att sätta status i Data ist, buggade annars
         socket.emit("submitAnswer", { gameId: this.gameId, answer: answer.a, correct: answer.c, playerRole: playerRole }); //la till för att kommunicera checkisgameover
-        drawNodeColors({ 
-          nodeStatus: this.nodeStatus, 
-          showQuestionComponent: this.showQuestionComponent, 
-          totalQuestions: this.totalQuestions, 
-          playerRole: this.playerRole });
         this.lastAnswer = "wrong";
       } 
+      sessionStorage.removeItem("currentQuestionNumber");
+      sessionStorage.removeItem("showQuestionComponent");
     },
-    runQuestion: function (questionNumber) {
-      this.questionNumber = questionNumber;
-      sessionStorage.setItem("currentQuestionNumber", questionNumber);
-      sessionStorage.setItem("showQuestionComponent", true);
 
-      socket.emit("runQuestion", { gameId: this.gameId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
-      this.showQuestionComponent = true;
-      if (this.playerRole === "Player 1") {
-        setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
-      }
-      else {
-        setNodeStatus({d:{ node: this.questionNumber-1, status: 8 /*set to 8 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
-      }
-    },
 
     switchLanguage: function() {
       if (this.lang === "en") {
