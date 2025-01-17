@@ -174,49 +174,84 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
   export function generateRandomQuestion({ min, max, operator, questions, socket, gameId }) {
     const num1 = Math.floor(Math.random() * (max - min + 1)) + min;
     const num2 = Math.floor(Math.random() * (max - min + 1)) + min;
+    let generateRandomAnswers = (answer) =>{
+      let randomAnswers = [0,0,0];
+      randomAnswers[0] = answer + Math.floor(Math.random() * (answer/2) - answer/4); //+- 25% of answer
+      randomAnswers[1] = answer + Math.floor(Math.random() * (answer/2) - answer/4);
+      randomAnswers[2] = answer + Math.floor(Math.random() * (answer/2) - answer/4);
+
+      if (randomAnswers[0] === randomAnswers[1]){
+        randomAnswers[1]++;
+      }
+      if (randomAnswers[0] === randomAnswers[2]){
+        randomAnswers[2]++;
+      }
+      if (randomAnswers[1] === randomAnswers[2]){
+        randomAnswers[2]++;
+      }
+      for(let i = 0; i < randomAnswers.length; i++){
+        if(randomAnswers[i] === answer){
+          randomAnswers[i] = answer * 2;
+        }
+      }
+      return randomAnswers;
+    }
   
     switch (operator) {
       case '+':
+        let correctAnswerAdd = num1 + num2;
+        let wrongAnswersAdd = generateRandomAnswers(correctAnswerAdd);
         questions.q = `${num1} + ${num2}`;
         questions.a = [
-          { a: num1 + num2, c: true },
-          { a: num1 + num2 + 1, c: false },
-          { a: num1 + num2 - 1, c: false },
-          { a: num1 + num2 + 4, c: false },
+          { a: correctAnswerAdd, c: true },
+          { a: wrongAnswersAdd[0], c: false },
+          { a: wrongAnswersAdd[1], c: false },
+          { a: wrongAnswersAdd[2], c: false },
         ];
         shuffle(questions.a);
         break;
       case '-':
+        if (num1 <= num2){
+          return generateRandomQuestion({ min, max, operator, questions, socket, gameId });
+        }
+        let correctAnswerSubtract = num1 - num2;
+        let wrongAnswersSubtract = generateRandomAnswers(correctAnswerSubtract);
         questions.q = `${num1} - ${num2}`;
         questions.a = [
-          { a: num1 - num2, c: true },
-          { a: num1 - num2 + 1, c: false },
-          { a: num1 - num2 - 1, c: false },
-          { a: num1 - num2 + 4, c: false },
+          { a: correctAnswerSubtract, c: true },
+          { a: wrongAnswersSubtract[0], c: false },
+          { a: wrongAnswersSubtract[1], c: false },
+          { a: wrongAnswersSubtract[2], c: false },
         ];
         shuffle(questions.a);
         break;
       case '*':
+        let correctAnswerMultiply = num1 * num2;
+        let wrongAnswersMultiply = generateRandomAnswers(correctAnswerMultiply);
+
         questions.q = `${num1} * ${num2}`;
         questions.a = [
-          { a: num1 * num2, c: true },
-          { a: num1 * num2 + 1, c: false },
-          { a: num1 * num2 - 1, c: false },
-          { a: num1 * num2 + 4, c: false },
+          { a: correctAnswerMultiply, c: true },
+          { a: wrongAnswersMultiply[0], c: false },
+          { a: wrongAnswersMultiply[1], c: false },
+          { a: wrongAnswersMultiply[2], c: false },
         ];
         shuffle(questions.a);
         break;
       case '/':
         // Avoid division by zero, decimals, and answer = 1
-        if (num2 === 0 || num2 === 1 || num1 % num2 !== 0 || num1 === num2) {
+        if (num2 === 1 || num1 % num2 !== 0 || num1 === num2) {
           return generateRandomQuestion({ min, max, operator, questions, socket, gameId });
         }
+        let correctAnswerDivide = num1 /num2;
+        let wrongAnswersDivide = generateRandomAnswers(correctAnswerDivide);
+
         questions.q = `${num1} / ${num2}`;
         questions.a = [
-          { a: num1 / num2, c: true },
-          { a: num1 / num2 + 1, c: false },
-          { a: num1 / num2 - 1, c: false },
-          { a: num1 / num2 + 4, c: false },
+          { a: correctAnswerDivide, c: true },
+          { a: wrongAnswersDivide[0], c: false },
+          { a: wrongAnswersDivide[1], c: false },
+          { a: wrongAnswersDivide[2], c: false },
         ];
         shuffle(questions.a);
         break;
