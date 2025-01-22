@@ -47,9 +47,23 @@ Data.prototype.creategame = function(gameId, lang="en") {
     game.nodeStatus = [];             
     this.games[gameId] = game;
     game.scores = {p1Score: 1, p2Score: 1};
+    game.mode = null;
     
   }
   return this.games[gameId];
+}
+
+Data.prototype.setGameMode = function(gameId, mode) {
+  if (this.gameExists(gameId)) {
+    this.games[gameId].mode = mode;
+  }
+}
+
+Data.prototype.getGameMode = function(gameId) {
+  if (this.gameExists(gameId)) {
+    return this.games[gameId].mode;
+  }
+  return null;
 }
 
 Data.prototype.getgame = function(gameId) {

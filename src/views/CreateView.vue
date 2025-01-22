@@ -24,6 +24,24 @@
     </p>
   <form id="createForm" class="form-grid" @submit="createAndStart">
     <div class="operator-section">
+      <label for="gameMode">
+        placeholder
+      </label>
+      <div class="radio-group">
+        <div class="radio-item" v-for="gameMode in gameModes" :key="gameMode.id">
+          <input 
+            type="radio" 
+            :id="gameMode.id" 
+            name="gameMode" 
+            :value="gameMode.value" 
+            v-model="selectedGameMode">
+          <label :for="gameMode.id">
+            {{ gameMode.label }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="operator-section">
       <label for="formOperator">
         {{ uiLabels.chooseOperator }}
       </label>
@@ -113,7 +131,9 @@ export default {
       operators: options.operators,
       amountOfQuestions: options.amountOfQuestions,
       range: options.range,
+      gameModes: options.gameModes,
       formOperator: null,
+      selectedGameMode: null,
       formMin: 1,
       formMax: null,
       customRange: null,
@@ -152,6 +172,7 @@ export default {
         for (let i = 0; i < this.numberOfQuestions; i++){
           generateRandomQuestion( {min: this.min, max: this.max, operator: this.operator, questions: this.questions, socket: socket, gameId: this.gameId} );
         }
+        socket.emit("setGameMode", {gameId: this.gameId, gameMode: this.selectedGameMode});
         this.$router.push(('/lobby/' + this.gameId))
       }
       else {

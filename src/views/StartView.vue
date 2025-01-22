@@ -55,7 +55,7 @@
 
 import io from 'socket.io-client';
 
-sessionStorage.setItem("serverIP", "192.168.116.11:3000"); //Must be changed to your local IP-address
+sessionStorage.setItem("serverIP", "192.168.50.97:3000"); //Must be changed to your local IP-address
 
 const socket = io(sessionStorage.getItem("serverIP"));
 

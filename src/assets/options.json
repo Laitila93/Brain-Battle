@@ -18,5 +18,9 @@
       { "id": "r3", "value": 50, "label": "1 - 50" },
       { "id": "r4", "value": 100, "label": "1 - 100" },
       { "id": "rCustom", "value": "custom", "label": "Custom" }
+    ],
+    "gameModes": [
+      { "id": "domination", "value": 1, "label": "Domination" },
+      { "id": "timeTrial", "value": 2, "label": "Time Trial" }
     ]
   }

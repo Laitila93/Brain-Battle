@@ -32,6 +32,16 @@ function sockets(io, socket, data) {
 
   });
 
+  socket.on("setGameMode", function (d) {
+    console.log("Setting game mode", d);
+    data.setGameMode(d.gameId, d.gameMode);
+  });
+
+  socket.on("getGameMode", function (gameId) {
+    console.log("Getting game mode", data.getGameMode(gameId));
+    socket.emit("gameMode", data.getGameMode(gameId));
+  });
+
   socket.on('joingame', function(gameId) {
     socket.join(gameId); // Add the client to the game's room
   });

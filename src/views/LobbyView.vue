@@ -57,7 +57,8 @@ export default {
       joined: false,
       lang: sessionStorage.getItem("lang") || "en",
       participants: [],
-      waitingForPlayers: true
+      waitingForPlayers: true,
+      gameMode: null
     }
   },
   components: {
@@ -81,7 +82,15 @@ export default {
     });
     
     socket.on("startgame", () => {
-    this.$router.push(`/game/${this.gameId}`);
+      console.log("startgame", this.gameMode);
+      if (this.gameMode === 1) {
+        console.log("domination");
+        this.$router.push(`/domination/${this.gameId}`);
+      }
+      else if (this.gameMode === 2) {
+        console.log("timeTrial");
+        this.$router.push(`/timeTrial/${this.gameId}`);
+      }
     });
 
     socket.on("error", (message) => {
@@ -89,6 +98,10 @@ export default {
     });
 
     socket.emit( "getUILabels", this.lang );
+    socket.on("gameMode", (gameMode) => {
+      this.gameMode = gameMode;
+    });
+    socket.emit("getGameMode", this.gameId);
   },
 
   methods: {

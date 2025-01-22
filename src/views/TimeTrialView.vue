@@ -30,16 +30,14 @@
         {{ uiLabels.opponentScore }}: {{ this.scores.p2Score }}
       </div>
     </div>
-    <div class="node-area">
-      <div class="node-grid" :style="{ gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: dynamicGap}">
-        <NodeComponent 
-          v-for="index in totalQuestions" 
-          :key="index"
-          :questionId="index" 
-          @questionId="runQuestion($event)"
-        />
-      </div>
-    </div>
+
+
+
+
+
+
+
+    
     <div v-if="!isGameOver">
       <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">
         {{ uiLabels.correctAnswer }}
@@ -92,7 +90,7 @@ import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Meth
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
-  name: 'gameView',
+  name: 'DominationView',
   components: {
     QuestionComponent,
     NodeComponent

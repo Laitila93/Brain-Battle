@@ -11,9 +11,14 @@ const router = createRouter({
       component: StartView
     },
       {
-      path: '/game/:id',
-      name: 'gameView',
-      component: () => import('../views/gameView.vue')
+      path: '/domination/:id',
+      name: 'DominationView',
+      component: () => import('../views/DominationView.vue')
+    },
+    {
+      path: '/timeTrial/:id',
+      name: 'TimeTrialView',
+      component: () => import('../views/TimeTrialView.vue')
     },
     {
       path: '/lobby/:id',

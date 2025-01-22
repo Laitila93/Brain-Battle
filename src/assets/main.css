@@ -377,7 +377,7 @@ and (min-width : 700px) {
   gap: 10%
 }
 
-/*gameVIEW-----------*/
+/*DominationView-----------*/
 
 
 
@@ -429,7 +429,7 @@ and (min-width : 700px) {
   padding: 24px;
 }
 
-/*gameVIEW Smartphones (portrait) ----------- */
+/*DominationView Smartphones (portrait) ----------- */
 @media only screen 
 and (max-width : 320px) {
   .node-grid {
@@ -460,7 +460,7 @@ and (max-width : 320px) {
 }
 
 
-/*gameVIEW Smartphones (landscape) -----------Joakims telefon */
+/*DominationView Smartphones (landscape) -----------Joakims telefon */
 @media only screen 
 and (min-width : 321px) {
   .node-grid {
@@ -492,7 +492,7 @@ and (min-width : 321px) {
 }
 
 
-/*gameVIEW Desktops and laptops ----------- */
+/*DominationView Desktops and laptops ----------- */
 @media only screen 
 and (min-width : 700px) {
   
@@ -526,7 +526,7 @@ and (min-width : 700px) {
 }
 
 
-/*gameVIEW Large screens ----------- */
+/*DominationView Large screens ----------- */
 @media only screen 
 and (min-width : 1824px) {
 
