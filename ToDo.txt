@@ -29,5 +29,7 @@
 
 3. lägga till alternativ att gå med som spectator om ett spel redan har max antal spelare eller redan har startat.
 
+4. upp till 4 spelare
+
 ------------Funktioner för skolor-----------------
 1. möjligheten att skapa x antal games på en gång och visa dess IDn samt antalet spelare som joinat till varje.
