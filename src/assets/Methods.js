@@ -79,12 +79,20 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
     0 = standdard
     1 = tagen av spelare 1
     2 = tagen av spelare 2
-    3 = borttagen/död
-    4 = nåbar för spelare 1
-    5 = nåbar för spelare 2
-    6 = nåbar för 1 och 2
-    7 = paxad av p1
-    8 = paxad av p2
+    3 = tagen av p3
+    4 = tagen av p4
+    5 = nåbar för 1
+    6 = nåbar för 2
+    7 = nåbar för 3
+    8 = nåbar för 4
+    9 = paxad av 1
+    10 = paxad av 2
+    11 = paxad av 3
+    12 = paxad av 4
+    13 = fel svar
+    14 = tillgänglig för flera
+    15 = ???
+
 */
   export function drawNodeColors({
     totalQuestions,
