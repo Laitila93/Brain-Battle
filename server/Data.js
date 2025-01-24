@@ -88,11 +88,11 @@ Data.prototype.getQuestion = function(gameId, player = null, qId = null) {
   if (this.gameExists(gameId)) {
     const game = this.games[gameId];
     if (qId !== null) {
-      if (player === "Player 1") {
+      if (player === "P1") {
         game.currentQuestion [0] = qId;
         return game.questions[game.currentQuestion[0]];
       }
-      else if (player === "Player 2") {
+      else if (player === "P2") {
         game.currentQuestion [1] = qId;
         return game.questions[game.currentQuestion[1]];
       }
@@ -113,11 +113,11 @@ Data.prototype.getNumberOfQuestions = function(gameId) {
 }
 
 Data.prototype.getWinner = function(playerRole){
-  if(playerRole === "Player 1"){
-    return "Player 2";
+  if(playerRole === "P1"){
+    return "P2";
   }
-  if (playerRole === "Player 2"){
-    return "Player 1"
+  if (playerRole === "P2"){
+    return "P1"
   }
 }
 
@@ -125,26 +125,26 @@ Data.prototype.submitAnswer = function(d) {
   if (this.gameExists(d.gameId)) {
     const game = this.games[d.gameId];
     if(d.correct){
-      if (d.playerRole === "Player 1"){ 
+      if (d.playerRole === "P1"){ 
         if (game.nodeStatus[game.currentQuestion[0]] !== 1 && game.nodeStatus[game.currentQuestion[0]] !== 2 && game.nodeStatus[game.currentQuestion[0]] !== 3){
-          game.nodeStatus[game.currentQuestion[0]] = 1; // Player 1 claims
+          game.nodeStatus[game.currentQuestion[0]] = 1; // P1 claims
           game.scores.p1Score++;
         }   
       }
-      if (d.playerRole === "Player 2"){
+      if (d.playerRole === "P2"){
         if (game.nodeStatus[game.currentQuestion[1]] !== 1 && game.nodeStatus[game.currentQuestion[1]] !== 2 && game.nodeStatus[game.currentQuestion[1]] !== 3){
-          game.nodeStatus[game.currentQuestion[1]] = 2; // Player 2 claims
+          game.nodeStatus[game.currentQuestion[1]] = 2; // P2 claims
           game.scores.p2Score++;
         }
       }
     }
     else {
-      if (d.playerRole === "Player 1"){
+      if (d.playerRole === "P1"){
         if (game.nodeStatus[game.currentQuestion[0]] !== 1 && game.nodeStatus[game.currentQuestion[0]] !== 2 && game.nodeStatus[game.currentQuestion[0]] !== 3){
           game.nodeStatus[game.currentQuestion[0]] = 3;
         }
       }
-      if (d.playerRole === "Player 2"){
+      if (d.playerRole === "P2"){
         if (game.nodeStatus[game.currentQuestion[1]] !== 1 && game.nodeStatus[game.currentQuestion[1]] !== 2 && game.nodeStatus[game.currentQuestion[1]] !== 3){
           game.nodeStatus[game.currentQuestion[1]] = 3;
         }

@@ -22,9 +22,9 @@ export default {
   emits: ["answer", "answered"],
   computed: {
     playerRoleShort() {
-      // Transform "Player 1" -> "p1" and "Player 2" -> "p2"
-      return this.playerRole === "Player 1" ? "p1" : 
-             this.playerRole === "Player 2" ? "p2" : "";
+      // Transform "P1" -> "p1" and "P2" -> "p2"
+      return this.playerRole === "P1" ? "p1" : 
+             this.playerRole === "P2" ? "p2" : "";
     }
   },
   methods: {

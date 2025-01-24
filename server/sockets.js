@@ -39,15 +39,15 @@ function sockets(io, socket, data) {
   socket.on("participateIngame", function (d) {
     const game = data.getgame(d.gameId);
   
-    if (!game.participants.some((p) => p.role === "Player 1")) {
-      // Assign Player 1
-      data.participateIngame(d.gameId, { name: "Player 1", role: "Player 1" });
-      socket.emit("playerRoleAssigned", "Player 1");
+    if (!game.participants.some((p) => p.role === "P1")) {
+      // Assign P1
+      data.participateIngame(d.gameId, { name: "P1", role: "P1" });
+      socket.emit("playerRoleAssigned", "P1");
       socket.join(d.gameId);
-    } else if (!game.participants.some((p) => p.role === "Player 2")) {
-      // Assign Player 2
-      data.participateIngame(d.gameId, { name: "Player 2", role: "Player 2" });
-      socket.emit("playerRoleAssigned", "Player 2");
+    } else if (!game.participants.some((p) => p.role === "P2")) {
+      // Assign P2
+      data.participateIngame(d.gameId, { name: "P2", role: "P2" });
+      socket.emit("playerRoleAssigned", "P2");
       socket.join(d.gameId);
     } else {
       // Reject additional players

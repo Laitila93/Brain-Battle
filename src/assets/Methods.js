@@ -120,7 +120,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
         case 4:
           nodeElement.style.backgroundColor = "#9cca9cff";
           if (showQuestionComponent) break;
-          if (playerRole === "Player 1") {
+          if (playerRole === "P1") {
             nodeElement.disabled = false;
             nodeElement.style.animation = "pulse 2s infinite";
           }
@@ -129,7 +129,7 @@ Värde 0 - 7, standard 0 är när noden inte är tagen, död eller nåbar
         case 5:
           nodeElement.style.backgroundColor = "#ffc379ff";
           if (showQuestionComponent) break;
-          if (playerRole === "Player 2") {
+          if (playerRole === "P2") {
             nodeElement.disabled = false;
             nodeElement.style.animation = "pulse 2s infinite";
           }

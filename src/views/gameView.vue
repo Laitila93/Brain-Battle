@@ -14,7 +14,7 @@
 
   <div class="main-container"> 
     <div class="banner">
-      <div class="player player1" v-if="playerRole === 'Player 1'">
+      <div class="player player1" v-if="playerRole === 'P1'">
         {{ uiLabels.yourScore }}: {{ this.scores.p1Score }}
       </div>
       <div class="player player1" v-else>
@@ -23,7 +23,7 @@
       <div class="game-id-game">
         {{ uiLabels.whichGame }}: {{ gameId }}
       </div>
-      <div class="player player2" v-if="playerRole === 'Player 2'">
+      <div class="player player2" v-if="playerRole === 'P2'">
         {{ uiLabels.yourScore }}: {{ this.scores.p2Score }}
       </div>
       <div class="player player2" v-else>
@@ -155,9 +155,9 @@ export default {
       return `${baseGap + additionalGap}px`;
     },
     playerRoleShort() {
-      // Transform "Player 1" -> "p1" and "Player 2" -> "p2"
-      return this.playerRole === "Player 1" ? "p1" : 
-             this.playerRole === "Player 2" ? "p2" : "";
+      // Transform "P1" -> "p1" and "P2" -> "p2"
+      return this.playerRole === "P1" ? "p1" : 
+             this.playerRole === "P2" ? "p2" : "";
     }
   },
   watch: {
@@ -247,12 +247,12 @@ export default {
       }
       if (!isReachablePlayer1 && this.scores.p2Score > this.scores.p1Score){
         this.isGameOver = true;
-        this.winner = "Player 2";
+        this.winner = "P2";
         this.showQuestionComponent = true;
       }
       if (!isReachablePlayer2 && this.scores.p1Score > this.scores.p2Score){
         this.isGameOver = true;
-        this.winner = "Player 1";
+        this.winner = "P1";
         this.showQuestionComponent = true;
       }
       if (!isReachablePlayer2 && !isReachablePlayer1 && this.scores.p1Score === this.scores.p2Score){
@@ -300,7 +300,7 @@ export default {
 
       socket.emit("runQuestion", { gameId: this.gameId, questionNumber: this.questionNumber - 1, playerRole: this.playerRole });
       this.showQuestionComponent = true;
-      if (this.playerRole === "Player 1") {
+      if (this.playerRole === "P1") {
         setNodeStatus({d:{ node: this.questionNumber-1, status: 7 /*set to 7 instead of 0 */ }, gameId: this.$route.params.id, nodeStatus: this.nodeStatus, socket: socket });
       }
       else {

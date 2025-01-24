@@ -400,11 +400,11 @@ and (min-width : 700px) {
 }
 
 .player1 {
-  background-color: #32cd32; /* Player 1's color */
+  background-color: #32cd32; /* P1's color */
 }
 
 .player2 {
-  background-color: #ff8c00; /* Player 2's color */
+  background-color: #ff8c00; /* P2's color */
 }
 
 .node-area {
