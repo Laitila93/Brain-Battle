@@ -9,6 +9,30 @@ export function setNodeStatus({d, gameId, nodeStatus, socket}) {
     }
   }
 
+export function decreasingBar({
+    elementID,
+    interval
+}) {
+  var elem = document.getElementById(elementID);
+  var width = 100;
+  var id = setInterval(frame, interval);
+  function frame() {
+    if (width === 0) {
+      clearInterval(id);
+    } else {
+      width--;
+      elem.style.width = width + '%';
+      if (width < 50) {
+        elem.style.backgroundColor = 'red';
+      }
+      if (width < 5) {
+        elem.style.backgroundColor = 'darkred';
+        elem.style.animation = 'pulse 1s infinite';
+      }
+    }
+  }
+}
+
   export function checkAdjacentNodes({
     nodeStatus,
     columns,

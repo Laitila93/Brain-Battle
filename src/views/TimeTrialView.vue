@@ -33,11 +33,13 @@
 
 
 
+    <div id="myBar" style="height:24px;width:50%;background-color: green;"></div>
+
+
+<button class="w3-button w3-light-grey" v-on:click="decrease">Click Me</button>
 
 
 
-
-    
     <div v-if="!isGameOver">
       <div v-if="lastAnswer === 'correct' && showQuestionComponent !== true">
         {{ uiLabels.correctAnswer }}
@@ -86,7 +88,7 @@
 import QuestionComponent from '@/components/QuestionComponent.vue';
 import io from 'socket.io-client';
 import NodeComponent from '../components/NodeComponent.vue';
-import { setNodeStatus, checkAdjacentNodes, drawNodeColors } from "@/assets/Methods.js";
+import { setNodeStatus, checkAdjacentNodes, drawNodeColors, decreasingBar } from "@/assets/Methods.js";
 const socket = io(sessionStorage.getItem("serverIP"));
 
 export default {
@@ -169,6 +171,10 @@ export default {
   },
   //--------------------------------------------------------------------------------
   methods: {
+    decrease: function(){
+      decreasingBar({elementID: "myBar", interval: 1000});
+    },
+
     gameSetup: function () {
       socket.on("sendNodeStatus", status => {
         this.nodeStatus = status;
